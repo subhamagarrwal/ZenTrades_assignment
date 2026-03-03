@@ -1,41 +1,32 @@
-import Groq from 'groq-sdk';
-import { createChatCompletion, streamChatCompletion } from '../clients/groq_client';
+const Groq = require('groq-sdk');
+const { createChatCompletion, streamChatCompletion } = require('../clients/groq_client');
 
 jest.mock('groq-sdk');
 
 describe('Groq Client', () => {
-    let mockGroqInstance;
+    let mockCreate;
 
     beforeEach(() => {
-        mockGroqInstance = {
-            chat: {
-                completions: {
-                    create: jest.fn()
-                }
+        mockCreate = jest.fn();
+        Groq.prototype.chat = {
+            completions: {
+                create: mockCreate
             }
         };
-        Groq.mockImplementation(() => mockGroqInstance);
-        jest.clearAllMocks(); 
+        jest.clearAllMocks();
     });
 
     describe('createChatCompletion', () => {
         it('should return chat completion content', async () => {
-            const mockMessages = [{
-                role: 'user',
-                content: 'Hello, how are you?'
-            }];
+            const mockMessages = [{ role: 'user', content: 'Hello, how are you?' }];
             const mockResponse = {
-                choices: [{
-                    message: {
-                        content: 'I am doing really nice, thank you for asking!'
-                    }
-                }]
+                choices: [{ message: { content: 'I am doing really nice, thank you for asking!' } }]
             };
-            mockGroqInstance.chat.completions.create.mockResolvedValue(mockResponse);
-            
+            mockCreate.mockResolvedValue(mockResponse);
+
             const result = await createChatCompletion(mockMessages, 'llama-3.1-8b-instant');
             expect(result).toEqual('I am doing really nice, thank you for asking!');
-            expect(mockGroqInstance.chat.completions.create).toHaveBeenCalledWith({
+            expect(mockCreate).toHaveBeenCalledWith({
                 model: 'llama-3.1-8b-instant',
                 messages: mockMessages,
                 max_tokens: 1024
@@ -43,12 +34,8 @@ describe('Groq Client', () => {
         });
 
         it('should throw an error if chat completion fails', async () => {
-            const mockMessages = [{
-                role: 'user',
-                content: 'Hello'
-            }];
-
-            mockGroqInstance.chat.completions.create.mockRejectedValue(new Error('API error'));
+            const mockMessages = [{ role: 'user', content: 'Hello' }];
+            mockCreate.mockRejectedValue(new Error('API error'));
 
             await expect(createChatCompletion(mockMessages, 'llama-3.1-8b-instant')).rejects.toThrow('API error');
         });
@@ -56,16 +43,13 @@ describe('Groq Client', () => {
 
     describe('streamChatCompletion', () => {
         it('should stream content successfully', async () => {
-            const mockMessages = [{
-                role: 'user',
-                content: 'Hello'
-            }];
+            const mockMessages = [{ role: 'user', content: 'Hello' }];
             const mockStream = [
                 { choices: [{ delta: { content: 'Hello' } }] },
-                { choices: [{ delta: { content: 'how are you?' } }] }
+                { choices: [{ delta: { content: ' how are you?' } }] }
             ];
 
-            mockGroqInstance.chat.completions.create.mockResolvedValue({
+            mockCreate.mockResolvedValue({
                 [Symbol.asyncIterator]: () => ({
                     async next() {
                         const value = mockStream.shift();
@@ -78,13 +62,13 @@ describe('Groq Client', () => {
             await streamChatCompletion(mockMessages, 'llama-3.1-8b-instant');
 
             expect(writeSpy).toHaveBeenCalledWith('Hello');
-            expect(writeSpy).toHaveBeenCalledWith('how are you?');
+            expect(writeSpy).toHaveBeenCalledWith(' how are you?');
             writeSpy.mockRestore();
         });
 
         it('should handle stream errors', async () => {
             const mockMessages = [{ role: 'user', content: 'Hello' }];
-            mockGroqInstance.chat.completions.create.mockRejectedValue(new Error('Stream error'));
+            mockCreate.mockRejectedValue(new Error('Stream error'));
 
             await expect(streamChatCompletion(mockMessages, 'llama-3.1-8b-instant')).rejects.toThrow();
         });

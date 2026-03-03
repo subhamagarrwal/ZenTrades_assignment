@@ -1,43 +1,41 @@
-import Groq from 'groq-sdk';
+const Groq = require('groq-sdk');
 
-const groq = new Groq({
-    apiKey: process.env.GROQ_API_KEY
+const client = new Groq({
+    apiKey: process.env.GROQ_API_KEY,
 });
 
-async function createChatCompletion(messages, model = model)
-{
-    try{
-        const response = await groq.chat.completions.create({
+async function createChatCompletion(messages, model = 'llama-3.1-8b-instant') {
+    try {
+        const response = await client.chat.completions.create({
             model: model,
             messages: messages,
-            max_tokens: 2048
+            max_tokens: 1024,
         });
         return response.choices[0].message.content;
-    }
-    catch(error) {
-        console.error('Error creating chat');
+    } catch (error) {
+        console.error('Error calling Groq API:', error);
         throw error;
     }
 }
 
-async function streamChatCompletion(messages, model = model) {
+async function streamChatCompletion(messages, model = 'llama-3.1-8b-instant') {
     try {
         const stream = await client.chat.completions.create({
             model: model,
             messages: messages,
-            max_tokens: 2048,
-            stream: true
+            max_tokens: 1024,
+            stream: true,
         });
 
-        for await (const chunk of stream){
+        for await (const chunk of stream) {
             if (chunk.choices[0].delta.content) {
-            process.stdout.write(chunk.choices[0].delta.content);
+                process.stdout.write(chunk.choices[0].delta.content);
             }
         }
-    }catch(err) {
-        console.error("Error streaming chat completion");
-        throw err;
+    } catch (error) {
+        console.error('Error streaming from Groq API:', error);
+        throw error;
     }
 }
 
-module.exports = {client, createChatCompletion, streamChatCompletion};
+module.exports = { client, createChatCompletion, streamChatCompletion };
