@@ -1,5 +1,5 @@
 import { createChatCompletion } from "../../clients/groq_client.js";
-
+import { AccountMemoSchema } from "../../schemas/AccountMemoSchema.js";
 export async function extractMemo(transcript) { 
     const prompt = `
     You are an expert operational data extractor. 
@@ -27,5 +27,15 @@ export async function extractMemo(transcript) {
     const response = await createChatCompletion([{ role: 'user', content: prompt }], 'llama-3.3-70b-versatile');
     
     const cleanedResponse = response.replace(/```json/g, '').replace(/```/g, '').trim();
-    return JSON.parse(cleanedResponse);
+    let parsed;
+
+    try {
+        parsed = JSON.parse(cleanedResponse);
+    }catch(err){
+        throw new Error("Groq returned invalidJson");
+    }
+    //implementing zod validation and henceforth hygiene guard
+    const validated = AccountMemoSchema.parse(parsed);
+
+    return validated;
 }
