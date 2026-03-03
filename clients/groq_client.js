@@ -1,10 +1,10 @@
-const Groq = require('groq-sdk');
+import Groq from 'groq-sdk';
 
 const client = new Groq({
     apiKey: process.env.GROQ_API_KEY,
 });
 
-async function createChatCompletion(messages, model = 'llama-3.1-8b-instant') {
+export async function createChatCompletion(messages, model = 'llama-3.1-8b-instant') {
     try {
         const response = await client.chat.completions.create({
             model: model,
@@ -18,7 +18,7 @@ async function createChatCompletion(messages, model = 'llama-3.1-8b-instant') {
     }
 }
 
-async function streamChatCompletion(messages, model = 'llama-3.1-8b-instant') {
+export async function streamChatCompletion(messages, model = 'llama-3.1-8b-instant') {
     let fullResponse = '';
     try {
         const stream = await client.chat.completions.create({
@@ -42,4 +42,4 @@ async function streamChatCompletion(messages, model = 'llama-3.1-8b-instant') {
     }
 }
 
-module.exports = { client, createChatCompletion, streamChatCompletion };
+export { client };

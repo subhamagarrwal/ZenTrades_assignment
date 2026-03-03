@@ -24,5 +24,6 @@
     "transform": {
       "^.+\\.js$": "babel-jest"
     }
-  }
+  },
+  "type": "module"
 }

@@ -1,5 +1,9 @@
 import fs from 'fs-extra';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 export function buildSystemPrompt(memo) {
   const company = memo.company_name ?? "the company";
 
@@ -55,7 +59,7 @@ Rules:
 }
 
 export async function generateAgentDraftSpec(accountId, memo){
-    const basePath = `../../outputs/${accountId}/v1/`;
+    const basePath = path.resolve(__dirname, '../../outputs', accountId, 'v1');
     await fs.ensureDir(basePath);
 
     const agentDraftSpec = {

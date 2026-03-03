@@ -1,7 +1,10 @@
 import Retell from 'retell-sdk';
 import fs from 'fs-extra';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { generateAgentDraftSpec } from './generateAgentDraftSpec.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const client = new Retell({ apiKey: process.env.RETELL_API_KEY });
 
@@ -10,15 +13,23 @@ export async function createFullAgent(accountId, memo) {
     const agentDraftSpec = await generateAgentDraftSpec(accountId, memo);
     console.log('✅ Agent draft spec generated');
 
-    const basePath = `../../outputs/${accountId}/v1/`;
-
+    // ✅ Fix path - resolve from project root
+    const basePath = path.resolve(__dirname, '../../outputs', accountId, 'v1');
     try {
         // Step 2: Create LLM on Retell
         const llm = await client.llm.create({
             model: "gpt-4.1",
             general_prompt: agentDraftSpec.system_prompt,
             begin_message: "Hello, how can I help you today?",
-            default_dynamic_variables: agentDraftSpec.key_variables,
+            // ✅ Convert null values to empty strings for Retell
+            default_dynamic_variables: {
+                timezone: agentDraftSpec.key_variables.timezone ?? "",
+                business_hours: agentDraftSpec.key_variables.business_hours ?? "",
+                emergency_routing: agentDraftSpec.key_variables.emergency_routing 
+                    ? JSON.stringify(agentDraftSpec.key_variables.emergency_routing) 
+                    : "",
+                address: agentDraftSpec.key_variables.address ?? "",
+            },
             general_tools: [
                 { 
                     type: "end_call", 
