@@ -1,8 +1,16 @@
 {
+  "name": "clara_automation",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "axios": "^1.13.6",
     "dotenv": "^17.3.1",
     "fs-extra": "^11.3.3",
+    "groq-sdk": "^0.37.0",
+    "jest": "^30.2.0",
     "uuid": "^13.0.0"
   }
 }
