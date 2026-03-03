@@ -1,13 +1,42 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createChatCompletion } from '../../clients/groq_client.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export function buildSystemPrompt(memo) {
-  const company = memo.company_name ?? "the company";
+// ✅ Helper to slugify company name
+export function slugify(name) {
+    return name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
+}
 
-  return `
+// ✅ Export this function
+export function getOutputPath(accountId, memo, version = 'v1') {
+    const companySlug = slugify(memo.company_name ?? 'unknown-company');
+    return path.resolve(
+        __dirname,
+        '../../outputs/accounts',
+        `${accountId}_${companySlug}`,
+        version
+    );
+}
+
+// ✅ Export this function
+export async function saveMemo(accountId, memo, version = 'v1') {
+    const basePath = getOutputPath(accountId, memo, version);
+    await fs.ensureDir(basePath);
+    await fs.writeJson(path.join(basePath, 'memo.json'), memo, { spaces: 2 });
+    console.log(`✅ Memo saved at: ${basePath}/memo.json`);
+    return basePath;
+}
+
+export function buildSystemPrompt(memo) {
+    const company = memo.company_name ?? "the company";
+
+    return `
 You are Clara, the automated voice assistant for ${company}.
 
 You follow strict call discipline.
@@ -58,13 +87,14 @@ Rules:
 `;
 }
 
-export async function generateAgentDraftSpec(accountId, memo){
-    const basePath = path.resolve(__dirname, '../../outputs', accountId, 'v1');
+// ✅ Export this function
+export async function generateAgentDraftSpec(accountId, memo, version = 'v1') {
+    const basePath = getOutputPath(accountId, memo, version);
     await fs.ensureDir(basePath);
 
     const agentDraftSpec = {
-        agent_name : `Clara - ${memo.company_name? memo.company_name : "Company"}'s Automated Voice Assistant`,
-        voice_style: "Professional, calm,concise",
+        agent_name: `Clara - ${memo.company_name ?? "Company"}'s Automated Voice Assistant`,
+        voice_style: "Professional, calm, concise",
         system_prompt: buildSystemPrompt(memo),
         key_variables: {
             timezone: memo.timezone ?? null,
@@ -72,27 +102,24 @@ export async function generateAgentDraftSpec(accountId, memo){
             emergency_routing: memo.routing_rules ?? null,
             address: memo.address ?? null
         },
-
-        tool_invocation_placeholders: [
-            "transfer_call",
-            "end_call"
-        ],
+        tool_invocation_placeholders: ["transfer_call", "end_call"],
         call_transfer_protocol: {
-            timeout_seconds: memo.transfer_timeout_seconds?? 60,
+            timeout_seconds: memo.transfer_timeout_seconds ?? 60,
             retries: 1,
-            escalation_order : memo.routing_rules?? null
+            escalation_order: memo.routing_rules ?? null
         },
-
         fallback_protocol: {
-            on_transfer_fail: 
-                "Apologies, confirm callback number, assure fallback number"
+            on_transfer_fail: "Apologies, confirm callback number, assure fallback number"
         },
-
-        version: "v1",
-
+        version,
     };
-     // Save draft spec to file
-    await fs.writeJson(path.join(basePath, 'agentDraftSpec.json'), agentDraftSpec, { spaces: 2 });
 
-    return agentDraftSpec;
+    await fs.writeJson(
+        path.join(basePath, 'agentDraftSpec.json'),
+        agentDraftSpec,
+        { spaces: 2 }
+    );
+    console.log(`✅ AgentDraftSpec saved at: ${basePath}/agentDraftSpec.json`);
+
+    return { agentDraftSpec, basePath };
 }

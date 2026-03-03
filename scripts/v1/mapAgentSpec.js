@@ -1,34 +1,32 @@
+import 'dotenv/config';
 import Retell from 'retell-sdk';
 import fs from 'fs-extra';
 import path from 'path';
-import { fileURLToPath } from 'url';
-import { generateAgentDraftSpec } from './generateAgentDraftSpec.js';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { generateAgentDraftSpec, saveMemo, getOutputPath } from './generateAgentDraftSpec.js';
 
 const client = new Retell({ apiKey: process.env.RETELL_API_KEY });
 
-export async function createFullAgent(accountId, memo) {
-    // Step 1: Generate agentDraftSpec from memo
-    const agentDraftSpec = await generateAgentDraftSpec(accountId, memo);
+export async function createFullAgent(accountId, memo, version = 'v1') {
+    // ✅ Use imported saveMemo - DO NOT redefine it below
+    await saveMemo(accountId, memo, version);
+    console.log('✅ Memo saved');
+
+    const { agentDraftSpec, basePath } = await generateAgentDraftSpec(accountId, memo, version);
     console.log('✅ Agent draft spec generated');
 
-    // ✅ Fix path - resolve from project root
-    const basePath = path.resolve(__dirname, '../../outputs', accountId, 'v1');
     try {
-        // Step 2: Create LLM on Retell
+        // Step 3: Create LLM - ✅ safe access with ??
         const llm = await client.llm.create({
             model: "gpt-4.1",
             general_prompt: agentDraftSpec.system_prompt,
             begin_message: "Hello, how can I help you today?",
-            // ✅ Convert null values to empty strings for Retell
             default_dynamic_variables: {
-                timezone: agentDraftSpec.key_variables.timezone ?? "",
-                business_hours: agentDraftSpec.key_variables.business_hours ?? "",
-                emergency_routing: agentDraftSpec.key_variables.emergency_routing 
-                    ? JSON.stringify(agentDraftSpec.key_variables.emergency_routing) 
+                timezone: agentDraftSpec.key_variables?.timezone ?? "",
+                business_hours: agentDraftSpec.key_variables?.business_hours ?? "",
+                emergency_routing: agentDraftSpec.key_variables?.emergency_routing
+                    ? JSON.stringify(agentDraftSpec.key_variables.emergency_routing)
                     : "",
-                address: agentDraftSpec.key_variables.address ?? "",
+                address: agentDraftSpec.key_variables?.address ?? "",
             },
             general_tools: [
                 { 
@@ -50,7 +48,7 @@ export async function createFullAgent(accountId, memo) {
         });
         console.log('✅ LLM created:', llm.llm_id);
 
-        // Step 3: Create Agent on Retell
+        // Step 4: Create Agent on Retell
         const agent = await client.agent.create({
             agent_name: agentDraftSpec.agent_name,
             voice_id: "retell-Cimo",
@@ -63,7 +61,7 @@ export async function createFullAgent(accountId, memo) {
         });
         console.log('✅ Agent created:', agent.agent_id);
 
-        // Step 4: Update agentDraftSpec with Retell response fields
+        // Step 5: Update agentDraftSpec with Retell response fields
         const updatedSpec = {
             ...agentDraftSpec,
             agent_id: agent.agent_id,
@@ -72,7 +70,7 @@ export async function createFullAgent(accountId, memo) {
             created_at: new Date().toISOString(),
         };
 
-        // Step 5: Save updated spec back to file
+        // Step 6: Save updated spec back to file
         await fs.writeJson(
             path.join(basePath, 'agentDraftSpec.json'), 
             updatedSpec, 
@@ -99,3 +97,5 @@ export async function createFullAgent(accountId, memo) {
         throw error;
     }
 }
+
+// ❌ DELETE any local saveMemo function below this line
