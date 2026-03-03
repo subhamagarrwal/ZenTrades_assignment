@@ -19,6 +19,7 @@ async function createChatCompletion(messages, model = 'llama-3.1-8b-instant') {
 }
 
 async function streamChatCompletion(messages, model = 'llama-3.1-8b-instant') {
+    let fullResponse = '';
     try {
         const stream = await client.chat.completions.create({
             model: model,
@@ -28,10 +29,13 @@ async function streamChatCompletion(messages, model = 'llama-3.1-8b-instant') {
         });
 
         for await (const chunk of stream) {
-            if (chunk.choices[0].delta.content) {
-                process.stdout.write(chunk.choices[0].delta.content);
+            const content = chunk.choices[0]?.delta?.content || '';
+            if (content) {
+                process.stdout.write(content);
+                fullResponse += content;
             }
         }
+        return fullResponse;
     } catch (error) {
         console.error('Error streaming from Groq API:', error);
         throw error;
