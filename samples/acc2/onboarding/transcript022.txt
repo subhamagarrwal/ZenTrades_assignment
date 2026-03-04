@@ -1,0 +1,86 @@
+Here is a full-length, highly realistic transcript for an Onboarding Call. Since this is post-sale, Pavan (Lead Implementation) is back to lead the technical setup, alongside Bharat.
+
+For this scenario, the client runs a Garage Door Repair and Installation company. I've built in the natural friction of a multi-party Zoom call (one person in the office, one in the truck), specific industry logic (broken springs vs. new quotes), and CRM integration details.
+
+(0:00) Bharat: Alright, hitting record. I see both Jake and Lisa in the waiting room.
+(0:04) Pavan: Let's bring them in.
+(0:06) Bharat: Admitting now...
+(0:12) Bharat: Hey Jake, hey Lisa. Good morning! Can you guys hear us?
+(0:16) Lisa: Good morning! I can hear you perfectly. I'm at the shop. Jake, are you on?
+(0:21) Jake: [Sound of a truck blinker clicking and heavy road noise] Yeah, I'm here. Sorry guys, I'm heading down I-95 right now. Just put you on the truck's Bluetooth.
+(0:28) Bharat: No problem at all, Jake. Drive safe. We appreciate you both carving out the time. I know getting both owners on a call during the week is basically a miracle.
+(0:36) Lisa: You're telling me. But we need this sorted out yesterday. The spring rush is hitting and I feel like all I do is apologize to people for missing their calls.
+(0:45) Bharat: Well, that ends this week. So, just to kick things off—I’m Bharat, as you know from our demo call. And I want to introduce you to Pavan. He is our lead implementation engineer. He’s the one actually getting his hands dirty today, wiring Clara into your Jobber account and building your custom rules.
+(1:03) Pavan: Hey Lisa, hey Jake. Great to meet you both.
+(1:06) Jake: Hey Pavan.
+(1:08) Lisa: Nice to meet you! Bharat promised you were the guy who was going to save my sanity.
+(1:12) Pavan: [Laughs] I’ll certainly try my best. So, the goal for today is what we call a logic mapping session. I need to break your business down to its first principles. How a call comes in, what questions you ask, how you price things, and what counts as an emergency. We take all that, inject it into Clara’s brain, and make her sound like she’s been working at Elevate Garage Doors for five years.
+(1:38) Lisa: Okay, I love that. Where do we start?
+(1:42) Pavan: Let's start with your call flow right now. If I call your main number at 11:00 AM on a Tuesday, what physical phones actually ring?
+(1:52) Lisa: So, our main number is hosted through RingCentral. It rings my desk phone first. It rings three times. If I'm on the other line with a supplier, it bounces to Jake's cell phone.
+(2:06) Jake: And I'm usually up on a ladder with a torsion spring in my hands, so I let it go to voicemail.
+(2:12) Pavan: And they don't leave a voicemail. They just call the next company.
+(2:16) Jake: Exactly. If their car is trapped in the garage, they aren't waiting for me to call them back.
+(2:22) Pavan: Right. So, step one is fixing that leak. You keep your RingCentral number. But instead of the overflow bouncing to Jake’s cell phone, we set up a conditional forwarding rule. If Lisa doesn't answer after three rings, it forwards instantly to your dedicated Clara number. Clara picks up on the very next ring.
+(2:42) Lisa: Oh, thank god. Jake, you're finally off the hook.
+(2:46) Jake: Best news I've heard all week.
+(2:48) Pavan: And what about after hours? When does the office close?
+(2:52) Lisa: I leave at 5:00 PM.
+(2:55) Pavan: Okay, so from 5:00 PM until 8:00 AM the next morning, Clara is taking 100% of the inbound calls.
+(3:02) Lisa: Yep.
+(3:04) Pavan: Okay, this brings us to the most important part of the setup. Emergencies. In your industry, emergencies are usually pretty literal—people literally cannot get to work. What constitutes an after-hours emergency that requires waking someone up or rolling a truck at 9 PM?
+(3:25) Jake: Okay, basically two scenarios. Number one: a broken torsion spring and their cars are trapped inside. Most people can't manually lift a two-car wood overlay door.
+(3:38) Pavan: Got it. Broken spring, car trapped.
+(3:41) Jake: Number two is a security risk. The door came off the tracks, it's jammed halfway open, and they can't secure their house for the night.
+(3:50) Pavan: Perfect. Those are clear, binary triggers. If a customer says "door won't close," "off track," or "car is trapped," Clara recognizes the emergency intent.
+(4:02) Pavan: Now, what is the dispatch fee for an after-hours emergency? Because we want Clara to act as a filter here.
+(4:10) Lisa: Our standard after-hours fee is $250 just to get the truck out there. That does not include parts or hourly labor.
+(4:20) Pavan: Excellent. So Clara will say, "I completely understand how stressful that is. We can dispatch an emergency technician right now to secure the door. Please be aware our after-hours emergency dispatch fee is $250, plus the cost of parts and labor. If you prefer, I can also schedule you for tomorrow morning at our standard rate. Would you like the emergency tech tonight, or an appointment tomorrow?"
+(4:48) Lisa: Oh, wow. Say that exactly like that. That is beautiful. Most people will suddenly decide their car can wait until the morning when they hear $250.
+(4:58) Jake: Yeah, that weeds out the people who just want us to fix a squeaky roller at 10 PM.
+(5:04) Pavan: Exactly. Protects your time, protects your technicians. Now, if they do agree to the $250, what happens? How do you dispatch at night?
+(5:15) Lisa: We have an on-call rotation. Right now, it's Jake and our senior tech, Mike. They swap weeks. They just forward the calls to whoever is on duty.
+(5:25) Pavan: Okay, we can set up a routing schedule in Clara. If it's Jake's week, Clara puts the customer on hold and live-transfers the call to Jake's cell. If Jake doesn't answer, she pulls the customer back, tells them you've been paged, and sends a critical SMS text to your phone with the word "EMERGENCY" and the customer's address.
+(5:48) Jake: That’s awesome. Can she text Lisa too, just so she sees it when she wakes up?
+(5:52) Pavan: Absolutely. CC'd on the SMS. Now, let's talk about the routine daytime stuff. A customer calls at 2 PM, Lisa is busy, Clara picks up. The customer says, "My garage door opener is making a humming noise but not moving."
+(6:08) Pavan: We integrate natively with Jobber, which I know you guys use.
+(6:12) Lisa: Yes, we live and die by Jobber.
+(6:15) Pavan: Great. So Clara asks for their name, address, and cell number. While she's talking, she pings Jobber. She checks to see if they are an existing client. If not, she creates a new client record.
+(6:28) Pavan: What is your standard daytime dispatch fee?
+(6:32) Lisa: It’s $85. And we waive it if they approve the repair.
+(6:38) Pavan: Okay, so Clara quotes the $85, explains it's waived upon repair approval, and then she checks your Jobber calendar. She finds an unassigned slot in your service zone—let's say tomorrow between 12 and 2 PM. She offers it. If they accept, she books the job and dumps a summary of the call into the private notes.
+(6:58) Jake: Wait... hold on. [Sound of a window rolling down, faint drive-thru voice] Yeah, just a large black coffee, thanks.
+(7:05) Jake: Sorry guys. So, what about free estimates? Because we get a ton of people calling saying, "I want a quote for a new door."
+(7:15) Pavan: This is a huge distinction in the trades. I assume you do not do free estimates on repairs, but you do do free estimates for brand-new door installations?
+(7:25) Jake: Yes! Exactly! If it's a broken spring, it's $85 to come out. If they want to rip out their old door and put in a new insulated steel door, I will go out there for free to give them a quote because that's a $3,000 ticket.
+(7:40) Pavan: Done. We literally build an intent fork in her brain. If the customer uses words like "repair," "broken," "fix," or "spring," she quotes the $85 dispatch fee. If the customer uses words like "new door," "replacement," "quote for installation," Clara says, "We offer completely free, zero-obligation estimates for new garage door installations." She then books it as a "Sales/Estimate" tag in Jobber instead of a "Service" tag.
+(8:12) Lisa: Pavan, I could kiss you. The amount of time I spend explaining that exact policy to people is infuriating.
+(8:20) Pavan: [Laughs] I’m just taking what you already know and turning it into code.
+(8:25) Bharat: Jumping in real quick, guys. Lisa, I know when we talked last week you mentioned you guys run Google Local Services Ads, the ones with the little green checkmark.
+(8:35) Lisa: Yes, we spend a fortune on those.
+(8:38) Bharat: Do you get a lot of spam or people calling to sell you stuff through that tracked number?
+(8:43) Lisa: Yes. SEO companies constantly call us through our own paid ads. It drives me crazy.
+(8:50) Pavan: So Clara has an aggressive spam filtration layer. If a caller says, "I'm calling about your Google ranking," or "Are you the business owner?", Clara immediately recognizes it as a solicitation. She'll say, "Our ownership team doesn't take unsolicited marketing calls. Please remove us from your list," and she terminates the call. It never hits Jobber, and it never texts you.
+(9:15) Jake: That alone is worth the price of admission.
+(9:18) Pavan: Okay, so let's talk about the timeline and testing. I have all the core rules I need for your dispatch logic, pricing, and emergency routing.
+(9:28) Pavan: I'm going to spend the rest of the day building this out in the backend and linking it to your Jobber API. Sometime around 4:00 PM today, I am going to email and text you both a Sandbox Phone Number.
+(9:42) Lisa: Okay, what is that?
+(9:44) Pavan: It is a private test number. It is not live. Your real customers do not have it. I want you and Jake to call it tonight.
+(9:52) Jake: Like, just call it and talk to the AI?
+(9:55) Pavan: Exactly. Pretend to be a customer. Test the emergency logic. Ask for a free estimate on a broken spring and see if she blocks you. Lisa, I want you to log into the Clara Dashboard—I'll send the link—so you can watch her summarize the call in real-time.
+(10:12) Lisa: I am going to try to book a repair for a broken toaster just to see what she does.
+(10:18) Pavan: Please do! If she tries to send a technician out to fix a toaster, we have a problem. The harder you try to break her in the sandbox, the smarter she gets before we go live.
+(10:30) Pavan: So, you guys play with it tonight. Can we hop on a quick 15-minute Zoom tomorrow morning to review the calls? If everything looks perfect, we can have you update your RingCentral routing tomorrow afternoon and you'll be live for the weekend.
+(10:48) Lisa: Let me look at the schedule... yeah, tomorrow at 9:00 AM works for me. Jake, you have that commercial install, right?
+(10:55) Jake: Yeah, but I can pull over for 15 minutes at 9. That works.
+(11:00) Pavan: 9:00 AM Eastern it is. I'll send the calendar invite.
+(11:04) Bharat: Awesome. And Lisa, just a quick admin check—the Stripe link for the monthly subscription cleared perfectly this morning, so your workspace is fully unlocked on our end. You don't need to do anything else with billing.
+(11:18) Lisa: Oh, great. I was worried the bank might flag it since we're using a new corporate card.
+(11:22) Bharat: Nope, sailed right through. We are 100% good to go.
+(11:26) Jake: Guys, this is really exciting. I'm actually looking forward to not dreading my phone ringing.
+(11:34) Pavan: We're going to get you out of the call center business, Jake, so you can focus on the actual doors. I'll send that test number over around 4:00 PM.
+(11:42) Lisa: Sounds wonderful. Thanks so much, Pavan. Thanks, Bharat.
+(11:45) Bharat: Thanks guys. Have a great day. Drive safe, Jake.
+(11:48) Jake: Will do. See ya.
+(11:50) Lisa: [click]
+(11:52) Bharat: Perfect. Turning off the recording now.

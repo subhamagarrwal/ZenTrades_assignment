@@ -1,0 +1,105 @@
+Here is a full-length, highly realistic transcript for a Demo Call focusing on a new industry with a specific edge case.
+
+In this scenario, we are working with a Pool Maintenance and Repair company. I’ve included the chaos of the summer rush, a multi-party call (one owner in the office, one at a noisy job site), and a very specific edge case: a customer trying to get free DIY tech support over the phone for a hazardous component.
+
+Since this is a demo, Pavan is not on the call. Nick handles the business side, and Bharat drives the technical demo.
+
+(0:00) Nick: Alright, recording is rolling. Looks like we have Mark and Denise in the waiting room.
+(0:03) Bharat: Perfect, let's bring them in.
+(0:06) Nick: Admitting now... three, two, one.
+(0:12) Nick: Hey Mark, hey Denise. Can you guys hear us?
+(0:16) Denise: Hi Nick! Yes, I can hear you perfectly. I'm at the home office. Let's see if Mark is connected.
+(0:22) Mark: [Loud sound of rushing water and a high-pitched mechanical whine] Yeah, I'm here! Hold on, let me shut this variable-speed pump off, it's screaming.
+(0:30) Mark: [Sound of a switch clicking, the whine spins down into silence] Okay. Ah, much better. Hey guys.
+(0:35) Nick: Hey Mark. Sounded like a jet engine taking off in your backyard.
+(0:39) Mark: Basically. Bearings are completely shot. Gotta swap the whole motor. But anyway, thanks for putting this together. Denise has been on my case about our phones for a month.
+(0:48) Nick: Well, we appreciate you taking the time while you're literally in the trenches. To set the stage, I’m Nick, I handle the partnerships side at Clara AI. And with me is Bharat, our lead Solutions Expert.
+(1:00) Bharat: Hey Mark, hey Denise. Great to meet you both.
+(1:03) Denise: Nice to meet you, Bharat.
+(1:05) Nick: Bharat is going to drive the actual demo today. He’s going to show you under the hood, explain how the AI handles the weird pool industry edge cases, and then we’re going to have Mark actually call the bot live and try to break it.
+(1:18) Mark: Oh, I can break it. Customers ask the dumbest questions on earth.
+(1:22) Bharat: [Laughs] We're counting on it. But before we get to the fun part, I need to understand what's broken in your current process. Walk me through what happens right now when someone calls Blue Oasis Pools on a Friday afternoon in July.
+(1:38) Denise: It is an absolute nightmare. That's what happens. Friday in July means everyone is having a pool party on Saturday, and they just took their pool cover off to realize the water is swamp green, or their heater won't fire.
+(1:52) Mark: And they want us there in ten minutes.
+(1:55) Denise: Right. And the problem is, I’m usually doing billing, or I'm on the phone with SCP trying to track down a backordered salt cell. So the phone rings, I can't answer it, and it bounces to Mark’s cell.
+(2:08) Mark: And I'm elbow-deep in a filter grid covered in DE powder. I can't touch my phone. So it goes to voicemail. And by the time I call them back an hour later, they've already hired someone else to come shock their pool. We bleed money in the summer from missed calls.
+(2:25) Bharat: We see this across the entire home services board, but the pool industry is especially hyper-seasonal. You make 80% of your revenue in a six-month window. A missed call isn't just an inconvenience; it's lost market share.
+(2:40) Mark: Exactly. We tried using an answering service out of Arizona last summer. Complete disaster. A customer called asking for an acid wash, and the answering service booked them for a weekly chemical check. The guy showed up with a test kit and the customer had an empty, stained pool. It made us look like idiots.
+(3:02) Bharat: Because a traditional answering service lacks industry competence. They are just reading a script. Clara is a conversational AI that we train specifically on pool maintenance and repair logic. She knows the difference between a green to clean, an acid wash, and a weekly skim and vac.
+(3:22) Denise: Does she know our software? We use Skimmer for all our routing. It's super specific because our guys have to stay in tight geographic zones or they waste the whole day driving.
+(3:35) Bharat: Yes. Clara has a deep API integration with Skimmer. She doesn't just randomly put jobs on a calendar. She looks at the zip code the caller provides, checks Skimmer to see which tech is already assigned to that route zone on which day, and offers a time slot that matches your existing route density.
+(3:55) Mark: [Whistles] Okay, if she actually does that, that's incredible. Because right now Denise plays calendar Tetris for three hours a day.
+(4:05) Bharat: Well, let’s stop talking about it and actually test it. I have a demo environment spun up. It's not linked to your live Skimmer yet, but it's loaded with pool industry logic.
+(4:16) Bharat: I’m putting a phone number in the Zoom chat right now. Mark, I want you to call it from your cell phone. Put it on speaker. And I want you to give Clara a really difficult edge case. Something that usually annoys the hell out of you.
+(4:32) Mark: Oh, I have the perfect one. The "free DIY tech support" guy. Hang on, let me dial.
+(4:40) Mark: Calling now.
+(4:48) Clara (AI): Thanks for calling Blue Oasis Pools. This is Clara. How can I help you today?
+(4:53) Mark: Yeah, hi. I have a pool party tomorrow for my daughter's birthday, and my Hayward gas heater just stopped working. It's throwing a "CE" error code on the screen. Can I just get a technician on the phone to tell me what buttons to push to clear it? I really don't want to pay a service fee if it's just a reset switch.
+(5:15) Clara (AI): I completely understand how stressful that is, especially with a birthday party tomorrow. A "CE" code on a Hayward heater usually stands for a Communications Error, which often involves the internal wiring or the control board.
+(5:30) Clara (AI): Because gas pool heaters involve a mix of high voltage and natural gas, safety regulations prevent us from providing DIY troubleshooting over the phone. We need to have a licensed technician physically inspect the unit to ensure it's safe to operate.
+(5:46) Clara (AI): Our diagnostic fee to have a tech come out, identify the exact short, and get your heater safely running for the party is $125. Would you like me to see if we have an emergency slot available for you this afternoon or tomorrow morning?
+(6:05) Mark: Honestly? No, I'm pretty handy. I used to be an electrician. I just need to know if the yellow wire goes to the com-port. Just put me through to a tech for two minutes.
+(6:18) Clara (AI): I appreciate that you have electrical experience, but for liability and insurance reasons, our technicians cannot guide homeowners through internal repairs on gas appliances. If the board is miswired, it can severely damage the heater or create a safety hazard.
+(6:34) Clara (AI): I'd be more than happy to get one of our certified techs out there to take care of it for you quickly so your pool is warm for the party. Should I check the schedule?
+(6:45) Mark: Alright, fine. Yeah. Check the schedule.
+(6:48) Clara (AI): Great. To get started, could I get your first and last name, and the address of the pool?
+(6:54) Mark: It's Mark Miller. 123 Palm Tree Lane.
+(6:58) Clara (AI): Thanks, Mark. Let me look at our routing schedule for your area.
+(7:02) Clara (AI): It looks like we have a technician servicing your neighborhood tomorrow morning between 8:00 AM and 10:00 AM. Would that time window work to get your heater looked at?
+(7:13) Mark: Yeah, 8 AM is fine.
+(7:15) Clara (AI): Perfect. I have you down for tomorrow between 8 and 10 AM. The tech will text you when they are on their way. Is there anything else I can assist you with today, Mark?
+(7:25) Mark: No, that's it.
+(7:27) Clara (AI): Great. We'll get that heater sorted out for the party. Have a wonderful day.
+(7:31) Mark: [Hangs up]
+(7:34) Mark: Okay. Wow. I have chills. Denise, did you hear that?
+(7:39) Denise: I heard it. She literally shut you down but was so polite about it.
+(7:45) Bharat: And that is the exact edge case you wanted. Homeowners calling to get free technical advice on hazardous equipment. If a human receptionist was on the phone, the customer would bully them into transferring the call to you. Clara doesn't get bullied. She politely holds the liability boundary, explains why, and pivots back to booking the $125 diagnostic fee.
+(8:10) Mark: She even knew the CE code meant communications error. I've had guys working for me for a year who don't know that.
+(8:18) Bharat: We train her on all the major manufacturer manuals—Hayward, Pentair, Jandy. She knows the error codes. She knows that a "Check Salt" light means you either need a cell cleaning or the water is too cold, not that the pump is broken.
+(8:35) Denise: Okay, so what happens in Skimmer after she hangs up?
+(8:40) Bharat: Great question. So, while she was talking to Mark, Clara pinged your Skimmer API. She verified that 123 Palm Tree Lane was a new customer. She created a new Customer Profile. She dropped a Work Order onto the route for tomorrow at 8 AM, and she put the call summary right in the tech notes: "Customer has Hayward heater showing CE code. Advised of $125 diag fee. Needs fixed before party tomorrow."
+(9:08) Denise: Does she collect a credit card over the phone? Sometimes we require a card on file before we roll a truck for a new customer.
+(9:15) Bharat: Clara herself does not take the credit card numbers over voice, for PCI compliance reasons. However, she can say, "I've secured your appointment. You will receive a text message in just a moment with a secure link to put your card on file to confirm the booking." And then our system fires off an automated SMS with your Stripe or QuickBooks link.
+(9:38) Denise: That is perfect. That completely eliminates my manual data entry.
+(9:43) Nick: Jumping in here, guys. I want to shift gears from inbound to outbound, because in the pool industry, outbound is where the big money is hidden.
+(9:52) Mark: What do you mean? Like cold calling? We don't do that.
+(9:56) Nick: Not cold calling. Filter cleanings. How often are your weekly maintenance customers supposed to get a full DE or cartridge filter tear-down and clean?
+(10:08) Mark: Twice a year. Usually spring and fall. We charge $150 a pop for it.
+(10:14) Nick: And how many weekly service customers do you have?
+(10:18) Mark: About 350.
+(10:20) Nick: Okay, so that’s 700 filter cleanings a year. That’s over $100,000 in gross revenue. Are you actively calling all 350 people every six months to schedule it, or are you just hoping they email you?
+(10:35) Denise: Oh, we definitely miss a ton of them. We send mass emails through Skimmer, but maybe 20% of people reply. We just don't have the manpower to call 350 people and chase them down.
+(10:48) Nick: Clara does. Clara has a Reactivation and Upsell Agent built in. You pull a list from Skimmer of everyone who hasn't had a filter clean in 6 months. You upload it to Clara. She calls them automatically.
+(11:05) Nick: She says, "Hi, this is Clara with Blue Oasis. I'm calling because our records show your pool is due for its bi-annual filter cleaning. Dirty filters put strain on your pump and can cause algae blooms as it gets hotter. Can we go ahead and add that $150 service to your regular maintenance route next week?"
+(11:25) Mark: Are you serious? She just calls them and upsells them?
+(11:30) Nick: Yes. And because she’s AI, she dials all 300 people at the exact same time. She can process the entire list in 15 minutes. If they say yes, she adds the work order to their Skimmer profile.
+(11:45) Mark: Holy... Denise, if she just captures half of the filter cleans we are currently leaving on the table, that pays for a new service truck.
+(11:55) Denise: This is insane. Okay, so what’s the catch? How much is this? Because Skimmer is cheap, but this sounds like enterprise software.
+(12:05) Nick: We don't price it like enterprise software, because we want owner-operators like you to actually be able to use it. We price on a flat monthly tier based on the value you get.
+(12:18) Nick: For your volume—around 350 accounts, needing the deep Skimmer API integration, and the outbound capabilities—you’d be on our Pro Tier. That is $349 a month.
+(12:32) Mark: Three hundred and forty-nine dollars? Total?
+(12:35) Nick: Total. That gives you 800 conversational minutes. And just to be clear, if someone calls trying to sell you Google Ads, Clara hangs up on them and you are not charged for those minutes. You only pay for real customer interactions.
+(12:52) Denise: What if we go over the 800 minutes in July?
+(12:56) Nick: It just bills at 15 cents a minute overage. We never turn your phones off. But 800 minutes is massive. If your average call is 2.5 minutes, that’s over 300 handled leads a month included in the base.
+(13:10) Mark: Dude, $349 a month is what I pay a kid to skim pools for two days. This replaces an entire front-desk person. Is there a contract?
+(13:22) Nick: Month-to-month. If Clara doesn't pack your Skimmer route and make your life vastly easier, you cancel. No questions asked. There is a one-time $200 integration fee for our engineering team to map your Skimmer API tokens and build your custom edge-case logic, like the heater error codes.
+(13:42) Mark: Done. I don't even need to think about it. Denise, are we good?
+(13:46) Denise: Yes. Take my credit card right now. Seriously.
+(13:50) Nick: [Laughs] I love it. I can actually generate the DocuSign right now. Can you just confirm the exact legal name of the LLC?
+(14:00) Denise: It’s Blue Oasis Pool Services, LLC.
+(14:05) Nick: Perfect. And what's the best email for the DocuSign?
+(14:09) Denise: Send it to denise@blueoasispools.com.
+(14:15) Nick: Awesome. I'm drafting it up now. Once you sign it, it has a secure Stripe link at the bottom for the $349 plus the $200 setup fee.
+(14:26) Mark: Okay, so what happens after we pay? When does it actually go live?
+(14:31) Bharat: So as soon as you pay, our system emails you a link to book your Technical Kickoff Call. You'll sit down with our implementation team—usually takes about 45 minutes. We map out your exact service areas, your Skimmer zones, and your pricing.
+(14:48) Bharat: Then, we give you a Sandbox Phone Number. It’s a test line. You guys spend a day calling it, trying to break it, making sure it sounds exactly how you want. Once you give us the 100% green light, you just forward your missed calls to Clara, and you're live. Usually takes about 48 to 72 hours total.
+(15:10) Mark: That is incredibly fast.
+(15:12) Nick: Alright, the DocuSign just went out. Let me know if you see it in your inbox, Denise.
+(15:18) Denise: Checking now... Yep! I got it. I'll review and sign it as soon as we jump off this Zoom.
+(15:25) Nick: Fantastic. Mark, Denise, we are really pumped to work with you guys. You're going to love having your summers back.
+(15:34) Mark: I can't wait. Now I just need Clara to learn how to replace a variable speed pump motor, and I can finally retire.
+(15:42) Bharat: [Laughs] Give us a few years on the robotics side! Thanks guys, have a great afternoon.
+(15:48) Mark: Thanks guys. See ya.
+(15:50) Denise: Bye!
+(15:52) Nick: [click]
+(15:54) Nick: And that's another closed won. Ending the recording now.

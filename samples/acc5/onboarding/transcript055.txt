@@ -1,0 +1,77 @@
+Here is the full-length, highly realistic transcript for the Onboarding Call with Crystal Clear Carpet & Restoration.
+
+Since the deal is closed, Pavan (Lead Implementation Engineer) steps in to lead the technical mapping, working alongside Bharat to hardwire Clara into their ServiceMonster software and define the strict rules for flood emergencies versus routine cleanings.
+
+(0:00) Bharat: Alright, hitting record. I see Jessica in the waiting room, and there’s Dave.
+(0:04) Pavan: Awesome. Let's bring them in.
+(0:06) Bharat: Admitting now...
+(0:12) Bharat: Hey Jessica, hey Dave! Good morning.
+(0:15) Jessica: Good morning, Bharat! I am at my desk, logged into ServiceMonster, and ready to go.
+(0:21) Dave: [Sound of rushing water and a loud gurgling drain in the background] Hey guys! Can you hear me okay? I'm at the shop dumping the waste tank from this morning's jobs.
+(0:28) Bharat: We hear you, Dave. Sounds like a waterfall over there. We’ll try to keep this highly focused so you can finish dumping and get to the next job.
+(0:36) Bharat: To kick us off, I’m Bharat, and I want to introduce you to Pavan. He’s our Lead Implementation Engineer. Pavan is the guy who actually gets into the code, wires Clara into your ServiceMonster account, and trains her to act like your toughest gatekeeper.
+(0:52) Pavan: Hey Jessica, hey Dave. Really great to meet you both.
+(0:55) Jessica: So nice to meet you, Pavan! We are beyond excited. I am so tired of arguing with people about our minimum service fee.
+(1:04) Pavan: Well, let's take that entirely off your plate today. The goal for this call is a logic mapping session. I need to take the unwritten rules in Dave's head, and the scheduling tetris on Jessica's desk, and turn them into strict AI guardrails.
+(1:18) Pavan: Let’s start with the physical call routing. Jessica, if I dial the main Crystal Clear number right now, what physically happens?
+(1:28) Jessica: So, our number is hosted on RingCentral. It rings my desk phone and my desktop app simultaneously. If I don't answer after four rings, it rolls over to Dave's cell phone.
+(1:40) Pavan: And we want to stop it from ever hitting Dave's cell phone, correct?
+(1:44) Dave: [Sound of a heavy valve shutting, water stops] Yes. Absolutely. I cannot be trying to diagnose a blown pump and answer questions about upholstery cleaning at the same time.
+(1:54) Pavan: Completely understood. So, Jessica, inside RingCentral, you are going to change your fallback routing. Instead of forwarding to Dave, you will set it to forward to your dedicated Clara number. If you are busy, Clara picks up on ring five. Instant answer, no hold music.
+(2:10) Jessica: Perfect. And what about after hours? I usually forward the phones straight to Dave at 5:00 PM.
+(2:16) Pavan: At 5:00 PM, you set RingCentral to "After Hours" mode, which will route 100% of the inbound calls directly to Clara until you get back at 8:00 AM.
+
+(2:28) Pavan: Now, let's get into the fun part. The filtering logic. We talked on the demo about the $150 minimum fee for routine carpet cleaning.
+(2:40) Dave: Yes. That is a hard line for us. I don't care if it's a single hallway or just one rug. It costs me $75 just to turn the key in the ignition and pay my guy to drive there.
+(2:54) Pavan: I am writing this as a hard constraint in Clara's core prompt right now. Crystal Clear Carpet has a strict $150 residential minimum dispatch fee. This covers up to two standard rooms of steam cleaning.
+(3:10) Pavan: If a caller asks for a quick spot treatment, Clara will politely decline, explain that the truck-mounted equipment requires a minimum mobilization fee, and offer to quote the two-room package. If they say no, she gracefully ends the call. It will never even hit your CRM.
+(3:25) Jessica: Pavan, you have no idea how much time that is going to save me.
+(3:31) Pavan: Let's pivot to the golden leads. Water Damage and Mitigation. How do we qualify them before we wake Dave up at 2 AM?
+(3:42) Dave: That's the tricky part. Sometimes people call because their dog spilled a water bowl and they want the carpet extracted. That is not an emergency. A real emergency is a Category 1, 2, or 3 water loss that is actively ruining drywall and subflooring.
+(3:58) Pavan: Okay, give me the exact trigger phrases that Clara should listen for to classify a Level 1 Emergency.
+(4:05) Dave: "Pipe burst," "Toilet overflowed," "Sump pump failed," "Standing water in basement," or "Washing machine line blew."
+(4:14) Pavan: Got it. If Clara hears those, she bypasses the $150 minimum and triggers the Mitigation Intent. She will say, "I am so sorry, that is an absolute emergency. Please ensure your main water valve is shut off. Our emergency mitigation team can be dispatched immediately. Our after-hours emergency roll-out fee is $250. Do you authorize this so I can connect you to our on-call specialist?"
+(4:40) Dave: That's perfect. Quote the 250 right out of the gate.
+(4:45) Pavan: Now, if they say yes, how do we reach you?
+(4:50) Jessica: We have an on-call rotation between Dave and our lead tech, Mike. They just pass a dedicated iPhone back and forth.
+(4:58) Pavan: Oh, an on-call batphone. That makes it incredibly easy. Clara puts the customer on hold, dials the on-call phone. If no answer, she pulls the customer back, tells them an urgent page has been sent, and fires a critical SMS directly to the on-call phone and to Dave's personal cell as a fail-safe.
+(5:18) Dave: Excellent.
+(5:20) Pavan: Now, I need to ask you about a specific edge case. You guys use truck-mounted extractors, correct?
+(5:28) Dave: Yeah, we run two Prochems. They're bolted to the floor of the vans.
+(5:34) Pavan: Okay, what is the maximum length of vacuum hose you can pull from the van before you lose suction?
+(5:40) Dave: Oh, great question. We max out at about 250 feet of hose. After that, we lose lift and the carpets stay wet.
+(5:46) Pavan: So, what happens if someone calls from a 5th-floor apartment downtown?
+(5:52) Dave: [Groans] We hate those. We have to bring the portable extraction units up the elevator. It takes twice as long, and we charge a $75 "High-Rise/Portable Unit" surcharge.
+(6:05) Pavan: I am adding this to the prompt right now. If the customer provides an address with a suite, unit, or apartment number, Clara will ask: "Is your unit located above the 3rd floor?" If the customer says yes, Clara will explain the $75 portable equipment surcharge before booking the job.
+(6:25) Jessica: Pavan, you are blowing my mind right now. Half the time, the guys show up to a condo building and realize they have to haul 100 pounds of equipment up four flights of stairs because I forgot to ask what floor they were on.
+(6:38) Pavan: That's what we're here for. We want the AI to ask the questions you forget to ask.
+(6:45) Pavan: Now, let's talk about ServiceMonster. When a routine carpet cleaning is approved, Clara asks for their name, address, and email. She pings the ServiceMonster API, checks to see if they are an existing account, and creates a new one if not.
+(7:02) Jessica: Does she schedule them by route density? Because our service area is huge. If we go to the North Side, I try to stack three jobs up there on the same day.
+(7:12) Pavan: Yes. She looks at the zip code the caller provides. She checks your ServiceMonster schedule. If Dave already has a job in the North Side on Tuesday morning, Clara will say, "We actually have a technician servicing your neighborhood this coming Tuesday. I have an opening between 10 AM and 1 PM. Does that work?"
+(7:32) Dave: That is amazing. That saves me two hours of windshield time a day.
+(7:38) Pavan: And once they accept, Clara drops an unassigned Work Order onto the schedule, and dumps the complete call summary into the notes: "2 rooms and hallway. Quoted $150 minimum. Customer is on 4th floor, agreed to $75 portable surcharge."
+(7:55) Jessica: Does she automatically send them the confirmation email from ServiceMonster?
+(8:00) Pavan: Yes. The moment the API call completes, ServiceMonster triggers your standard email and text reminders, completely hands-free.
+(8:10) Bharat: Jumping in here guys—Jessica, we talked about the 6-month Outbound campaign on the demo. Do you have that CSV list of past customers ready?
+(8:20) Jessica: I do! I pulled it from ServiceMonster this morning. It’s 840 past customers who are due for a 6-month cleaning.
+(8:28) Pavan: Excellent. You can email that CSV directly to me after this call. I will load it into your Outbound Reactivation agent. Once we are fully comfortable with the inbound setup, we can hit a button next week, and Clara will systematically call all 840 of those people to upsell them on a carpet refresh.
+(8:50) Dave: [Laughs] I am going to need to hire another tech just to handle the overflow from that.
+(8:56) Pavan: That's a good problem to have. Okay, so I have the RingCentral routing, the $150 minimum, the high-rise portable fee, the emergency triggers, and the ServiceMonster mapping.
+(9:10) Pavan: I am going to spend the afternoon coding this and authenticating your ServiceMonster API tokens. Sometime around 4:00 PM your time, I am going to text both of you a Sandbox Phone Number.
+(9:22) Jessica: The dummy number to test on?
+(9:25) Pavan: Exactly. It will push data to a fake ServiceMonster sandbox, not your real one. I want you both to call it relentlessly tonight. Dave, call it from the van. Act like a guy who wants a $50 spot clean. Act like a guy standing in three feet of water. See how she handles the transitions.
+(9:45) Jessica: Will I be able to see the notes she takes?
+(9:48) Pavan: Yes. Along with the number, I’ll send a secure link to your Clara Dashboard. You can watch the transcripts and intent tags generate in real-time as Dave tries to break her.
+(10:00) Dave: Oh, I am going to try to convince her that a spilled cup of coffee is a Level 3 biohazard flood. Let's see if she catches it.
+(10:08) Pavan: [Laughs] Please do. If she hallucinates, you mark it down. The harder you test her in the sandbox, the tighter I can make the prompt. Tomorrow morning, we jump on a quick 15-minute Review Call. We look at the logs. If you give me the green light, you flip the switch in RingCentral, and she takes your real calls this weekend.
+(10:28) Jessica: That timeline is incredible. Let me look at my calendar for tomorrow... How does 9:30 AM sound for the Review Call?
+(10:36) Pavan: 9:30 AM works perfectly. I'll shoot the calendar invite over now.
+(10:42) Bharat: Awesome. And just a quick final check—the Stripe payment cleared perfectly yesterday, so everything is fully unlocked and ready to build on our backend.
+(10:52) Jessica: Fantastic. This has been the easiest software setup we've ever done.
+(10:58) Pavan: We try to keep it that way. You guys focus on extracting the water, we'll handle the phones. I'll get that Sandbox number over to you shortly.
+(11:08) Dave: Sounds good, Pavan. Thanks guys! I gotta get this van over to the next commercial job.
+(11:15) Bharat: Drive safe, Dave. Talk to you guys tomorrow at 9:30.
+(11:18) Jessica: Bye guys!
+(11:20) Bharat: [click]
+(11:22) Bharat: Perfect logic mapping. I'll send you the ServiceMonster API documentation.
+(11:26) Pavan: Got it. I'll start building the core prompt now. Ending recording.

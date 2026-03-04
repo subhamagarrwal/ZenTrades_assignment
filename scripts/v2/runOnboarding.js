@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import { extractMemo } from './extractOnboardingUpdate.js';
 import { generateAgentDraftSpec } from '../v1/generateAgentDraftSpec.js';
 import { createChatCompletion } from '../../clients/groq_client.js';
+import { createAsanaReviewTask } from '../../clients/asana_client.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const MERGE_MODEL = 'openai/gpt-oss-120b';
@@ -365,6 +366,25 @@ async function main() {
     spec.version = nextVersion;
     await fs.writeJson(path.join(nextDir, 'agentDraftSpec.json'), spec, { spaces: 2 });
     console.log(`   ✅ agentDraftSpec.json saved → ${nextVersion}/agentDraftSpec.json\n`);
+
+    // ──────────────────────────────────────────
+    // STEP 6: Create Asana review task
+    // ──────────────────────────────────────────
+    console.log('STEP 6: CREATING ASANA TASK');
+    console.log('────────────────────────────');
+    const asanaTask = await createAsanaReviewTask({
+        accountId,
+        companyName    : newMemo.company_name || accountId,
+        nextVersion,
+        accountDirName : path.basename(accountDir),
+        changelogEntry,
+    });
+    if (asanaTask) {
+        console.log(`   ✅ Asana task created: ${asanaTask.gid}`);
+    } else {
+        console.log(`   ⚠️  Asana skipped (token not configured)`);
+    }
+    console.log();
 
     // ──────────────────────────────────────────
     // DONE

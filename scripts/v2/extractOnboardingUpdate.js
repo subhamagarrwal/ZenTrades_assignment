@@ -1,4 +1,4 @@
-import { createChatCompletion } from '../../clients/groq_client.js';
+import { createChatCompletion } from '../clients/groq_client.js';
 
 const MAX_WORDS = 2250;
 
@@ -52,11 +52,14 @@ OUTPUT FORMAT:
 - One bullet point per fact.
 - Each bullet must be a single, self-contained statement.
 
-COMPANY NAME — CRITICAL:
+COMPANY NAME — CRITICAL RULE:
 - "Clara", "Clara AI", "Clara Answers" = the VENDOR. NEVER use as company_name.
-- The CLIENT COMPANY is the business being onboarded — the one whose calls Clara will answer.
-  Look for it in facts like "The client company is ___" or any business name that is NOT Clara.
-- You MUST extract the client company name if it appears. Format: "The client company is ___"
+- "G&M Pressure Washing", "Shelly", property managers, contractors = CUSTOMERS of the client. NEVER use as company_name.
+- The CLIENT COMPANY is Ben's Electric (or similar) — the business BEING ONBOARDED whose calls Clara will answer.
+- Look for phrases like "your business", "your company", "your team", "you guys handle", "Ben's Electric", etc.
+- DO NOT extract customer names as the company_name.
+- If the client company name is already known from context (previous calls), DO NOT override it with a customer name.
+- Only extract the client company name if it is EXPLICITLY stated as the business being onboarded.
 
 EXTRACTION RULES:
 - Only extract facts clearly and explicitly stated in this chunk.
@@ -64,10 +67,11 @@ EXTRACTION RULES:
 - Preserve exact numbers, phone numbers, names, addresses as spoken.
 
 FOCUS STRICTLY ON:
-- Client company name (NOT Clara)
-- Owner / contact names at the client company
+- Client company name (ONLY if explicitly stated — NOT customer names)
+- Owner / contact names at the CLIENT company (e.g., "Ben")
 - Business hours (days + times)
 - Timezone
+- Pricing information (service call fees, hourly rates)
 - Emergency definitions (what qualifies as an emergency)
 - Emergency routing (who to call, order, phone numbers)
 - Non-emergency after-hours handling
@@ -76,8 +80,14 @@ FOCUS STRICTLY ON:
 - Services confirmed or explicitly excluded
 - Phone numbers for routing (preserve exact digits)
 - Physical address if mentioned
+- Email addresses for notifications
+- SMS notification numbers
 
-IGNORE: greetings, sales pitch, small talk, pricing, demos, Clara product features.`,
+CUSTOMERS vs CLIENT:
+- If someone is described as a "property manager", "contractor", "customer", or manages properties (like gas stations), they are a CUSTOMER, NOT the client company.
+- Extract customer details under emergency routing or notes, NEVER as company_name.
+
+IGNORE: greetings, sales pitch, small talk, pricing negotiations, Clara product features.`,
         },
         {
             role: 'user',
@@ -105,8 +115,10 @@ Return ONLY valid JSON. No explanation. No markdown fences. No extra fields.
 
 CRITICAL RULES:
 - "Clara", "Clara AI", "Clara Answers" = the VENDOR. NEVER use as company_name.
-- company_name = the CLIENT business being onboarded — the one whose calls Clara will answer.
-  Look for it in facts like "The client company is ___" or any business name that is NOT Clara.
+- "G&M Pressure Washing", "Shelly", property managers = CUSTOMERS of the client. NEVER use as company_name.
+- company_name = the CLIENT business being onboarded (e.g., "Ben's Electric") — the one whose calls Clara will answer.
+- If the company name is NOT explicitly mentioned in the facts, set company_name to null.
+- DO NOT infer or guess the company name from customer names.
 - Only populate fields supported by the provided facts.
 - DO NOT fabricate, infer, or hallucinate any values.
 - If a field has no supporting facts → null (scalar), [] (array), or {} (object).

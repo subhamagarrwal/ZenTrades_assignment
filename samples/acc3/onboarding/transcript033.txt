@@ -1,0 +1,79 @@
+Here is the full-length, highly realistic transcript for the Onboarding Call with Blue Oasis Pool Services.
+
+Since the deal is closed, Pavan (Lead Implementation Engineer) is back to lead the technical mapping, working alongside Bharat to hardwire Clara into their Skimmer software and define their routing rules.
+
+(0:00) Bharat: Alright, hitting record. I see Denise in the waiting room, and... looks like Mark is joining from his phone.
+(0:03) Pavan: Perfect. Let's bring them in.
+(0:06) Bharat: Admitting now.
+(0:12) Bharat: Hey Denise, hey Mark! Good morning. Can you guys hear us?
+(0:16) Denise: Good morning, Bharat! Yes, I'm here at the office. Mark, are you on?
+(0:21) Mark: [Sound of sloshing water and a heavy diesel truck idling in the background] Yeah, I'm here. Let me just shut the truck off.
+(0:26) Mark: [Engine cuts out, background noise drops] Okay, much better. Hey guys. Sorry, I'm at a commercial property right now doing a massive sand filter changeout.
+(0:35) Bharat: No apologies needed, Mark. We know how it is. We’re going to keep this as tight as possible so you can get back to the sand.
+(0:42) Bharat: So, to kick things off—I’m Bharat, and I want to introduce you to Pavan. He is our lead implementation engineer. He’s the wizard behind the curtain who is going to actually hardwire Clara into your Skimmer account and teach her how to talk like she works for Blue Oasis.
+(1:00) Pavan: Hey Denise, hey Mark. Great to meet you both.
+(1:03) Denise: Nice to meet you, Pavan! I have my Skimmer dashboard open on my second monitor, so I am ready whenever you are.
+(1:10) Pavan: I love that. So, the goal for today is a logic mapping session. I need to take your business rules, your routing zones, and your pricing, and inject them into Clara’s core prompt. We want to make sure she never over-promises, never quotes the wrong price, and puts the right tech in the right zip code.
+(1:30) Mark: That zip code part is massive for us. If I have to drive from the north side of town all the way to the south side for one service call, I lose two hours of daylight just sitting in traffic.
+(1:42) Pavan: Exactly. And that's where the Skimmer API integration shines. But let's start at the very beginning of the funnel. Right now, what is the call forwarding rule going to be?
+(1:55) Denise: So, our main number is through GoToConnect. We want it to ring the office phones first. If I'm on the other line, or if I step away to the warehouse, it currently forwards to Mark's cell. We want to cut Mark out of that loop completely.
+(2:12) Pavan: Okay, easily done. So, inside GoToConnect, you will set up a conditional rule: "Ring office for 15 seconds. If no answer, forward to Clara." Mark, your phone will literally stop ringing for inbound office calls today.
+(2:28) Mark: You have no idea how happy that makes me.
+(2:32) Pavan: Now, what about after 5:00 PM?
+(2:35) Denise: At 5:00 PM, I leave. So from 5:00 PM until 8:00 AM, Clara needs to take 100% of the calls immediately. No office ringing.
+(2:45) Pavan: Done. Let's talk about the after-hours rules. What constitutes an actual, wake-me-up emergency for Blue Oasis Pools? Because to a homeowner, a cloudy pool the night before a BBQ feels like a 911 call.
+(3:02) Mark: [Laughs] Oh, tell me about it. "My pool is green, come fix it tonight!" No. That is not an emergency. The only true after-hours emergencies for us are catastrophic equipment failures that are actively damaging property.
+(3:18) Pavan: Give me some specific examples to program.
+(3:21) Mark: Okay, a cracked PVC manifold that is dumping water into their foundation. Or a pool pump that won't turn off and is starting to smoke. Or, if the main drain cover came off—that's an entrapment hazard, so we roll a truck immediately for that.
+(3:38) Pavan: Okay, I am noting those exact intents: "Active flooding/leaking," "Smoking equipment," and "Drain cover detached." If Clara hears any of those, she tags the call as a critical emergency.
+(3:52) Pavan: What is your after-hours emergency dispatch fee?
+(3:55) Denise: Our emergency roll-out fee is $250. That just covers us showing up and isolating the problem. Parts and hourly labor are separate.
+(4:05) Pavan: Perfect. Clara will explicitly quote the $250 fee. "I can dispatch our emergency technician immediately to isolate the leak. Our after-hours emergency dispatch fee is $250. Do you authorize this, or would you prefer I schedule you for tomorrow morning at our standard $125 rate?"
+(4:25) Mark: That's beautiful. If their pump is just making a weird noise, they'll take the morning slot every time.
+(4:32) Pavan: Exactly. It filters the panic. Now, if they do authorize the $250, how do we reach you?
+(4:40) Mark: Just call my cell directly. If I don't answer, call our lead tech, Dave. Denise, can you give Pavan Dave's number?
+(4:48) Denise: Yep, I'll drop Dave's cell in the Zoom chat right now.
+(4:52) Pavan: I see it. So Clara puts the customer on hold, dials Mark. If no answer, she dials Dave. If Dave doesn't answer, she pulls the customer back, tells them an urgent page has been sent, and fires a critical SMS to both of you.
+(5:08) Mark: Perfect.
+(5:10) Pavan: Let's pivot to the daytime logic. This is where Skimmer comes in. Let's say a new customer calls on a Tuesday at 1 PM. They say, "I need someone to come out and do a weekly maintenance quote."
+(5:25) Denise: Right. That's our bread and butter.
+(5:28) Pavan: In Skimmer, do you guys route by specific zip codes on specific days? Like, Northside on Tuesdays, Southside on Wednesdays?
+(5:38) Denise: Yes, absolutely. We have four route zones. Zone A is Monday/Thursday, Zone B is Tuesday/Friday, etc.
+(5:48) Pavan: Okay, so I will need you to export that Zone Mapping document and email it to me. We inject that directly into Clara's logic. When the caller gives their address, Clara geolocates the zip code in milliseconds. She looks at your map, realizes they are in Zone A, and checks Skimmer for an opening on Monday or Thursday.
+(6:12) Mark: Dude, that is next-level. Denise usually spends twenty minutes on the phone explaining to people why we can't clean their pool on a Wednesday if they live in Zone A.
+(6:23) Pavan: Clara will handle the boundary setting. She'll say, "Our technicians service your specific neighborhood on Mondays and Thursdays. I have an opening this coming Thursday to do an initial water test and quote. Does morning or afternoon work best?"
+(6:38) Denise: Does she put them in Skimmer as a Lead or an Active Customer? Because I don't want them active until they sign the service agreement.
+(6:46) Pavan: Great distinction. She pushes them to Skimmer via the API as a "Lead" and creates a "To-Do" task on the assigned tech's route for the quoting visit. She does not create a recurring service item.
+(6:58) Denise: That is exactly what I need.
+(7:02) Pavan: Now, let's talk about the Green-to-Clean jobs. The swamp pools. How do you price those?
+(7:10) Mark: You can't price them over the phone. Impossible. It depends on the gallons, what kind of algae it is, if the filter is completely shot.
+(7:18) Pavan: So if someone says "My pool is completely green," what is Clara's goal?
+(7:24) Mark: Her goal is to book a $95 "Visual Inspection and Water Test." We go out, test the water, look at the equipment, and give them a hard quote to flip the pool. We credit the $95 toward the job if they hire us.
+(7:38) Pavan: Noted. "Green pools require a $95 visual inspection to assess chemistry and filtration. Fee credited upon job approval." We will lock that in as a hard guardrail. If the customer demands a price over the phone, Clara will politely refuse and reiterate the policy.
+(7:58) Bharat: Mark, on the demo call we talked about the DIY guys. The ones calling for free tech support on gas heaters.
+(8:06) Mark: Oh yeah. The liability nightmares.
+(8:09) Pavan: I have already built that into your core prompt. "No technical troubleshooting over the phone for gas, electrical, or structural issues due to insurance liability. Pivot to booking a $125 diagnostic service call."
+(8:24) Mark: Excellent. Hey, quick edge case for you. What about above-ground pools? We don't touch them. At all. No Intex, no vinyl soft-sides.
+(8:35) Pavan: Oh, that's crucial. I'm adding a negative constraint right now. If a caller mentions "above ground," "Intex," or "pop-up pool," Clara will say, "I'm sorry, Blue Oasis specializes strictly in in-ground pool systems. We do not service above-ground pools at this time," and she will kindly end the booking flow.
+(8:55) Denise: Thank you! We get three calls a week from people wanting us to patch a Walmart pool.
+(9:02) Pavan: Okay, we have the routing, the emergency triggers, the green-to-clean rules, and the above-ground exclusion. I am going to spend the next few hours compiling this logic and hooking up your Skimmer API tokens.
+(9:18) Pavan: Sometime around 3:00 PM your time, I am going to email and text you a Sandbox Phone Number.
+(9:25) Mark: This is the test line, right?
+(9:28) Pavan: Exactly. It is not live to your customers, and it will push data to a dummy Skimmer environment, not your real one. I want you and Denise to call it relentlessly tonight.
+(9:40) Denise: Oh, I am going to throw every weird scenario I can think of at her.
+(9:45) Pavan: Please do. Ask her to fix an above-ground pool. Demand a free quote for a green pool. Test the heater error codes. Along with the number, I’ll send you a link to your Clara Dashboard. Denise, you can sit there and watch the AI summarize your test calls in real-time.
+(10:02) Mark: If she hallucinates or gives a wrong price, what do we do?
+(10:07) Pavan: You just note it. Tomorrow morning, we do a 15-minute Review Call. We look at the logs. If she messed up, I tighten the prompt. If she passed with flying colors, we update your GoToConnect forwarding rules, and you are officially live for the weekend.
+(10:25) Mark: Man, that is a fast turnaround. Tomorrow morning works for me. Denise, how's your calendar?
+(10:32) Denise: I have a gap at 10:00 AM.
+(10:34) Pavan: 10:00 AM works perfectly. I'll shoot the calendar invite over now.
+(10:38) Bharat: Awesome. And guys, your Stripe payment cleared yesterday without any bank flags, so everything is fully unlocked on our backend. You are 100% good to go.
+(10:48) Mark: Awesome. Guys, this is going to be a lifesaver. I'm really looking forward to testing this tonight.
+(10:55) Pavan: We'll get that Sandbox number over to you shortly. Let us know if anything else pops up before then.
+(11:02) Denise: Will do. Thanks Pavan. Thanks Bharat!
+(11:05) Bharat: Have a great day, guys. Get back to that sand filter, Mark.
+(11:08) Mark: [Laughs] Yeah, yeah. See ya.
+(11:10) Denise: Bye!
+(11:12) Bharat: [click]
+(11:14) Bharat: Great mapping session. I'll get the API tokens authenticated now.
+(11:18) Pavan: Perfect. I'll start writing the prompt. Ending recording.

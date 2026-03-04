@@ -1,0 +1,95 @@
+0:00) Nick: Alright, recording is on. Looks like Greg and Amanda are both in the waiting room.
+(0:03) Bharat: Perfect, admitting them now.
+(0:06) Nick: Three, two, one...
+(0:12) Nick: Hey Greg, hey Amanda! Can you guys hear us?
+(0:15) Amanda: Hi Nick! Yes, I’m here in the office. Let me see if Greg is off mute.
+(0:20) Greg: [Loud diesel engine rumbling, backup beeper sounding in the background] Yeah, I’m here! Hold on, let me kill the skid steer.
+(0:26) Greg: [Engine sputters and dies, background gets quiet] Alright, there we go. Sorry guys, we're doing a massive teardown on a retaining wall today. Dust everywhere.
+(0:35) Nick: No worries at all, Greg. We appreciate you taking a break from the dirt to talk to us. I’m Nick, from the partnerships team here at Clara AI. And with me is Bharat, our lead Solutions Expert.
+(0:48) Bharat: Hey Greg, hey Amanda. Great to meet you.
+(0:51) Amanda: Nice to meet you too, Bharat.
+(0:53) Nick: So, Bharat is going to drive the actual demo today. He’s going to show you how the AI handles the specific headaches of the landscaping industry, and then we’ll have Greg actually call the bot live from his truck to test it.
+(1:08) Greg: Oh, I love that. I've got plenty of headaches to throw at it.
+(1:12) Bharat: [Laughs] Bring them on. Before we get into the tech, I need to understand what your front desk looks like right now. It’s April. Spring rush is hitting. When someone calls Evergreen Landscapes at 10:00 AM on a Tuesday, what happens?
+(1:28) Amanda: I cry. That's what happens.
+(1:31) Bharat: [Laughs] Fair enough! But physically, where do the calls go?
+(1:35) Amanda: So, it rings my desk. The problem is, right now everybody wants spring cleanups, mulch blown in, and grass cut. My phone rings 60 times a day. If I'm on the phone trying to chase down a stone supplier for Greg's patio job, the call bounces to Greg's cell phone.
+(1:52) Greg: And I’m in the Bobcat, wearing ear protection. I don’t even hear it ring. It goes to voicemail.
+(1:58) Bharat: And by the time you check that voicemail at 6 PM...
+(2:02) Greg: They’ve already called three other landscapers. But here is the real issue, Bharat. I don't care about missing a $50 lawn mowing call. I care about missing the guy who just bought a new house and wants a $40,000 outdoor kitchen and paver patio. Those big design-build leads get buried under fifty voicemails of people asking us to pull their weeds.
+(2:25) Bharat: That is the ultimate landscaping dilemma. Your high-ticket leads are suffocating under your low-ticket volume. A traditional answering service can't fix that because they just take messages for everybody.
+(2:40) Amanda: Exactly. We tried an answering service. We'd pay them per minute to take messages from people who wanted a one-time lawn cut—which we don't even do. We only do annual maintenance contracts.
+(2:52) Bharat: So, with Clara, we build an intelligent filter. Clara is a conversational AI, not a phone tree. We program her to know exactly what Evergreen Landscapes does, and more importantly, what you don't do.
+(3:08) Bharat: Let's actually prove it. I have a demo environment spun up. I'm going to put a phone number in the Zoom chat right now.
+(3:15) Bharat: Greg, I want you to call it from your cell. Put it on speaker. I want you to act like a homeowner calling for a cheap, one-off lawn mowing. Watch how Clara handles it. And then, pivot and ask about a patio.
+(3:30) Greg: Oh, I know exactly how to play this guy. Hold on, dialing now.
+(3:38) Clara (AI): Thanks for calling Evergreen Landscapes and Hardscape Design. This is Clara. How can I help you today?
+(3:45) Greg: Yeah, hi. My grass is getting super long, and my push mower just broke. Can you guys just send a crew out this week to cut my front and back yard? Just a one-time thing.
+(3:58) Clara (AI): I completely understand being in a pinch with a broken mower! However, to ensure the highest quality of service for our clients, Evergreen Landscapes currently only offers lawn maintenance as part of our comprehensive, year-round property management contracts. We unfortunately do not offer one-time or à la carte mowing services.
+(4:18) Clara (AI): Would you be interested in hearing more about our annual maintenance packages, or were you strictly looking for a one-time cut today?
+(4:26) Greg: No, I don't want a contract. Just a cut. But hey, while I have you on the phone... my wife has been talking about putting a fire pit and a paver patio in the backyard. Do you guys do that?
+(4:38) Clara (AI): We absolutely do! Custom hardscaping and outdoor living spaces are our specialty. We would love to help you design a fire pit and patio area.
+(4:48) Clara (AI): To make sure we pair you with the right estimator, do you have a rough timeline in mind for when you'd like to have the project completed, and an approximate budget set aside for the build? Our custom paver projects typically start around $15,000.
+(5:05) Greg: Yeah, we'd like to have it done by the Fourth of July for a party. And we were thinking around $25,000 for the budget.
+(5:15) Clara (AI): That is a great budget for a beautiful fire pit and patio setup, and finishing by July 4th is definitely a timeline we can aim for.
+(5:22) Clara (AI): Let's get one of our design specialists out to your property for a free site consultation. I just need to grab your first and last name, and the property address.
+(5:32) Greg: It's Greg Mitchell. 7741 Pine Oak Drive.
+(5:38) Clara (AI): Thanks, Greg. Let me pull up our design team's calendar for your area.
+(5:42) Clara (AI): I have an opening this Thursday afternoon between 2:00 PM and 4:00 PM for a site visit. Would that work for you and your wife?
+(5:50) Greg: Yeah, Thursday at 2 is perfect.
+(5:52) Clara (AI): Fantastic. I've got you locked in for Thursday between 2 and 4 PM. Our designer will bring some stone catalogs for you to look through. Is there anything else I can help you with today?
+(6:04) Greg: No, that's all.
+(6:06) Clara (AI): Great. We look forward to seeing your backyard on Thursday. Have a great day, Greg!
+(6:10) Greg: [Hangs up]
+(6:13) Greg: Holy... Amanda, did you hear that?
+(6:16) Amanda: She pre-qualified the budget! She literally told him the project minimum was 15k before she even booked the appointment.
+(6:25) Bharat: Exactly. Because your time is the most expensive asset in the company, Greg. If you spend two hours driving to a house and measuring a yard, only to find out their budget is $3,000, you just lost money. Clara politely sets the boundary, filters out the tire-kickers, and tees up the qualified buyers.
+(6:45) Greg: That is insane. She completely blocked the one-time mow, too. People argue with Amanda about that every single day.
+(6:54) Amanda: They do! They beg me to just send a crew. But Clara didn't even flinch. Okay, Bharat, so what software does she talk to? Because we use LMN for all of our estimating and CRM.
+(7:08) Bharat: Landscape Management Network. Yes. We have a robust integration with LMN.
+(7:14) Bharat: While Greg was on the phone, Clara was pinging your LMN API. First, she checked to see if Greg Mitchell was already a contact. He wasn't, so she created a new CRM Contact.
+(7:28) Bharat: Then, she created a new "To-Do" for the design consultation and assigned it to the Estimator role in LMN for Thursday at 2 PM. She dropped all the qualifying notes right into the description: "Wants firepit and paver patio. Timeline: 4th of July. Budget: $25k."
+(7:45) Amanda: That means I don't have to type anything.
+(7:48) Bharat: You don't touch a keyboard. You just open LMN, and your calendar is packed with pre-qualified, high-ticket leads.
+(7:55) Greg: What about the current maintenance customers? Like, if Mrs. Smith calls and says our crew broke her sprinkler head with the mower?
+(8:05) Bharat: Excellent edge case. During onboarding, we build a "Current Customer Service Issue" intent. If Mrs. Smith calls about a broken sprinkler, Clara says, "I am so sorry about that. Let me pull up your account, and I will immediately flag this for our route manager to come out and repair the sprinkler head at no cost to you." Clara then creates an urgent ticket in LMN and texts Greg or the route manager directly.
+(8:32) Greg: Okay, I love it. This is exactly what we need.
+(8:35) Nick: Jumping back in here guys. We've solved the inbound chaos. But let's talk about revenue generation. Amanda, I know you guys do spring mulch installations.
+(8:45) Amanda: Yes, we blow in hundreds of yards of mulch every May.
+(8:50) Nick: Do you have a list in LMN of every customer who bought mulch from you last year, but hasn't booked it yet for this year?
+(9:00) Amanda: Easily. There's probably 200 people on that list. I usually just send an email newsletter.
+(9:06) Nick: Newsletters get a 15% open rate if you're lucky. Clara has an Outbound Reactivation agent.
+(9:15) Nick: You export that list from LMN. You feed it to Clara. She automatically dials all 200 past customers simultaneously.
+(9:25) Nick: She says, "Hi, this is Clara with Evergreen Landscapes. We laid mulch for you last spring, and we are mapping our delivery routes for your neighborhood next week. Would you like us to put you down for the same yardage and color as last year?"
+(9:40) Greg: Wait. She just calls them? Without us doing anything?
+(9:45) Nick: Yes. She makes 200 outbound calls in about ten minutes. If the customer says "Yes, do the dark brown again," Clara logs into LMN, updates their contract, and flags them for the route schedule.
+(10:00) Amanda: Greg... if she gets a 20% conversion rate on 200 people, that's 40 mulch jobs booked while we are literally sleeping.
+(10:10) Greg: That pays for... I don't even know what it costs yet, but it pays for it. Nick, hit me. What is the damage? Because this sounds like enterprise-level software.
+(10:22) Nick: It's Enterprise-level tech, but priced for owner-operators. Because Clara doesn't need health insurance or a truck, we price on a flat monthly tier.
+(10:34) Nick: For your volume, including the LMN API integration and the Outbound agent, you would be on our Growth Tier. That is $349 a month.
+(10:45) Greg: ...Three hundred and forty-nine dollars? A month?
+(10:48) Nick: Flat rate. That includes 800 conversational minutes. And keep in mind, if an SEO company calls or a spammer calls, Clara hangs up on them and you are not charged for those minutes. You only pay for real customer interactions.
+(11:05) Amanda: What if we have a crazy busy week and go over 800 minutes?
+(11:10) Nick: It simply bills at 15 cents per additional minute. We never turn the AI off. But to put 800 minutes in perspective, if your average call is 3 minutes long, that's over 260 qualified, handled leads a month included in your base price.
+(11:28) Greg: I spend more than $349 a month on diesel fuel for one truck. That is a no-brainer. Are we locked into an annual contract?
+(11:38) Nick: Month-to-month. If Clara doesn't completely clear off Amanda's desk and fill Greg's calendar with $25k patio quotes, you cancel. Simple as that. We do have a one-time $200 onboarding fee. That pays for our engineers to map your LMN tokens and build your specific budget qualification rules.
+(11:58) Amanda: That is incredibly fair. Greg, I want this running before the May rush hits.
+(12:04) Greg: I'm in. Nick, let's do it. How do we start?
+(12:08) Nick: Perfect. I can generate the DocuSign right now while we're on the line. I just need the exact legal name of your LLC.
+(12:16) Amanda: It’s Evergreen Landscapes and Design, LLC.
+(12:22) Nick: Got it. And what is the best email to send the agreement to?
+(12:28) Amanda: You can send it to me at amanda@evergreenlandscapingsite.com.
+(12:35) Nick: Drafting it up now. Once you sign it, there is a secure Stripe link at the bottom for the first month plus the setup fee.
+(12:44) Greg: And then how long until she is actually taking our calls?
+(12:48) Bharat: Very quick turnaround. As soon as that payment clears, our system will email you a calendar link to book your Technical Kickoff Call with our implementation team.
+(13:00) Bharat: That call takes about 45 minutes. We will map your exact LMN stages, your service minimums, and your zip codes. Then, we give you a Sandbox test number.
+(13:12) Greg: A fake number to practice on?
+(13:15) Bharat: Exactly. You and Amanda spend a day calling it, acting like nightmare customers, making sure she filters the cheap jobs and quotes the big ones correctly. Once you give us the 100% green light, you forward your office phones to Clara, and you are live. Usually takes 48 to 72 hours.
+(13:35) Amanda: Okay, I just got the DocuSign in my email. I will sign this and pay it as soon as we jump off this call.
+(13:42) Nick: Awesome. You'll get the automated Kickoff Call link right after. You guys can pick whatever time works best for you tomorrow.
+(13:50) Greg: Sounds great. Guys, I seriously appreciate this. I feel like my blood pressure just dropped ten points knowing I don't have to listen to voicemails tonight.
+(14:00) Bharat: [Laughs] That's the best compliment we could get. We're excited to partner with you guys. Have a great afternoon, Greg, get back to that retaining wall.
+(14:10) Greg: Will do! Thanks guys.
+(14:12) Amanda: Thank you!
+(14:14) Nick: [click]
+(14:16) Nick: Closed won. Stopping recording now.

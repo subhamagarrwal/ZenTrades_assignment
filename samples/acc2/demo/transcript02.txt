@@ -1,0 +1,117 @@
+Here is a highly realistic, full-length transcript for a Demo Call (pre-sale). As requested, I have removed Pavan (since he handles post-sale onboarding) and kept the hosts as Nick (Sales/Partnerships) and Bharat (Solutions/Demo Expert).
+
+This scenario features a Pest Control and Wildlife Removal company. I’ve included industry-specific pain points, realistic background distractions, and the authentic skepticism of a business owner seeing AI for the first time.
+
+(0:00) Nick: Alright, recording is on. It looks like Tom is in the waiting room.
+(0:03) Bharat: Perfect. Let's get him in.
+(0:06) Nick: Admitting him now... three, two, one.
+(0:12) Nick: Hey Tom, can you hear us?
+(0:15) Tom: [Sound of a truck engine running and a dog panting] Yeah, hey guys. Give me one second, let me roll the window up.
+(0:22) Nick: No problem, take your time.
+(0:28) Tom: Alright, down boy. Sorry about that, my tracking dog is in the back seat and he's fired up. We just finished a raccoon exclusion job.
+(0:36) Nick: Oh wow, that sounds intense. I don't envy you having to go up into an attic with a raccoon.
+(0:42) Tom: It’s just another Tuesday for us! How are you guys doing?
+(0:46) Nick: Doing great, Tom. Really appreciate you carving out some time for us today. I know the spring rush is starting to hit.
+(0:53) Tom: You're not kidding. The ants are waking up, the termites are swarming, and my phone is absolutely melting down. Which is exactly why I agreed to this call.
+(1:04) Nick: Well, you are in exactly the right place. Just to set the agenda: I'm Nick, I handle the partnerships side here at Clara AI. And with me is Bharat, our lead Solutions Expert.
+(1:15) Bharat: Hey Tom, great to meet you.
+(1:17) Tom: Hey Bharat. Nice to meet you.
+(1:20) Nick: Bharat is going to drive the actual demo today. He’s going to show you under the hood, explain how the AI works, and actually have you call it live so you can try to break it. If it makes sense for your business, we can talk pricing at the end. Sound fair?
+(1:35) Tom: Sounds perfect. Honestly, if this thing actually answers the phone so I don't have to, I’m probably already sold.
+(1:42) Bharat: [Laughs] We hear that a lot. But before I just start throwing features at you, Tom, I want to understand your specific bottleneck. Walk me through what happens right now when someone calls Tom's Pest & Wildlife at 2:00 PM on a Wednesday.
+(1:58) Tom: Chaos. Pure chaos. So, it rings my office first. My wife, Sarah, tries to answer it. But she’s also doing payroll, ordering chemicals, and dealing with our techs. If she doesn't grab it, it forwards to my cell phone.
+(2:15) Bharat: And you’re usually on a roof or in a crawlspace.
+(2:18) Tom: Exactly. I’m in a Tyvek suit covered in insulation. I can’t answer the phone. So it goes to voicemail.
+(2:25) Bharat: And do people leave voicemails for pest control?
+(2:29) Tom: If it’s a regular quarterly spray, maybe. But if there’s a wasp nest in their kid's bedroom, or a bat flying around their living room? No. They hang up and call the next guy on Google. I'm telling you, from April to August, we probably lose $10,000 a month in missed calls alone.
+(2:50) Bharat: And that is exactly the problem Clara was built to solve. When you miss a call in the home services industry, you aren't just delaying a job—you are actively giving that customer to your competitor.
+(3:05) Tom: Yep. 100%. I tried an answering service last year. Just a call center in Texas. They were terrible. A lady called crying because she had a snake in her garage, and the operator just read a script saying, "I will pass the message along." The lady cursed her out and hung up.
+(3:25) Bharat: Right, because answering services don't have competence. They can't quote a price, they can't de-escalate a panicked homeowner, and they can't put a job on your calendar. Clara does all three.
+(3:38) Tom: So wait, it's just a bot? Like those "press 1 for service, press 2 for billing" things? Because I hate those.
+(3:45) Bharat: We hate them too. No, Clara is a conversational AI. She doesn't use phone trees. You just talk to her like you're talking to me right now. She understands context, she pauses, and if you interrupt her, she stops talking and listens.
+(4:02) Tom: Does she actually know pest control, though? Like, does she know the difference between treating for German roaches versus flying ants? Because the prep work for those is completely different.
+(4:15) Bharat: That is the magic of what we do. We pre-train Clara on standard pest control knowledge, and then during your onboarding, we inject your specific business rules. If a customer says "German roaches," Clara knows to say, "We require all cabinets to be emptied before our technician arrives."
+(4:35) Tom: No way.
+(4:38) Bharat: Yes way. But look, I can sit here and talk about it all day. I want you to actually experience it. I have spun up a demo environment. It's not connected to your live system yet, but it's loaded with standard pest control logic.
+(4:52) Bharat: I’m going to put a phone number in the Zoom chat. I want you to call it from your cell phone right now, put it on speaker, and I want you to pretend to be a customer with a serious problem. Be difficult. Ask questions.
+(5:08) Tom: Oh, I can be difficult. Alright, let me pull up the chat.
+(5:15) Tom: Okay, dialing the number now.
+(5:22) Clara (AI): Thanks for calling Apex Pest Solutions. This is Clara. How can I help you today?
+(5:27) Tom: Yeah, hi. I'm out on my back deck and there are these huge bees everywhere. They look like they're chewing holes right into the wood of my pergola.
+(5:38) Clara (AI): Oh, that sounds really frustrating. From what you're describing, it sounds like you might be dealing with Carpenter Bees. They love to bore perfectly round holes into untreated wood. We definitely want to get that treated before they cause structural damage.
+(5:53) Clara (AI): To get started, could I get your first and last name, and the address you're calling from?
+(5:58) Tom: It's Tom Hardy. Address is 442 Maple Drive. But before we do anything, how much is this going to cost? I don't want to get scammed here.
+(6:08) Clara (AI): I completely understand wanting to know the costs upfront, Tom. For stinging insects like carpenter bees or wasps, our initial exterior treatment and inspection is $149. That covers identifying the nests, treating the active boring holes, and applying a repellent.
+(6:25) Clara (AI): Does that price work for you to get a technician out there?
+(6:30) Tom: Yeah, $149 is fine. But I have two dogs that use the backyard. Is the spray going to hurt them?
+(6:38) Clara (AI): That's a great question. All of our exterior perimeter treatments are pet-safe and kid-safe once they are completely dry. We just ask that you keep your dogs inside while the technician is actively spraying, and for about 30 minutes afterward to allow the product to dry.
+(6:55) Clara (AI): Would you like me to look at our schedule to find an opening for you?
+(7:00) Tom: Yeah, can you come out today?
+(7:03) Clara (AI): Let me check the schedule for today, Tom.
+(7:06) Clara (AI): It looks like we are fully booked for the afternoon, but I do have a first-available slot tomorrow morning between 8:00 AM and 10:00 AM. Would tomorrow morning work for you?
+(7:18) Tom: No, I work in the mornings. Do you have anything tomorrow afternoon? Like around 4?
+(7:25) Clara (AI): Absolutely. I have a slot available tomorrow afternoon between 3:00 PM and 5:00 PM. I will go ahead and pencil you in for that window.
+(7:35) Clara (AI): What is the best phone number for the technician to text you when they are on their way to your house?
+(7:41) Tom: Just use the number I'm calling from.
+(7:44) Clara (AI): Perfect. I have this number on file. You are all set, Tom. Our technician will see you tomorrow afternoon between 3 and 5. Is there anything else I can help you with today?
+(7:55) Tom: No, that's it. Thanks.
+(7:58) Clara (AI): You're very welcome. Have a great rest of your day.
+(8:01) Tom: [Hangs up]
+(8:04) Tom: Holy crap.
+(8:06) Bharat: [Smiling] First impressions?
+(8:10) Tom: It knew it was a Carpenter Bee. I didn't even say the word. I just said "huge bees chewing wood" and she diagnosed it.
+(8:20) Bharat: Exactly. That is natural language processing. A traditional answering service would have just typed "has bees" into a message box. Clara diagnosed it, built trust, explained the safety protocol for your dogs, quoted the price, and negotiated a time slot.
+(8:38) Tom: The dog thing was crazy. Customers ask that literally every single day.
+(8:44) Bharat: And she didn't just give a robotic "yes." She explained why it's safe and gave the 30-minute dry-time rule. Now, here is the most important part. What happens to that information?
+(8:55) Tom: Right. Because if Sarah still has to listen to a recording and type it into FieldRoutes, we haven't saved her that much time.
+(9:05) Bharat: We integrate natively with FieldRoutes. We also do PestPac and GorillaDesk, but FieldRoutes is our deepest integration.
+(9:15) Bharat: When Clara offered you that 3:00 to 5:00 PM slot, she was actually pinging your real-time FieldRoutes calendar via the API. She looked at your technicians' routes, found an opening in your specific zip code, and offered it.
+(9:32) Tom: No way. She actually reads the route density?
+(9:35) Bharat: Yes. And when you agreed, she created a new Customer Account in FieldRoutes, dropped a Service Ticket onto the dispatch board for tomorrow at 3 PM, and placed a full summary of the call into the technician's notes. "Customer has Carpenter Bees on back deck pergola. Quoted $149. Warned to keep dogs inside for 30 min."
+(9:58) Tom: Okay. I'm sold. Take my money. Seriously, if she can just put it on the board in FieldRoutes, Sarah is going to weep tears of joy.
+(10:08) Bharat: It completely automates the front desk. Now, what about emergencies? You mentioned raccoon exclusions earlier. What if someone calls at 11 PM and says there is a bat flying around their bedroom? Does Clara tell them she'll be there tomorrow at 3 PM?
+(10:28) Tom: God, I hope not. If there's a bat in the living space, or a skunk in the house, that's an immediate emergency dispatch. I charge $450 just to show up after 9 PM.
+(10:42) Bharat: So during your onboarding, we set up Smart Escalations. If a caller says "bat in house," "raccoon in kitchen," or "skunk," Clara pivots. She says, "That is a wildlife emergency. Our after-hours emergency dispatch fee is $450. If you agree to that, please hold while I connect you directly to our on-call trapper."
+(11:05) Tom: And then she forwards it to me?
+(11:08) Bharat: Exactly. She live-transfers the call directly to your cell phone. If you are asleep and don't answer, she pulls the customer back, says you've been paged, and then shoots you a critical SMS alert that bypasses your "Do Not Disturb" settings.
+(11:24) Tom: That is brilliant. It weeds out the people who just want free advice at midnight, and only wakes me up for the $450 jobs.
+(11:35) Nick: Hey Tom, Nick jumping back in here. So we've covered the inbound side, which obviously solves your missed-call bleeding. But I want to talk about outbound for a second. Do you guys do seasonal mosquito spraying?
+(11:50) Tom: Oh yeah. That's a huge part of our recurring revenue. We usually start pushing mosquito treatments in late April.
+(11:58) Nick: Do you have a list in FieldRoutes of customers who paid for mosquito treatments last year, but haven't signed up for this year yet?
+(12:08) Tom: Man, I probably have 400 people on that list. We always mean to call them, but we get so busy dealing with the incoming ant calls that we never get around to it. We just send an email blast and hope they bite.
+(12:22) Nick: Email open rates are terrible. Phone calls convert. Clara has a Reactivation Agent built-in.
+(12:30) Tom: Wait. She can make outbound calls?
+(12:33) Nick: She can. You export that list of 400 past customers from FieldRoutes. You give Clara a script. She will automatically call that entire list. She says, "Hi, this is Clara with Tom's Pest Solutions. We treated your yard for mosquitoes last summer. The season is starting up again, and we're offering our past customers $25 off their first spray next week. Would you like me to get you on the route?"
+(12:58) Tom: Are you serious? She just cold calls them?
+(13:02) Nick: Warm calls, technically, but yes. And because she is AI, she can dial all 400 of those numbers simultaneously. She can have 50 conversations at the exact same time. If they say yes, she books the treatment directly into FieldRoutes.
+(13:20) Tom: ...That alone. Just that one feature. If she closes 10% of that list, that’s 40 recurring contracts. That pays for the software for five years.
+(13:35) Bharat: That’s exactly how you have to look at it. You aren't buying an answering service. You are hiring a digital office manager and a sales development rep who never sleeps, never takes a sick day, and never asks for a raise.
+(13:50) Tom: Okay, you guys have completely got me. I've never seen anything like this. Let's talk about the damage. How much is this going to cost me? Because it sounds incredibly expensive.
+(14:02) Nick: It's fundamentally less expensive than human labor because we don't have human overhead. We price based on a flat monthly subscription tier.
+(14:15) Nick: For a business your size, running FieldRoutes and needing API access, you’d be on our Growth Tier. That is $349 a month.
+(14:26) Tom: $349? That's it? My answering service was charging me $500 just to take messages.
+(14:35) Nick: $349 a month. That gives you 800 minutes of conversational talk time. And to be clear, if you get a spam call, a robocall, or someone trying to sell you SEO services, Clara filters them out immediately, hangs up, and we do not charge you for those minutes. You only burn minutes on real conversations.
+(14:55) Tom: What if I go over the 800 minutes in the middle of summer?
+(15:00) Nick: We never cut your phones off. It just bills at 15 cents per additional minute. But 800 minutes is a lot. If your average booking call takes 3 minutes, that’s over 260 handled leads a month included in the base price.
+(15:15) Tom: Is there a setup fee? Or an annual contract? Because I hate getting locked in if the tech ends up being buggy.
+(15:24) Nick: We don't do annual contracts. It's month-to-month. If Clara doesn't actually put jobs on your FieldRoutes board and make your life easier, you can cancel anytime. There is a one-time onboarding and integration fee of $200, which covers our engineering team hooking up the APIs and building your custom guardrails.
+(15:45) Tom: Okay, that is more than fair. Honestly, guys, let's pull the trigger. I want this running before termite season hits full swing.
+(15:55) Nick: That’s what we love to hear, Tom. I can generate the DocuSign agreement right now while we're on the phone. Can you just confirm the exact legal name of your business?
+(16:08) Tom: Yeah, it's Apex Pest and Wildlife Solutions, LLC.
+(16:15) Nick: Got it. And what's the best email to send the agreement to?
+(16:20) Tom: Send it to tom@apexpestcontrol.com.
+(16:26) Nick: Excellent. Drafting that up now. While I do that, let me explain the next step. Once you sign the agreement, we move you into the Onboarding Phase.
+(16:38) Tom: How long does that take? Like, when can I actually turn my phones over to her?
+(16:42) Bharat: Usually within 48 to 72 hours. Tomorrow, you will have a Kickoff Call with our implementation team. They will sit down with you and map out your exact pricing, your zip codes, and your emergency rules.
+(16:58) Bharat: Then, they will give you a sandbox phone number. It's a test number. You and Sarah will spend a day calling it, pretending to be customers, and making sure she says everything exactly how you want her to. We do not flip the switch to your real customers until you give us the 100% green light.
+(17:15) Tom: I love that. Sarah is going to try to confuse the hell out of the AI, I guarantee it.
+(17:20) Bharat: We welcome it! The harder you test her in the sandbox, the better she performs in the real world.
+(17:28) Nick: Alright Tom, I just hit send on the DocuSign. It’s in your inbox. It has a secure Stripe link at the bottom for the card on file for the monthly subscription.
+(17:38) Tom: Let me check my phone... Yep, I see it. I will get this signed as soon as I get back to the office in about 20 minutes.
+(17:48) Nick: Perfect. As soon as that comes through, our system will automatically email you a calendar link to book your Kickoff Call with the implementation team. You can pick whatever time works best for you tomorrow.
+(18:02) Tom: Sounds easy enough. Guys, I really appreciate the demo. This is going to save my sanity this summer.
+(18:10) Bharat: We're really excited to partner with you, Tom. Clara is going to crush it for your business. Have a great rest of your day out there, and drive safe.
+(18:18) Tom: Will do. Thanks guys. Later.
+(18:22) Nick: Bye Tom.
+(18:24) Tom: [click]
+(18:26) Nick: And that's a closed won. Ending the recording now.

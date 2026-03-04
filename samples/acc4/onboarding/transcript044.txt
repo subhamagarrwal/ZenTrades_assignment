@@ -1,0 +1,70 @@
+Here is the full-length, highly realistic transcript for the Onboarding Call with Evergreen Landscapes and Hardscape Design.
+
+Since the deal is closed, Pavan (Lead Implementation Engineer) steps in to lead the technical mapping, working alongside Bharat to hardwire Clara into their LMN software and define their strict qualification rules.
+
+(0:00) Bharat: Alright, recording is rolling. I see Amanda in the waiting room, and there’s Greg.
+(0:03) Pavan: Perfect, let's bring them in.
+(0:05) Bharat: Admitting now...
+(0:11) Bharat: Hey Amanda, hey Greg! Good morning.
+(0:14) Amanda: Good morning, Bharat! I am at my desk with my coffee and LMN is open on my screen. I am ready.
+(0:20) Greg: [Loud clanking of stone, reverse forklift beeps in the background] Hey guys! Can you hear me okay? I'm at the Belgard supply yard loading up pallets of pavers.
+(0:28) Bharat: We hear you, Greg. Sounds like a warzone over there. We’ll try to keep this highly focused so you can get those pavers to the site.
+(0:36) Bharat: To kick us off, I’m Bharat, and I want to introduce you to Pavan. He’s our Lead Implementation Engineer. Pavan is the guy who actually gets into the code, wires Clara into your LMN account, and trains her to act like your toughest gatekeeper.
+(0:52) Pavan: Hey Amanda, hey Greg. Really great to meet you both.
+(0:55) Amanda: So nice to meet you, Pavan! We are so excited to get this going. The phones are already out of control this morning.
+(1:03) Pavan: Well, let's put an end to that today. The goal for this call is a logic mapping session. I need to take the unwritten rules in Greg's head, and the scheduling rules on Amanda's desk, and turn them into strict AI guardrails.
+(1:18) Pavan: Let’s start with the physical call routing. Amanda, if I dial the main Evergreen number right now, what physically happens?
+(1:28) Amanda: So, our number is hosted on Dialpad. It rings my desk phone and my desktop app simultaneously. If I don't answer after four rings, it rolls over to Greg's cell phone.
+(1:40) Pavan: And we want to stop it from ever hitting Greg's cell phone, correct?
+(1:44) Greg: [Sound of a diesel engine revving] Yes. Please. If I'm trying to level a base for a retaining wall, I cannot be answering calls about dandelion weeds.
+(1:52) Pavan: Completely understood. So, Amanda, inside Dialpad, you are going to change your fallback routing. Instead of forwarding to Greg, you will set it to forward to your dedicated Clara number. If you are busy, Clara picks up on ring five. Instant answer, no hold music.
+(2:10) Amanda: Oh, that is so easy. And what about when I leave the office? I’m usually out the door by 4:30 PM.
+(2:16) Pavan: At 4:30 PM, you set Dialpad to "After Hours" mode, which will route 100% of the calls directly to Clara until you get back at 8:00 AM.
+
+(2:28) Pavan: Now, let's get into the fun part. The filtering logic. Greg, on the demo, you mentioned you get crushed by low-ticket "tire kickers" asking for one-time mows.
+(2:40) Greg: Yes. They kill us. We only do annual, full-property maintenance contracts. Mowing, edging, blowing, pruning, the works. I do not want a crew driving 20 minutes to cut a tiny patch of grass for fifty bucks.
+(2:54) Pavan: I am writing this as a hard negative constraint in Clara's core prompt right now. Evergreen Landscapes does not offer one-time mows, bi-weekly mows, or à la carte lawn care. All maintenance requires an annual 12-month contract.
+(3:10) Pavan: If a caller asks for a quick cut, Clara will politely decline, explain the policy, and offer to quote an annual package. If they say no, she gracefully ends the call. It will never even hit your CRM.
+(3:25) Amanda: Pavan, you are an angel. I spend two hours a week having that exact conversation.
+(3:32) Pavan: Now, let's talk about the golden leads. The hardscaping and design-builds. How do we qualify them before we send Greg out in the truck?
+(3:42) Greg: Budget. It always comes down to budget. People watch HGTV and think an outdoor kitchen with a gas fire pit costs $4,000.
+(3:50) Pavan: What is your minimum project threshold for a hardscape job?
+(3:54) Greg: We won't touch a paver patio or hardscape project for less than $15,000. It's just not worth mobilizing the heavy equipment.
+(4:02) Pavan: Excellent. So, when a caller says, "I want a quote for a patio," Clara will trigger the Hardscape Intent. She will say, "We would love to help you design your outdoor space. To ensure we pair you with the right design specialist, did you have a specific timeline in mind, and an approximate budget? For context, our custom hardscape projects typically begin at $15,000."
+(4:28) Greg: [Laughs] I love it. Put the number right in their face.
+(4:32) Pavan: Exactly. If the customer says, "Oh, my budget is only $5,000," what do you want Clara to do?
+(4:40) Amanda: We actually have a list of smaller, local masonry guys we refer those out to. Can she give them a referral?
+(4:48) Pavan: Absolutely. We can program a "Budget Unqualified" response. Clara will say, "While our custom design-builds start at $15k, we have a network of trusted local contractors who specialize in smaller footprint projects. I can text you their contact information."
+(5:05) Greg: That is brilliant. It leaves a good taste in their mouth, but keeps them off my calendar.
+(5:12) Pavan: Now, let's say they do have the budget. They say, "We have $30k set aside." We need to push that to LMN. Amanda, do you schedule estimates by specific geographic zones, or just whenever Greg is free?
+(5:28) Amanda: For hardscape estimates, it's just whenever Greg has a block open on the LMN calendar. Usually Tuesday and Thursday afternoons.
+(5:36) Pavan: Okay. Clara will ping the LMN API, check the 'Estimator' schedule for Tuesday or Thursday afternoons, and offer a two-hour arrival window.
+(5:46) Pavan: Once the customer accepts, Clara creates a new Contact in LMN, creates a To-Do for the site visit, and drops the budget, timeline, and project description right into the notes.
+(5:58) Amanda: Does she automatically send them the calendar invite?
+(6:02) Pavan: Yes. The moment the call ends, LMN fires off the standard confirmation email and text, completely hands-free.
+(6:10) Greg: Hold on. [Loud clank, shouting] Hey! Watch the forks on that pallet! ...Sorry guys. What about existing clients? Like, if one of our annual contract customers calls and says a tree came down in their yard?
+(6:25) Pavan: Very important distinction. We build an "Existing Client Escalation" rule. Clara asks for their name and cross-references LMN. If they are an active contract client, she treats them like VIPs. She will say, "I am so sorry about that, let me immediately flag this for our operations manager to dispatch a cleanup crew." She then creates an Urgent Ticket in LMN and fires an SMS directly to Amanda and Greg.
+(6:52) Amanda: Perfect. Our contract clients pay us a lot of money to be put at the front of the line.
+(6:58) Bharat: Jumping in here guys—Amanda, we talked about the Mulch Outbound campaign on the demo. Do you have that CSV list ready?
+(7:08) Amanda: I do! I pulled it from LMN this morning. It’s 215 past customers who haven't booked their spring mulch yet.
+(7:15) Pavan: Excellent. You can email that CSV directly to me after this call. I will load it into your Outbound Reactivation agent. Once we are confident with the inbound setup, we can literally hit a button next week, and Clara will call all 215 of those people simultaneously to upsell them on a mulch delivery.
+(7:35) Greg: I still can't wrap my head around that. It's going to save us weeks of phone tag.
+(7:42) Pavan: It is serious leverage. Okay, so I have the Dialpad routing, the $15k budget minimum, the LMN estimator mapping, and the existing client escalation.
+(7:55) Pavan: I am going to spend the afternoon coding this and authenticating your LMN API tokens. Sometime around 4:00 PM your time, I am going to text both of you a Sandbox Phone Number.
+(8:08) Amanda: This is the dummy number to test on, right?
+(8:11) Pavan: Exactly. It will push data to a fake LMN calendar, not your real one. I want you both to call it relentlessly tonight. Greg, call it from the truck. Act like a guy who wants a $50 lawn mow. Act like a guy with a $50,000 budget for a pool deck. See how she handles the transitions.
+(8:32) Amanda: Will I be able to see the notes she takes?
+(8:35) Pavan: Yes. Along with the number, I’ll send a secure link to your Clara Dashboard. You can watch the transcripts and intent tags generate in real-time as Greg talks to her.
+(8:45) Greg: Oh, I am going to throw some serious curveballs at her. What if she tells me she can build a patio for five bucks?
+(8:52) Pavan: [Laughs] If she hallucinates, you mark it down. The harder you test her in the sandbox, the tighter I can make the prompt. Tomorrow morning, we jump on a quick 15-minute Review Call. We look at the logs. If you give me the green light, you flip the switch in Dialpad, and she takes your real calls this weekend.
+(9:12) Amanda: That timeline is incredible. Let me look at my calendar for tomorrow... How does 9:30 AM sound for the Review Call?
+(9:20) Pavan: 9:30 AM works perfectly. I'll shoot the calendar invite over now.
+(9:25) Bharat: Awesome. And just a quick final check—the Stripe payment cleared perfectly yesterday, so everything is fully unlocked and ready to build on our backend.
+(9:35) Amanda: Fantastic. This has been the easiest software setup we've ever done.
+(9:40) Pavan: We try to keep it that way. You guys focus on the landscaping, we'll handle the robots. I'll get that Sandbox number over to you shortly.
+(9:50) Greg: Sounds good, Pavan. Thanks guys! I gotta get these pavers to the site.
+(9:55) Bharat: Drive safe, Greg. Talk to you guys tomorrow at 9:30.
+(9:58) Amanda: Bye guys!
+(10:00) Bharat: [click]
+(10:02) Bharat: Perfect logic mapping. I'll send you the LMN API documentation.
+(10:06) Pavan: Got it. I'll start building the core prompt now. Ending recording.
