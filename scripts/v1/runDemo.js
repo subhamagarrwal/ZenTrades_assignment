@@ -5,6 +5,7 @@ import { getOutputPath } from './generateAgentDraftSpec.js';
 import fs from 'fs-extra';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createAsanaReviewTask } from '../../clients/asana_client.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -54,6 +55,8 @@ async function runDemo() {
         const memo = await extractMemo(transcript);
         console.log('✅ Memo extracted\n');
 
+        memo.account_id = accountId;
+
         // Step 3: Create full agent
         console.log('🤖 Creating full agent...');
         const result = await createFullAgent(accountId, memo, version);
@@ -75,6 +78,26 @@ async function runDemo() {
             console.log('✅ agentDraftSpec.json saved at:', specPath);
         } else {
             console.error('❌ agentDraftSpec.json not found at:', specPath);
+        }
+
+        // ── Step: Asana Task ──
+        console.log('\nSTEP: CREATING ASANA TASK');
+        console.log('──────────────────────────');
+        const asanaTask = await createAsanaReviewTask({
+            accountId,
+            companyName    : memo.company_name || accountId,
+            nextVersion    : 'v1',
+            accountDirName : path.basename(basePath, '/v1'),
+            changelogEntry : {
+                version_from : null,
+                version_to   : 'v1',
+                generated_at : new Date().toISOString(),
+                changes      : [{ field: 'initial_creation', old: null, new: 'v1 generated from demo call' }],
+            },
+        });
+
+        if (asanaTask) {
+            console.log(`✅ Asana task created: ${asanaTask.gid}`);
         }
 
         console.log('\n═══════════════════════════════════════');

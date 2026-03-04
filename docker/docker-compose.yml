@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # ─────────────────────────────────────
+  # Clara Automation Pipeline
+  # ─────────────────────────────────────
+  clara:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: clara_automation
+    env_file:
+      - ../.env
+    volumes:
+      # Mount inputs so you can add audio files without rebuilding
+      - ../inputs:/app/inputs
+      # Mount outputs so results persist outside container
+      - ../outputs:/app/outputs
+      # Mount changelog
+      - ../changelog:/app/changelog
+    working_dir: /app
+    # Override command per-run (see usage below)
+    command: ["echo", "Use docker compose run clara <command>"]
+
+  # ─────────────────────────────────────
+  # n8n Orchestrator (optional)
+  # ─────────────────────────────────────
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: clara_n8n
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=clara2025
+      - GENERIC_TIMEZONE=America/Denver
+    volumes:
+      - n8n_data:/home/node/.n8n
+      # Mount workflows for import
+      - ../workflows:/home/node/workflows
+    restart: unless-stopped
+
+volumes:
+  n8n_data:

@@ -1,0 +1,58 @@
+{
+  "company_name": "Ben's Electric Solutions",
+  "industry_type": "Electrical services",
+  "services_supported": [
+    "service calls",
+    "small jobs",
+    "odd jobs",
+    "renovations",
+    "troubleshooting",
+    "full projects (custom homes, tenant improvements)",
+    "outlet replacements",
+    "aluminum wiring mitigation",
+    "EV charger installations",
+    "LED lighting upgrades",
+    "plumbing and gas line connections for hot tubs",
+    "electrical installations for hot tubs",
+    "maintenance and repair work"
+  ],
+  "business_hours": {
+    "days": [],
+    "start": "08:00",
+    "end": null,
+    "timezone": null
+  },
+  "office_address": null,
+  "emergency_definition": [],
+  "emergency_routing_rules": {
+    "contacts": [
+      {
+        "name": "Ben",
+        "phone": "+14039751773",
+        "priority": 1
+      }
+    ],
+    "fallback": null
+  },
+  "non_emergency_routing_rules": {
+    "action": null,
+    "fallback": null
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": null,
+    "retries": null,
+    "on_fail": null
+  },
+  "integration_constraints": "Requires integration with Jobber and QuickBooks.",
+  "after_hours_flow_summary": "Ben is the primary on‑call contact after hours and on weekends; calls may be routed to him directly or to voicemail. Clara can answer 24/7 and forward notifications via email, text, or dashboard.",
+  "office_hours_flow_summary": "During regular hours Clara answers calls, routes them to appropriate team members, can book site visits, and supports club‑membership priority scheduling. Calls can be logged in the Jobber system.",
+  "questions_or_unknowns": [
+    "What are the exact ending time for regular business hours?",
+    "Which days of the week constitute regular business days?",
+    "What is the official office address?",
+    "Is there a designated fallback action for non‑emergency calls (e.g., voicemail or email)?",
+    "Are there additional emergency contacts besides Ben?"
+  ],
+  "notes": "Client is currently a sole proprietorship planning to incorporate later in the year; Ben is owner and primary contact, with an operations manager (Greg) joining soon.",
+  "account_id": "demo_001"
+}
