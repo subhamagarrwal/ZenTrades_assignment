@@ -11,6 +11,19 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = 3000;
 
 // ──────────────────────────────────────────────
+// Supported audio formats (Whisper-compatible via ffmpeg)
+// ──────────────────────────────────────────────
+const SUPPORTED_AUDIO_EXTS = new Set(['.mp3', '.wav', '.m4a', '.ogg', '.flac', '.webm', '.aac', '.wma', '.mp4', '.mpeg', '.mpga']);
+
+function isSupportedAudioExt(ext) {
+    return SUPPORTED_AUDIO_EXTS.has(ext.toLowerCase());
+}
+
+function isTranscriptExt(ext) {
+    return ext.toLowerCase() === '.txt';
+}
+
+// ──────────────────────────────────────────────
 // Read full request body as buffer
 // ──────────────────────────────────────────────
 function readBody(req) {
@@ -48,13 +61,21 @@ function parseMultipart(buffer, boundary) {
 }
 
 // ──────────────────────────────────────────────
-// Find account output folder
+// Find account output folder by company slug
 // ──────────────────────────────────────────────
-async function findAccountOutputDir(accountId) {
+function slugifyCompany(company) {
+    return company.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+async function findAccountOutputDir(company) {
+    const slug = slugifyCompany(company);
     const base = path.resolve(__dirname, 'outputs', 'accounts');
     if (!await fs.pathExists(base)) return null;
+    const exact = path.join(base, slug);
+    if (await fs.pathExists(exact)) return exact;
+    // Fallback: prefix match (handles legacy {accountId}_{slug} folders)
     const entries = await fs.readdir(base);
-    const match = entries.find(e => e.startsWith(accountId));
+    const match = entries.find(e => e === slug || e.endsWith('_' + slug) || e.startsWith(slug + '_'));
     return match ? path.join(base, match) : null;
 }
 
@@ -70,14 +91,14 @@ async function getLatestVersion(accountDir) {
 // ──────────────────────────────────────────────
 // Read outputs for a given version
 // ──────────────────────────────────────────────
-async function readOutputs(accountId, version) {
-    const dir = await findAccountOutputDir(accountId);
+async function readOutputs(company, version) {
+    const dir = await findAccountOutputDir(company);
     if (!dir) return null;
 
     const v = version || await getLatestVersion(dir);
     if (!v) return null;
 
-    const result = { account_id: accountId, version: v, files: {} };
+    const result = { company, version: v, files: {} };
     const vDir = path.join(dir, v);
 
     for (const file of ['memo.json', 'agentDraftSpec.json', 'changes.json', 'onboarding_update.json', 'form_submission.json', 'conflicts.json']) {
@@ -228,19 +249,19 @@ async function applyFormData(accountId, company, formData) {
     console.log(`   📋 Applying onboarding form data...`);
 
     // Find existing memo
-    const accountDir = await findAccountOutputDir(accountId);
+    const accountDir = await findAccountOutputDir(company);
     if (!accountDir) {
-        throw new Error(`No existing account found for ${accountId}. Run Pipeline A (demo) first.`);
+        throw new Error(`No existing account found for company '${company}'. Run Pipeline A (demo) first.`);
     }
 
-    const latestVersion = await getLatestVersion(accountDir);
-    const memoPath = path.join(accountDir, latestVersion, 'memo.json');
+    // Always read from v1 base memo
+    const baseMemoPath = path.join(accountDir, 'v1', 'memo.json');
 
-    if (!await fs.pathExists(memoPath)) {
-        throw new Error(`No memo.json found at ${memoPath}`);
+    if (!await fs.pathExists(baseMemoPath)) {
+        throw new Error(`No v1 memo.json found at ${baseMemoPath}. Run Pipeline A first.`);
     }
 
-    const existingMemo = await fs.readJson(memoPath);
+    const existingMemo = await fs.readJson(baseMemoPath);
 
     // Merge with conflict detection
     const { merged, conflicts } = deepMergeWithConflicts(existingMemo, formData);
@@ -288,30 +309,44 @@ async function applyFormData(accountId, company, formData) {
     }
 
     await fs.writeJson(path.join(nextDir, 'changes.json'), {
-        version_from : latestVersion,
-        version_to   : nextVersion,
+        version_from : 'v1',
+        version_to   : 'v2',
         generated_at : new Date().toISOString(),
         source       : 'onboarding_form',
         changes,
     }, { spaces: 2 });
     console.log(`   ✅ Changes saved: ${nextDir}/changes.json`);
 
-    // Regenerate agent spec from merged memo
+    // Regenerate agent spec from merged memo using inline import
     console.log(`   🤖 Regenerating agent spec...`);
-    const { stdout } = await execAsync(
-        `node -e "
-            import('./scripts/v1/generateAgentDraftSpec.js').then(async m => {
-                const memo = JSON.parse(require('fs').readFileSync('${path.join(nextDir, 'memo.json').replace(/\\/g, '/')}', 'utf-8'));
-                const spec = await m.generateAgentDraftSpec('${accountId}', memo, '${nextVersion}');
-                require('fs').writeFileSync('${path.join(nextDir, 'agentDraftSpec.json').replace(/\\/g, '/')}', JSON.stringify(spec, null, 2));
-                console.log('done');
-            });
-        "`,
-        { cwd: __dirname, timeout: 120000 }
-    ).catch(() => {
-        // Fallback: just copy existing spec
-        return { stdout: 'fallback' };
-    });
+    try {
+        const { generateAgentDraftSpec } = await import('./scripts/v1/generateAgentDraftSpec.js');
+        const spec = generateAgentDraftSpec(accountId, merged, nextVersion);
+
+        // Carry forward agent_id & llm_id from v1 if they exist
+        const v1Dir = path.join(accountDir, 'v1');
+        const agentIdPath = path.join(v1Dir, 'agent_id.json');
+        const llmIdPath   = path.join(v1Dir, 'llm_id.json');
+        if (await fs.pathExists(agentIdPath)) {
+            const { agent_id } = await fs.readJson(agentIdPath);
+            spec.agent_id = agent_id;
+        }
+        if (await fs.pathExists(llmIdPath)) {
+            const { llm_id } = await fs.readJson(llmIdPath);
+            spec.llm_id = llm_id;
+        }
+
+        await fs.writeJson(path.join(nextDir, 'agentDraftSpec.json'), spec, { spaces: 2 });
+        console.log(`   ✅ agentDraftSpec.json regenerated`);
+    } catch (specErr) {
+        console.warn(`   ⚠️  Agent spec regeneration failed: ${specErr.message}`);
+        // Fallback: copy v1 spec if it exists
+        const v1Spec = path.join(accountDir, 'v1', 'agentDraftSpec.json');
+        if (await fs.pathExists(v1Spec)) {
+            await fs.copy(v1Spec, path.join(nextDir, 'agentDraftSpec.json'));
+            console.log(`   ⚠️  Copied v1 agentDraftSpec.json as fallback`);
+        }
+    }
 
     // Update changelog
     const changelogDir = path.resolve(__dirname, 'changelog');
@@ -323,8 +358,8 @@ async function applyFormData(accountId, company, formData) {
         changelog = Array.isArray(raw) ? raw : [];  // ← FIX: ensure array
     }
     changelog.push({
-        version_from : latestVersion,
-        version_to   : nextVersion,
+        version_from : 'v1',
+        version_to   : 'v2',
         source       : 'onboarding_form',
         generated_at : new Date().toISOString(),
         total_changes: changes.length,
@@ -355,8 +390,9 @@ const server = http.createServer(async (req, res) => {
         }
 
         // ── Pipeline A: Demo → v1 ──
+        // runDemo.js handles both .txt and audio files internally
         if (route === 'POST /run') {
-            const { account_id, company, transcript, audio, transcript_path } = await parseInput(req);
+            const { account_id, company, transcript_path } = await parseInput(req);
 
             if (!account_id || !company) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -366,17 +402,21 @@ const server = http.createServer(async (req, res) => {
 
             console.log(`▶ PIPELINE A: ${company} → ${account_id}`);
 
-            // runDemo.js expects path RELATIVE to inputs/ folder
-            // e.g. "bens-electric/transcripts/demo/transcript.txt"
-            // NOT "inputs/bens-electric/transcripts/demo/transcript.txt"
-            let relativeToInputs;
-            if (transcript_path) {
-                relativeToInputs = transcript_path
-                    .replace(/^inputs\//, '')        // strip leading "inputs/"
-                    .replace(/^inputs\\/, '')         // strip leading "inputs\" (windows)
-                    .replace(/\\/g, '/');             // normalize slashes
-            } else {
-                relativeToInputs = `${company}/transcripts/demo/transcript.txt`;
+            // Normalize path — relative to inputs/, forward slashes, no leading "inputs/"
+            const relativeToInputs = (transcript_path || `${company}/transcripts/demo/transcript.txt`)
+                .replace(/^inputs[\\/]/, '')
+                .replace(/\\/g, '/');
+
+            // ── Format validation ──
+            const ext = path.extname(relativeToInputs).toLowerCase();
+            if (!isTranscriptExt(ext) && !isSupportedAudioExt(ext)) {
+                console.error(`❌ Unsupported file format: ${ext}`);
+                console.error(`   Supported audio: ${[...SUPPORTED_AUDIO_EXTS].join(', ')}`);
+                console.error(`   Supported text:  .txt`);
+                console.error(`   ⛔ Stopping pipeline — no API calls made.`);
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: `Unsupported file format: ${ext}. Supported: .txt, ${[...SUPPORTED_AUDIO_EXTS].join(', ')}` }));
+                return;
             }
 
             console.log(`   🔵 Running Pipeline A with: ${relativeToInputs}`);
@@ -386,17 +426,23 @@ const server = http.createServer(async (req, res) => {
             );
             console.log(`   ✅ Pipeline A complete`);
 
-            const outputs = await readOutputs(account_id);
+            const outputs = await readOutputs(company);
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ ok: true, pipeline: 'A', ...outputs }));
             return;
         }
 
         // ── Pipeline B: Onboarding call → v2 ──
-        // Accepts: transcript (.txt path), audio (.mp3/.wav path), uploaded audio,
-        //          or raw transcript text. If audio → Whisper transcribes first.
+        // Accepts:
+        //   1. onboarding_path → audio file (.mp3/.m4a/.wav/etc) → transcribe then LLM
+        //   2. onboarding_path → transcript (.txt) → LLM directly
+        //   3. transcript (inline text) → LLM directly
+        //   4. audio (uploaded binary) → save + transcribe then LLM
+        //   5. form_data (JSON object) → directly edit agentDraftSpec + memo, no LLM
+        //
+        // If format is unsupported → reject with console error BEFORE any API calls.
         if (route === 'POST /onboard') {
-            const { account_id, company, transcript, audio, onboarding_path } = await parseInput(req);
+            const { account_id, company, transcript, audio, onboarding_path, form_data } = await parseInput(req);
 
             if (!account_id || !company) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -406,9 +452,27 @@ const server = http.createServer(async (req, res) => {
 
             console.log(`▶ PIPELINE B: ${company} → ${account_id}`);
 
-            const AUDIO_EXTS = ['.mp3', '.wav', '.m4a', '.ogg', '.flac', '.webm'];
+            // ────────────────────────────────────────
+            // BRANCH 1: Form data → direct field edit
+            // ────────────────────────────────────────
+            if (form_data && typeof form_data === 'object') {
+                console.log(`   📋 Form data detected — applying direct field edits (no LLM)`);
+                const result = await applyFormData(account_id, company, form_data);
+                const outputs = await readOutputs(company, result.nextVersion);
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                    ok        : true,
+                    pipeline  : 'B (form)',
+                    ...outputs,
+                    conflicts : result.conflicts,
+                    changes   : result.changes,
+                }));
+                return;
+            }
 
-            // Resolve the transcript path for runOnboarding.js (relative to inputs/)
+            // ────────────────────────────────────────
+            // BRANCH 2: Audio or Transcript path/content
+            // ────────────────────────────────────────
             let relativeToInputs;
 
             if (onboarding_path) {
@@ -417,53 +481,97 @@ const server = http.createServer(async (req, res) => {
                     .replace(/\\/g, '/');
                 const ext = path.extname(cleaned).toLowerCase();
 
-                if (AUDIO_EXTS.includes(ext)) {
-                    // ── Audio file path provided → transcribe first ──
-                    console.log(`   🎵 Audio detected: ${cleaned}`);
-                    const absAudioPath = path.resolve(__dirname, 'inputs', cleaned);
+                // ── Format validation — reject early ──
+                if (!isTranscriptExt(ext) && !isSupportedAudioExt(ext)) {
+                    console.error(`❌ Unsupported file format: "${ext}"`);
+                    console.error(`   Supported audio: ${[...SUPPORTED_AUDIO_EXTS].join(', ')}`);
+                    console.error(`   Supported text:  .txt`);
+                    console.error(`   ⛔ Stopping pipeline — no API calls made.`);
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({
+                        error: `Unsupported file format: "${ext}". Supported: .txt, ${[...SUPPORTED_AUDIO_EXTS].join(', ')}`,
+                    }));
+                    return;
+                }
 
-                    if (!await fs.pathExists(absAudioPath)) {
-                        res.writeHead(400, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({ error: `Audio file not found: inputs/${cleaned}` }));
-                        return;
+                if (isSupportedAudioExt(ext)) {
+                    // ── Audio file path → transcribe first (skip if transcript exists) ──
+                    const existingTranscript = path.resolve(__dirname, 'inputs', company, 'transcripts', 'onboarding', 'transcript.txt');
+
+                    if (await fs.pathExists(existingTranscript)) {
+                        console.log(`   ⏭️  Transcript already exists, skipping Whisper: ${existingTranscript}`);
+                    } else {
+                        console.log(`   🎵 Audio detected (${ext}): ${cleaned}`);
+                        const absAudioPath = path.resolve(__dirname, 'inputs', cleaned);
+
+                        if (!await fs.pathExists(absAudioPath)) {
+                            res.writeHead(400, { 'Content-Type': 'application/json' });
+                            res.end(JSON.stringify({ error: `Audio file not found: inputs/${cleaned}` }));
+                            return;
+                        }
+
+                        console.log(`   🎵 Transcribing with Whisper...`);
+                        await execAsync(
+                            `node scripts/transcribeAudio.js "${absAudioPath}"`,
+                            { cwd: __dirname, timeout: 300000 }
+                        );
+                        console.log(`   ✅ Transcription complete`);
                     }
 
-                    console.log(`   🎵 Transcribing with Whisper...`);
-                    await execAsync(
-                        `node scripts/transcribeAudio.js "${absAudioPath}"`,
-                        { cwd: __dirname, timeout: 300000 }
-                    );
-                    console.log(`   ✅ Transcription complete`);
-
-                    // transcribeAudio.js outputs to: inputs/{company}/transcripts/onboarding/transcript.txt
                     relativeToInputs = `${company}/transcripts/onboarding/transcript.txt`;
                 } else {
-                    // ── Transcript path provided directly ──
+                    // ── .txt transcript path ──
                     relativeToInputs = cleaned;
                 }
             } else if (audio) {
-                // ── Uploaded audio binary → save & transcribe ──
-                console.log(`   🎵 Uploaded audio: ${audio.filename}`);
-                await saveInputAndTranscribe(company, 'onboarding', null, audio);
+                // ── Uploaded audio binary → validate format, save & transcribe ──
+                const ext = path.extname(audio.filename).toLowerCase();
+
+                if (!isSupportedAudioExt(ext)) {
+                    console.error(`❌ Unsupported uploaded audio format: "${ext}" (file: ${audio.filename})`);
+                    console.error(`   Supported: ${[...SUPPORTED_AUDIO_EXTS].join(', ')}`);
+                    console.error(`   ⛔ Stopping pipeline — no API calls made.`);
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({
+                        error: `Unsupported audio format: "${ext}". Supported: ${[...SUPPORTED_AUDIO_EXTS].join(', ')}`,
+                    }));
+                    return;
+                }
+
+                const existingTranscript = path.resolve(__dirname, 'inputs', company, 'transcripts', 'onboarding', 'transcript.txt');
+                if (await fs.pathExists(existingTranscript)) {
+                    console.log(`   ⏭️  Transcript already exists, skipping upload+transcription`);
+                } else {
+                    console.log(`   🎵 Uploaded audio (${ext}): ${audio.filename}`);
+                    await saveInputAndTranscribe(company, 'onboarding', null, audio);
+                }
                 relativeToInputs = `${company}/transcripts/onboarding/transcript.txt`;
             } else if (transcript) {
-                // ── Raw transcript text → save to file ──
+                // ── Raw transcript text → save to file, then LLM ──
                 console.log(`   📄 Saving inline transcript...`);
                 await saveInputAndTranscribe(company, 'onboarding', transcript, null);
                 relativeToInputs = `${company}/transcripts/onboarding/transcript.txt`;
             } else {
                 // ── Fallback: use existing transcript on disk ──
+                const existingTranscript = path.resolve(__dirname, 'inputs', company, 'transcripts', 'onboarding', 'transcript.txt');
+                if (!await fs.pathExists(existingTranscript)) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({
+                        error: `No input provided and no existing transcript found at inputs/${company}/transcripts/onboarding/transcript.txt`,
+                    }));
+                    return;
+                }
                 relativeToInputs = `${company}/transcripts/onboarding/transcript.txt`;
             }
 
             console.log(`   🟢 Running Pipeline B with: ${relativeToInputs}`);
             const { stdout } = await execAsync(
-                `node scripts/v2/runOnboarding.js "${relativeToInputs}" "${account_id}"`,
+                `node scripts/v2/runOnboarding.js "${relativeToInputs}" "${account_id}" "${company}"`,
                 { cwd: __dirname, timeout: 300000 }
             );
             console.log(`   ✅ Pipeline B complete`);
 
-            const outputs = await readOutputs(account_id);
+            const outputs = await readOutputs(company);
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ ok: true, pipeline: 'B', ...outputs }));
             return;
@@ -489,7 +597,7 @@ const server = http.createServer(async (req, res) => {
 
             const result = await applyFormData(account_id, company, form_data);
 
-            const outputs = await readOutputs(account_id, result.nextVersion);
+            const outputs = await readOutputs(company, result.nextVersion);
 
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({
@@ -505,17 +613,17 @@ const server = http.createServer(async (req, res) => {
         // ── Get outputs ──
         if (route === 'GET /outputs') {
             const url = new URL(req.url, 'http://localhost');
-            const account_id = url.searchParams.get('account_id');
-            if (!account_id) {
+            const company = url.searchParams.get('company') || url.searchParams.get('account_id');
+            if (!company) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: 'account_id query param required' }));
+                res.end(JSON.stringify({ error: 'company query param required' }));
                 return;
             }
 
-            const outputs = await readOutputs(account_id);
+            const outputs = await readOutputs(company);
             if (!outputs) {
                 res.writeHead(404, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: `No outputs for ${account_id}` }));
+                res.end(JSON.stringify({ error: `No outputs for ${company}` }));
                 return;
             }
 

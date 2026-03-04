@@ -13,11 +13,11 @@ export function slugify(name) {
 }
 
 export function getOutputPath(accountId, memo, version = 'v1') {
-    const companySlug = slugify(memo.company_name ?? 'unknown-company');
+    const folderSlug = slugify(accountId);   // folder = slugified account_id (e.g. "bens-electric")
     return path.resolve(
         __dirname,
         '../../outputs/accounts',
-        `${accountId}_${companySlug}`,
+        folderSlug,
         version
     );
 }

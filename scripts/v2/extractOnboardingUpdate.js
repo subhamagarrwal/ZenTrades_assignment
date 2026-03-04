@@ -8,7 +8,7 @@ const MODELS = {
 };
 
 // ──────────────────────────────────────────────
-// Chunk ONLY at timestamp boundaries
+// Chunk at timestamp boundaries only
 // ──────────────────────────────────────────────
 function chunkTranscript(transcript) {
     const lines = transcript.split('\n').filter(l => l.trim());
@@ -36,7 +36,7 @@ function chunkTranscript(transcript) {
 }
 
 // ──────────────────────────────────────────────
-// Stage 1 — 70B: Extract onboarding-relevant facts
+// Stage 1 — 70B: Extract facts from one chunk
 // ──────────────────────────────────────────────
 async function extractChunkFacts(chunkText, chunkIndex, total) {
     console.log(`   📋 [70B] Extracting onboarding facts from chunk ${chunkIndex + 1}/${total}...`);
@@ -89,7 +89,7 @@ IGNORE: greetings, sales pitch, small talk, pricing, demos, Clara product featur
 }
 
 // ──────────────────────────────────────────────
-// Stage 2 — 120B: Compose structured update from facts
+// Stage 2 — 120B: Compose structured update JSON
 // ──────────────────────────────────────────────
 async function composeUpdateFromFacts(allFacts) {
     console.log(`   🧠 [120B] Composing structured onboarding update from facts...`);
@@ -153,27 +153,50 @@ SCHEMA:
     ];
 
     const raw = await createChatCompletion(messages, MODELS.compose, 4096);
-    const cleaned = raw.replace(/```json|```/g, '').trim();
-    return JSON.parse(cleaned);
+    const cleaned = raw.replace(/```json\n?|```/g, '').trim();
+
+    let parsed;
+    try {
+        parsed = JSON.parse(cleaned);
+    } catch (e) {
+        console.error(`   ❌ Failed to parse compose output. Raw:\n${cleaned}`);
+        throw new Error(`LLM compose returned invalid JSON: ${e.message}`);
+    }
+    return parsed;
 }
 
 // ──────────────────────────────────────────────
 // Main export
 // ──────────────────────────────────────────────
 export async function extractMemo(transcript) {
+    if (!transcript || !transcript.trim()) {
+        throw new Error('extractMemo: transcript is empty');
+    }
+
     const chunks = chunkTranscript(transcript);
+
+    if (chunks.length === 0) {
+        throw new Error('extractMemo: transcript produced 0 chunks after splitting');
+    }
+
     console.log(`📝 Transcript → ${chunks.length} chunk(s)`);
 
-    // Stage 1: 70B extracts facts
+    // Stage 1: 70B extracts facts per chunk
     const allFactBlocks = [];
     for (let i = 0; i < chunks.length; i++) {
-        const facts = await extractChunkFacts(chunks[i], i, chunks.length);
+        let facts;
+        try {
+            facts = await extractChunkFacts(chunks[i], i, chunks.length);
+        } catch (err) {
+            console.error(`   ❌ Chunk ${i + 1} extraction failed: ${err.message}`);
+            throw err;
+        }
         allFactBlocks.push(facts);
     }
 
     const combinedFacts = allFactBlocks.join('\n\n---\n\n');
     console.log(`✅ Extracted facts from ${chunks.length} chunk(s)\n`);
 
-    // Stage 2: 120B composes structured update
+    // Stage 2: 120B composes structured patch
     return await composeUpdateFromFacts(combinedFacts);
 }

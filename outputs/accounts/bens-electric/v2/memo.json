@@ -1,0 +1,41 @@
+{
+  "company_name": "Ben's Electric Solution Team",
+  "industry_type": "Electrical services",
+  "services_supported": [
+    "Residential electrical services"
+  ],
+  "business_hours": {
+    "days": [],
+    "start": "08:00",
+    "end": null,
+    "timezone": null
+  },
+  "office_address": "17119 Sundown Road, Southeast, Calgary, Alberta, P2X3B4",
+  "emergency_definition": [
+    "Calls from regular property managers and general contractors are considered emergencies as determined by Ben"
+  ],
+  "emergency_routing_rules": {
+    "contacts": [],
+    "fallback": null
+  },
+  "non_emergency_routing_rules": {
+    "action": null,
+    "fallback": null
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": null,
+    "retries": null,
+    "on_fail": null
+  },
+  "integration_constraints": "Needs integration with Jobber (and potentially QuickBooks) for job and quote management.",
+  "after_hours_flow_summary": "Ben currently handles after‑hours calls; the client is open to using Clara AI to answer after‑hours calls and provide voicemail handling.",
+  "office_hours_flow_summary": "During business hours calls are routed to schedule appointments, prioritize club‑member customers, and may be escalated to the appropriate technician based on the service request.",
+  "questions_or_unknowns": [
+    "How will Clara filter different types of jobs and schedule them accordingly?",
+    "How will the booking feature integrate with the client’s existing Jobber calendar system?",
+    "Can exceptions be set up so certain calls go directly to Ben or specific team members?",
+    "How will Clara integrate with the current phone number?"
+  ],
+  "notes": "Client wants Clara to mention the $115 service call fee only if the customer asks.",
+  "account_id": "bens-electric"
+}

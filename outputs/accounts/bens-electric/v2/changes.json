@@ -1,0 +1,46 @@
+{
+  "version_from": "v1",
+  "version_to": "v2",
+  "generated_at": "2026-03-04T19:25:15.918Z",
+  "total_changes": 3,
+  "changes": [
+    {
+      "field": "company_name",
+      "before": "CBC Company",
+      "after": "Ben's Electric Solution Team",
+      "note": "Field updated"
+    },
+    {
+      "field": "services_supported",
+      "before": [
+        "service calls",
+        "small jobs",
+        "odd jobs",
+        "renovations",
+        "troubleshooting",
+        "full projects (custom homes, tenant improvements)",
+        "EV charger installation",
+        "hot tub hookups",
+        "panel changes",
+        "service maintenance",
+        "outlet replacements",
+        "aluminum wiring mitigation",
+        "dedicated circuit installations",
+        "GFCI protection for hot tubs",
+        "underground conduit installation",
+        "electrical wiring for hot tubs"
+      ],
+      "after": [
+        "Residential electrical services"
+      ],
+      "note": "Field updated"
+    },
+    {
+      "field": "notes",
+      "before": "Client is a sole proprietorship planning incorporation later in the year; owner Ben has 30 years of experience and is considering adding an operations manager (Greg). They use Jobber for scheduling and QuickBooks for accounting.",
+      "after": "Client wants Clara to mention the $115 service call fee only if the customer asks.",
+      "note": "Field updated"
+    }
+  ],
+  "source": "onboarding_call"
+}
