@@ -4,12 +4,12 @@ const client = new Groq({
     apiKey: process.env.GROQ_API_KEY,
 });
 
-export async function createChatCompletion(messages, model = 'llama-3.1-8b-instant') {
+export async function createChatCompletion(messages, model = 'llama-3.3-70b-versatile', maxTokens = 4096) {
     try {
         const response = await client.chat.completions.create({
             model: model,
             messages: messages,
-            max_tokens: 1024,
+            max_tokens: maxTokens,
         });
         return response.choices[0].message.content;
     } catch (error) {
@@ -18,13 +18,13 @@ export async function createChatCompletion(messages, model = 'llama-3.1-8b-insta
     }
 }
 
-export async function streamChatCompletion(messages, model = 'llama-3.1-8b-instant') {
+export async function streamChatCompletion(messages, model = 'llama-3.3-70b-versatile') {
     let fullResponse = '';
     try {
         const stream = await client.chat.completions.create({
             model: model,
             messages: messages,
-            max_tokens: 1024,
+            max_tokens: 4096,
             stream: true,
         });
 

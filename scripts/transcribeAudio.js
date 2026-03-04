@@ -51,9 +51,8 @@ async function chunkAudio(inputPath, chunksDir) {
 
     while (start < duration) {
         const chunkPath = path.join(chunksDir, `chunk_${String(index).padStart(3, '0')}.mp3`);
-        const end = Math.min(start + chunkDuration, duration);
 
-        console.log(`\n🔪 Creating chunk ${index + 1}: ${start.toFixed(1)}s → ${end.toFixed(1)}s`);
+        console.log(`\n🔪 Creating chunk ${index + 1}: ${start.toFixed(1)}s → ${Math.min(start + chunkDuration, duration).toFixed(1)}s`);
 
         await new Promise((resolve, reject) => {
             ffmpeg(inputPath)
@@ -69,8 +68,7 @@ async function chunkAudio(inputPath, chunksDir) {
                 .run();
         });
 
-        // ✅ Store metadata only — NOT the file contents in memory
-        chunks.push({ path: chunkPath, start, end, index });
+        chunks.push({ path: chunkPath, start, end: Math.min(start + chunkDuration, duration), index });
         start += chunkDuration;
         index++;
     }
@@ -80,12 +78,11 @@ async function chunkAudio(inputPath, chunksDir) {
 }
 
 // ──────────────────────────────────────────────
-// Transcribe each chunk — reads from disk, NOT memory
+// Transcribe each chunk — streams from disk
 // ──────────────────────────────────────────────
 async function transcribeChunk(chunk, total) {
     console.log(`\n🎙  Transcribing chunk ${chunk.index + 1}/${total}: ${path.basename(chunk.path)}`);
 
-    // ✅ Stream directly from disk — no in-memory buffer
     const transcription = await groq.audio.transcriptions.create({
         file: fs.createReadStream(chunk.path),
         model: 'whisper-large-v3-turbo',
@@ -150,6 +147,44 @@ async function cleanupChunks(chunksDir) {
 }
 
 // ──────────────────────────────────────────────
+// Resolve output dir from audio path
+//
+// inputs/{company}/audio/demo.mp3
+//   → inputs/{company}/transcripts/demo/
+//
+// inputs/{company}/audio/demo/demo_audio.mp3
+//   → inputs/{company}/transcripts/demo/
+//
+// Rule: walk up from the audio file until we find
+// the folder named "audio", take the stem above it
+// as company dir, use the FIRST subfolder under
+// "audio" (or the filename stem) as the session name.
+// ──────────────────────────────────────────────
+function resolveOutputDir(inputAudioAbs) {
+    const parts = inputAudioAbs.split(path.sep);
+
+    // Find index of the "audio" segment
+    const audioIdx = parts.findLastIndex(p => p.toLowerCase() === 'audio');
+
+    if (audioIdx === -1) {
+        throw new Error(`Could not find an "audio" folder in path: ${inputAudioAbs}`);
+    }
+
+    // Company dir is everything up to (not including) "audio"
+    const companyDir = parts.slice(0, audioIdx).join(path.sep);
+
+    // Session name = first path segment after "audio"
+    // e.g. audio/demo.mp3        → "demo"
+    // e.g. audio/demo/file.mp3   → "demo"
+    const afterAudio = parts.slice(audioIdx + 1);
+    const sessionName = afterAudio.length === 1
+        ? path.basename(afterAudio[0], path.extname(afterAudio[0]))  // "demo.mp3" → "demo"
+        : afterAudio[0];                                              // "demo/..." → "demo"
+
+    return path.join(companyDir, 'transcripts', sessionName);
+}
+
+// ──────────────────────────────────────────────
 // MAIN
 // ──────────────────────────────────────────────
 async function main() {
@@ -157,6 +192,7 @@ async function main() {
 
     if (!inputAudio) {
         console.error('❌ Usage: node scripts/transcribeAudio.js <path-to-audio-file>');
+        console.error('   Example: node scripts/transcribeAudio.js inputs/fireflies/audio/demo.mp3');
         process.exit(1);
     }
 
@@ -165,13 +201,9 @@ async function main() {
         process.exit(1);
     }
 
-    // ✅ Derive folder name from input path
-    // inputs/demo/audio.mp3  →  inputs/transcripts/demo/transcript.txt
-    const inputAudioAbs  = path.resolve(inputAudio);
-    const inputsRoot     = path.resolve(__dirname, '../inputs');
-    const relFromInputs  = path.relative(inputsRoot, path.dirname(inputAudioAbs)); // e.g. "demo"
-    const outputDir      = path.resolve(inputsRoot, 'transcripts', relFromInputs);
-    const chunksDir      = path.join(outputDir, 'chunks');
+    const inputAudioAbs = path.resolve(inputAudio);
+    const outputDir     = resolveOutputDir(inputAudioAbs);
+    const chunksDir     = path.join(outputDir, 'chunks');
 
     await fs.ensureDir(outputDir);
 
@@ -183,12 +215,12 @@ async function main() {
     console.log(`📂 Chunks dir: ${chunksDir}  (deleted after merge)`);
     console.log('═══════════════════════════════════════\n');
 
-    // ── Step 1: Chunk audio → written to disk ──
+    // Step 1: Chunk audio → written to disk
     console.log('STEP 1: CHUNKING AUDIO');
     console.log('───────────────────────');
     const chunks = await chunkAudio(inputAudioAbs, chunksDir);
 
-    // ── Step 2: Transcribe each chunk from disk ──
+    // Step 2: Transcribe each chunk from disk
     console.log('\nSTEP 2: TRANSCRIBING CHUNKS');
     console.log('───────────────────────────');
     const transcriptions = [];
@@ -197,7 +229,7 @@ async function main() {
         transcriptions.push(transcription);
     }
 
-    // ── Step 3: Merge ──
+    // Step 3: Merge
     console.log('\nSTEP 3: MERGING TRANSCRIPTS');
     console.log('────────────────────────────');
     const { fullText, segments } = mergeTranscripts(chunks, transcriptions);
@@ -209,7 +241,7 @@ async function main() {
     await fs.writeJson(segmentsPath, segments, { spaces: 2 });
     console.log('✅ Merged transcript saved');
 
-    // ── Step 4: Delete chunks dir ──
+    // Step 4: Delete chunks dir
     console.log('\nSTEP 4: CLEANUP');
     console.log('────────────────');
     await cleanupChunks(chunksDir);
