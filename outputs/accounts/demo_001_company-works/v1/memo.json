@@ -1,0 +1,61 @@
+{
+  "company_name": "Company Works",
+  "industry_type": "Electrical trades",
+  "services_mentioned": [
+    "Service calls",
+    "Small jobs",
+    "Renovations",
+    "Troubleshooting",
+    "Full projects",
+    "New custom home",
+    "Tenant improvement",
+    "EV chargers",
+    "Hot tub hookups",
+    "Panel changes",
+    "service calls",
+    "emergency services",
+    "data entry",
+    "outlet replacements",
+    "aluminum wiring mitigation",
+    "fixture replacements",
+    "electrical services",
+    "hot tub installations",
+    "plumbing",
+    "gas line connections",
+    "electrical installations",
+    "Electrical quote",
+    "Generator installation",
+    "Electric vehicle charger installation",
+    "LED lighting upgrade",
+    "receptionist",
+    "call answering",
+    "booking",
+    "scheduling"
+  ],
+  "timezone": null,
+  "business_hours": {
+    "start": "8 a.m."
+  },
+  "emergency_definition": null,
+  "routing_rules": [
+    "207-1364",
+    "403-975-1773"
+  ],
+  "integration_constraints": null,
+  "transfer_timeout_seconds": null,
+  "address": "17119 Sundown Road, Southeast, Calgary, Alberta, P2X3B4",
+  "questions_or_unknowns": [
+    "What I'm very curious to know is your experience with, you mentioned a virtual receptionist or a virtual, was it an AI solution or what was it?",
+    "How would the AI handle that kind of thing?",
+    "What does AI do after my call with AI?",
+    "What happens to that call?",
+    "Do you do hot tub installations?",
+    "Can you tell me how they would wire a 60 amp, 240 volt circuit for a hot tub?",
+    "Would they be using conduit or cable to run underground?",
+    "What's better, incandescent lighting or LED lighting?",
+    "Does an electric vehicle charger have to be run in aluminum or copper wire?",
+    "What is the price point?",
+    "How does Clara filter through tasks to determine if it's a service call or a site visit?",
+    "What is the full billing address?"
+  ]
+}

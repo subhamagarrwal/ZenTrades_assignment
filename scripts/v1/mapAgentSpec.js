@@ -6,74 +6,129 @@ import { generateAgentDraftSpec, saveMemo, getOutputPath } from './generateAgent
 
 const client = new Retell({ apiKey: process.env.RETELL_API_KEY });
 
+// ✅ Helper to safely convert any value to string for Retell
+function toRetellString(value) {
+    if (value === null || value === undefined) return '';
+    if (typeof value === 'string') return value;
+    if (typeof value === 'number') return String(value);
+    if (Array.isArray(value)) return value.filter(v => v !== null).join(', ');
+    if (typeof value === 'object') return JSON.stringify(value);
+    return String(value);
+}
+
+// ──────────────────────────────────────────────
+// LLM: Create once, update on re-runs
+// ──────────────────────────────────────────────
+async function getOrCreateLLM(basePath, llmPayload) {
+    const idFile = path.join(basePath, 'llm_id.json');
+
+    if (await fs.pathExists(idFile)) {
+        const { llm_id } = await fs.readJson(idFile);
+        console.log(`♻️  Reusing existing LLM: ${llm_id}`);
+        const updated = await client.llm.update(llm_id, llmPayload);
+        console.log(`✅ LLM updated: ${updated.llm_id}`);
+        return updated;
+    }
+
+    const created = await client.llm.create(llmPayload);
+    await fs.writeJson(idFile, { llm_id: created.llm_id }, { spaces: 2 });
+    console.log(`✅ LLM created: ${created.llm_id}`);
+    return created;
+}
+
+// ──────────────────────────────────────────────
+// Agent: Create once, update on re-runs
+// ──────────────────────────────────────────────
+async function getOrCreateAgent(basePath, agentPayload) {
+    const idFile = path.join(basePath, 'agent_id.json');
+
+    if (await fs.pathExists(idFile)) {
+        const { agent_id } = await fs.readJson(idFile);
+        console.log(`♻️  Reusing existing Agent: ${agent_id}`);
+        const updated = await client.agent.update(agent_id, agentPayload);
+        console.log(`✅ Agent updated: ${updated.agent_id}`);
+        return updated;
+    }
+
+    const created = await client.agent.create(agentPayload);
+    await fs.writeJson(idFile, { agent_id: created.agent_id }, { spaces: 2 });
+    console.log(`✅ Agent created: ${created.agent_id}`);
+    return created;
+}
+
+// ──────────────────────────────────────────────
+// Main export
+// ──────────────────────────────────────────────
 export async function createFullAgent(accountId, memo, version = 'v1') {
-    // ✅ Use imported saveMemo - DO NOT redefine it below
+    // Step 1: Save memo
     await saveMemo(accountId, memo, version);
     console.log('✅ Memo saved');
 
+    // Step 2: Generate agentDraftSpec
     const { agentDraftSpec, basePath } = await generateAgentDraftSpec(accountId, memo, version);
     console.log('✅ Agent draft spec generated');
 
     try {
-        // Step 3: Create LLM - ✅ safe access with ??
-        const llm = await client.llm.create({
-            model: "gpt-4.1",
+        // Step 3: Build LLM payload
+        const llmPayload = {
+            model: 'gpt-4.1',
             general_prompt: agentDraftSpec.system_prompt,
-            begin_message: "Hello, how can I help you today?",
+            begin_message: 'Hello, how can I help you today?',
             default_dynamic_variables: {
-                timezone: agentDraftSpec.key_variables?.timezone ?? "",
-                business_hours: agentDraftSpec.key_variables?.business_hours ?? "",
-                emergency_routing: agentDraftSpec.key_variables?.emergency_routing
-                    ? JSON.stringify(agentDraftSpec.key_variables.emergency_routing)
-                    : "",
-                address: agentDraftSpec.key_variables?.address ?? "",
+                timezone: toRetellString(agentDraftSpec.key_variables?.timezone),
+                business_hours: toRetellString(agentDraftSpec.key_variables?.business_hours),
+                emergency_routing: toRetellString(agentDraftSpec.key_variables?.emergency_routing),
+                address: toRetellString(agentDraftSpec.key_variables?.address),
             },
             general_tools: [
-                { 
-                    type: "end_call", 
-                    name: "end_call", 
-                    description: "End the call." 
+                {
+                    type: 'end_call',
+                    name: 'end_call',
+                    description: 'End the call.',
                 },
                 {
-                    type: "transfer_call",
-                    name: "transfer_to_support",
-                    description: "Transfer to support team.",
+                    type: 'transfer_call',
+                    name: 'transfer_to_support',
+                    description: 'Transfer to support team.',
                     transfer_destination: {
-                        type: "predefined",
-                        number: "+16175551212",
+                        type: 'predefined',
+                        number: agentDraftSpec.call_transfer_protocol?.escalation_order?.[0] ?? '+16175551212',
                     },
-                    transfer_option: { type: "cold_transfer" },
+                    transfer_option: { type: 'cold_transfer' },
                 },
             ],
-        });
-        console.log('✅ LLM created:', llm.llm_id);
+        };
 
-        // Step 4: Create Agent on Retell
-        const agent = await client.agent.create({
+        // Step 4: Get or create LLM
+        const llm = await getOrCreateLLM(basePath, llmPayload);
+
+        // Step 5: Build agent payload
+        const agentPayload = {
             agent_name: agentDraftSpec.agent_name,
-            voice_id: "retell-Cimo",
-            language: "en-US",
+            voice_id: 'retell-Cimo',
+            language: 'en-US',
             response_engine: {
-                type: "retell-llm",
+                type: 'retell-llm',
                 llm_id: llm.llm_id,
             },
-            fallback_voice_ids: ["cartesia-Cimo", "minimax-Cimo"],
-        });
-        console.log('✅ Agent created:', agent.agent_id);
+            fallback_voice_ids: ['cartesia-Cimo', 'minimax-Cimo'],
+        };
 
-        // Step 5: Update agentDraftSpec with Retell response fields
+        // Step 6: Get or create Agent
+        const agent = await getOrCreateAgent(basePath, agentPayload);
+
+        // Step 7: Update and save final spec
         const updatedSpec = {
             ...agentDraftSpec,
             agent_id: agent.agent_id,
             llm_id: llm.llm_id,
-            status: "created",
-            created_at: new Date().toISOString(),
+            status: 'created',
+            updated_at: new Date().toISOString(),
         };
 
-        // Step 6: Save updated spec back to file
         await fs.writeJson(
-            path.join(basePath, 'agentDraftSpec.json'), 
-            updatedSpec, 
+            path.join(basePath, 'agentDraftSpec.json'),
+            updatedSpec,
             { spaces: 2 }
         );
         console.log('✅ Agent draft spec updated with agent_id and llm_id');
@@ -81,21 +136,18 @@ export async function createFullAgent(accountId, memo, version = 'v1') {
         return updatedSpec;
 
     } catch (error) {
-        // Save failed status to spec
         const failedSpec = {
             ...agentDraftSpec,
-            status: "failed",
+            status: 'failed',
             error: error.message,
             failed_at: new Date().toISOString(),
         };
         await fs.writeJson(
-            path.join(basePath, 'agentDraftSpec.json'), 
-            failedSpec, 
+            path.join(basePath, 'agentDraftSpec.json'),
+            failedSpec,
             { spaces: 2 }
         );
         console.error('❌ Error creating agent:', error);
         throw error;
     }
 }
-
-// ❌ DELETE any local saveMemo function below this line

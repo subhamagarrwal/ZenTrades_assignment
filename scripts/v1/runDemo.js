@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const transcriptPath = path.resolve(__dirname, '../../inputs/transcripts/demo/demo_video_transcript.txt');
+const transcriptPath = path.resolve(__dirname, '../../transcription_output/demo_audio/transcript.txt');
 const accountId = 'demo_001';
 const version = 'v1';
 
