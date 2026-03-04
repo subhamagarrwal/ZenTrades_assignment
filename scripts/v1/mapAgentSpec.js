@@ -2,152 +2,173 @@ import 'dotenv/config';
 import Retell from 'retell-sdk';
 import fs from 'fs-extra';
 import path from 'path';
-import { generateAgentDraftSpec, saveMemo, getOutputPath } from './generateAgentDraftSpec.js';
+import { generateAgentDraftSpec, getOutputPath, buildSystemPrompt } from './generateAgentDraftSpec.js';
 
-const client = new Retell({ apiKey: process.env.RETELL_API_KEY });
-
-// ✅ Helper to safely convert any value to string for Retell
-function toRetellString(value) {
-    if (value === null || value === undefined) return '';
-    if (typeof value === 'string') return value;
-    if (typeof value === 'number') return String(value);
-    if (Array.isArray(value)) return value.filter(v => v !== null).join(', ');
-    if (typeof value === 'object') return JSON.stringify(value);
-    return String(value);
-}
+const retellClient = new Retell({ apiKey: process.env.RETELL_API_KEY });
 
 // ──────────────────────────────────────────────
-// LLM: Create once, update on re-runs
+// Upsert LLM: update if exists, create if not
 // ──────────────────────────────────────────────
-async function getOrCreateLLM(basePath, llmPayload) {
-    const idFile = path.join(basePath, 'llm_id.json');
+async function upsertRetellLlm(basePath, systemPrompt) {
+    const llmIdPath = path.join(basePath, 'llm_id.json');
 
-    if (await fs.pathExists(idFile)) {
-        const { llm_id } = await fs.readJson(idFile);
-        console.log(`♻️  Reusing existing LLM: ${llm_id}`);
-        const updated = await client.llm.update(llm_id, llmPayload);
-        console.log(`✅ LLM updated: ${updated.llm_id}`);
-        return updated;
+    // Check if LLM already exists
+    if (await fs.pathExists(llmIdPath)) {
+        const { llm_id } = await fs.readJson(llmIdPath);
+
+        try {
+            const updated = await retellClient.llm.update(llm_id, {
+                general_prompt: systemPrompt,
+            });
+            console.log(`🔄 LLM updated: ${llm_id}`);
+            return llm_id;
+        } catch (err) {
+            console.warn(`⚠️  LLM update failed (${llm_id}), creating new one: ${err.message}`);
+        }
     }
 
-    const created = await client.llm.create(llmPayload);
-    await fs.writeJson(idFile, { llm_id: created.llm_id }, { spaces: 2 });
-    console.log(`✅ LLM created: ${created.llm_id}`);
-    return created;
-}
+    // Also check previous versions
+    const accountDir = path.dirname(basePath);
+    const existingLlmId = await findExistingId(accountDir, 'llm_id.json');
 
-// ──────────────────────────────────────────────
-// Agent: Create once, update on re-runs
-// ──────────────────────────────────────────────
-async function getOrCreateAgent(basePath, agentPayload) {
-    const idFile = path.join(basePath, 'agent_id.json');
-
-    if (await fs.pathExists(idFile)) {
-        const { agent_id } = await fs.readJson(idFile);
-        console.log(`♻️  Reusing existing Agent: ${agent_id}`);
-        const updated = await client.agent.update(agent_id, agentPayload);
-        console.log(`✅ Agent updated: ${updated.agent_id}`);
-        return updated;
+    if (existingLlmId) {
+        try {
+            const updated = await retellClient.llm.update(existingLlmId, {
+                general_prompt: systemPrompt,
+            });
+            console.log(`🔄 LLM updated (from previous version): ${existingLlmId}`);
+            await fs.writeJson(llmIdPath, { llm_id: existingLlmId }, { spaces: 2 });
+            return existingLlmId;
+        } catch (err) {
+            console.warn(`⚠️  LLM update failed (${existingLlmId}), creating new one: ${err.message}`);
+        }
     }
 
-    const created = await client.agent.create(agentPayload);
-    await fs.writeJson(idFile, { agent_id: created.agent_id }, { spaces: 2 });
-    console.log(`✅ Agent created: ${created.agent_id}`);
-    return created;
+    // Create new
+    const llm = await retellClient.llm.create({
+        model: 'gpt-4.1',
+        general_prompt: systemPrompt,
+    });
+
+    const llmId = llm.llm_id;
+    await fs.writeJson(llmIdPath, { llm_id: llmId }, { spaces: 2 });
+    console.log(`✅ LLM created: ${llmId}`);
+    return llmId;
 }
 
 // ──────────────────────────────────────────────
-// Main export
+// Upsert Agent: update if exists, create if not
+// ──────────────────────────────────────────────
+async function upsertRetellAgent(basePath, llmId, agentName) {
+    const agentIdPath = path.join(basePath, 'agent_id.json');
+
+    // Check if agent already exists
+    if (await fs.pathExists(agentIdPath)) {
+        const { agent_id } = await fs.readJson(agentIdPath);
+
+        try {
+            const updated = await retellClient.agent.update(agent_id, {
+                response_engine: { type: 'retell-llm', llm_id: llmId },
+                agent_name: agentName,
+            });
+            console.log(`🔄 Agent updated: ${agent_id}`);
+            return agent_id;
+        } catch (err) {
+            console.warn(`⚠️  Agent update failed (${agent_id}), creating new one: ${err.message}`);
+        }
+    }
+
+    // Also check previous versions
+    const accountDir = path.dirname(basePath);
+    const existingAgentId = await findExistingId(accountDir, 'agent_id.json');
+
+    if (existingAgentId) {
+        try {
+            const updated = await retellClient.agent.update(existingAgentId, {
+                response_engine: { type: 'retell-llm', llm_id: llmId },
+                agent_name: agentName,
+            });
+            console.log(`🔄 Agent updated (from previous version): ${existingAgentId}`);
+            await fs.writeJson(agentIdPath, { agent_id: existingAgentId }, { spaces: 2 });
+            return existingAgentId;
+        } catch (err) {
+            console.warn(`⚠️  Agent update failed (${existingAgentId}), creating new one: ${err.message}`);
+        }
+    }
+
+    // Create new
+    const agent = await retellClient.agent.create({
+        response_engine: { type: 'retell-llm', llm_id: llmId },
+        agent_name: agentName,
+        voice_id: '11labs-Adrian',
+    });
+
+    const agentId = agent.agent_id;
+    await fs.writeJson(agentIdPath, { agent_id: agentId }, { spaces: 2 });
+    console.log(`✅ Agent created: ${agentId}`);
+    return agentId;
+}
+
+// ──────────────────────────────────────────────
+// Search previous versions for existing ID
+// ──────────────────────────────────────────────
+async function findExistingId(accountDir, filename) {
+    if (!await fs.pathExists(accountDir)) return null;
+
+    const entries = await fs.readdir(accountDir);
+    const versions = entries
+        .filter(e => /^v\d+$/.test(e))
+        .map(e => parseInt(e.replace('v', ''), 10))
+        .sort((a, b) => b - a); // latest first
+
+    for (const ver of versions) {
+        const filePath = path.join(accountDir, `v${ver}`, filename);
+        if (await fs.pathExists(filePath)) {
+            const data = await fs.readJson(filePath);
+            const id = data.llm_id || data.agent_id;
+            if (id) return id;
+        }
+    }
+
+    return null;
+}
+
+// ──────────────────────────────────────────────
+// Main: createFullAgent (with upsert)
 // ──────────────────────────────────────────────
 export async function createFullAgent(accountId, memo, version = 'v1') {
-    // Step 1: Save memo
-    await saveMemo(accountId, memo, version);
+    memo.account_id = accountId;
+
+    const basePath = getOutputPath(accountId, memo, version);
+    await fs.ensureDir(basePath);
+
+    // Save memo
+    const memoPath = path.join(basePath, 'memo.json');
+    await fs.writeJson(memoPath, memo, { spaces: 2 });
+    console.log(`✅ Memo saved at: ${memoPath}`);
     console.log('✅ Memo saved');
 
-    // Step 2: Generate agentDraftSpec
-    const { agentDraftSpec, basePath } = await generateAgentDraftSpec(accountId, memo, version);
+    // Generate and save agent draft spec
+    const spec = generateAgentDraftSpec(accountId, memo, version);
+    const specPath = path.join(basePath, 'agentDraftSpec.json');
+    await fs.writeJson(specPath, spec, { spaces: 2 });
+    console.log(`✅ AgentDraftSpec saved at: ${specPath}`);
     console.log('✅ Agent draft spec generated');
 
-    try {
-        // Step 3: Build LLM payload
-        const llmPayload = {
-            model: 'gpt-4.1',
-            general_prompt: agentDraftSpec.system_prompt,
-            begin_message: 'Hello, how can I help you today?',
-            default_dynamic_variables: {
-                timezone: toRetellString(agentDraftSpec.key_variables?.timezone),
-                business_hours: toRetellString(agentDraftSpec.key_variables?.business_hours),
-                emergency_routing: toRetellString(agentDraftSpec.key_variables?.emergency_routing),
-                address: toRetellString(agentDraftSpec.key_variables?.address),
-            },
-            general_tools: [
-                {
-                    type: 'end_call',
-                    name: 'end_call',
-                    description: 'End the call.',
-                },
-                {
-                    type: 'transfer_call',
-                    name: 'transfer_to_support',
-                    description: 'Transfer to support team.',
-                    transfer_destination: {
-                        type: 'predefined',
-                        number: agentDraftSpec.call_transfer_protocol?.escalation_order?.[0] ?? '+16175551212',
-                    },
-                    transfer_option: { type: 'cold_transfer' },
-                },
-            ],
-        };
+    // Upsert LLM (reuse existing or create new)
+    const systemPrompt = buildSystemPrompt(memo);
+    const llmId = await upsertRetellLlm(basePath, systemPrompt);
 
-        // Step 4: Get or create LLM
-        const llm = await getOrCreateLLM(basePath, llmPayload);
+    // Upsert Agent (reuse existing or create new)
+    const agentName = spec.agent_name || `Clara – ${memo.company_name || accountId}`;
+    const agentId = await upsertRetellAgent(basePath, llmId, agentName);
 
-        // Step 5: Build agent payload
-        const agentPayload = {
-            agent_name: agentDraftSpec.agent_name,
-            voice_id: 'retell-Cimo',
-            language: 'en-US',
-            response_engine: {
-                type: 'retell-llm',
-                llm_id: llm.llm_id,
-            },
-            fallback_voice_ids: ['cartesia-Cimo', 'minimax-Cimo'],
-        };
+    // Update spec with IDs
+    spec.agent_id = agentId;
+    spec.llm_id = llmId;
+    await fs.writeJson(specPath, spec, { spaces: 2 });
+    console.log('✅ Agent draft spec updated with agent_id and llm_id');
 
-        // Step 6: Get or create Agent
-        const agent = await getOrCreateAgent(basePath, agentPayload);
-
-        // Step 7: Update and save final spec
-        const updatedSpec = {
-            ...agentDraftSpec,
-            agent_id: agent.agent_id,
-            llm_id: llm.llm_id,
-            status: 'created',
-            updated_at: new Date().toISOString(),
-        };
-
-        await fs.writeJson(
-            path.join(basePath, 'agentDraftSpec.json'),
-            updatedSpec,
-            { spaces: 2 }
-        );
-        console.log('✅ Agent draft spec updated with agent_id and llm_id');
-
-        return updatedSpec;
-
-    } catch (error) {
-        const failedSpec = {
-            ...agentDraftSpec,
-            status: 'failed',
-            error: error.message,
-            failed_at: new Date().toISOString(),
-        };
-        await fs.writeJson(
-            path.join(basePath, 'agentDraftSpec.json'),
-            failedSpec,
-            { spaces: 2 }
-        );
-        console.error('❌ Error creating agent:', error);
-        throw error;
-    }
+    console.log('✅ Agent created');
+    return { agentId, llmId, basePath };
 }

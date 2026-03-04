@@ -44,12 +44,19 @@ async function extractChunkFacts(chunkText, chunkIndex, total) {
     const messages = [
         {
             role: 'system',
-            content: `You are a fact-extraction engine for an ONBOARDING call transcript.
-Extract ONLY facts that would change how a voice AI agent is configured.
+            content: `You are a fact-extraction engine for an ONBOARDING CALL transcript.
+A vendor called "Clara" / "Clara AI" / "Clara Answers" is onboarding a CLIENT business onto their AI voice-assistant platform.
+Your job is to extract facts about the CLIENT business that affect how the AI agent should be configured.
 
 OUTPUT FORMAT:
 - One bullet point per fact.
 - Each bullet must be a single, self-contained statement.
+
+COMPANY NAME — CRITICAL:
+- "Clara", "Clara AI", "Clara Answers" = the VENDOR. NEVER use as company_name.
+- The CLIENT COMPANY is the business being onboarded — the one whose calls Clara will answer.
+  Look for it in facts like "The client company is ___" or any business name that is NOT Clara.
+- You MUST extract the client company name if it appears. Format: "The client company is ___"
 
 EXTRACTION RULES:
 - Only extract facts clearly and explicitly stated in this chunk.
@@ -57,6 +64,8 @@ EXTRACTION RULES:
 - Preserve exact numbers, phone numbers, names, addresses as spoken.
 
 FOCUS STRICTLY ON:
+- Client company name (NOT Clara)
+- Owner / contact names at the client company
 - Business hours (days + times)
 - Timezone
 - Emergency definitions (what qualifies as an emergency)
@@ -68,7 +77,7 @@ FOCUS STRICTLY ON:
 - Phone numbers for routing (preserve exact digits)
 - Physical address if mentioned
 
-IGNORE: greetings, sales pitch, small talk, pricing, demos, company history.`,
+IGNORE: greetings, sales pitch, small talk, pricing, demos, Clara product features.`,
         },
         {
             role: 'user',
@@ -88,34 +97,53 @@ async function composeUpdateFromFacts(allFacts) {
     const messages = [
         {
             role: 'system',
-            content: `You are a structured-memo composer. You receive facts extracted from an onboarding call.
-Your job is to organize them into the exact JSON schema below.
+            content: `You are a structured-memo composer for an ONBOARDING CALL.
+You receive extracted facts from a call where Clara AI (the VENDOR) is onboarding a CLIENT business.
+Your job is to organize the facts about the CLIENT business into the JSON schema below.
 
 Return ONLY valid JSON. No explanation. No markdown fences. No extra fields.
 
 CRITICAL RULES:
-- "Clara", "Clara AI", "Clara Answers" = the VENDOR — NEVER the client company name.
-- company_name = the CLIENT business. If not explicitly named in the facts, use null.
+- "Clara", "Clara AI", "Clara Answers" = the VENDOR. NEVER use as company_name.
+- company_name = the CLIENT business being onboarded — the one whose calls Clara will answer.
+  Look for it in facts like "The client company is ___" or any business name that is NOT Clara.
 - Only populate fields supported by the provided facts.
 - DO NOT fabricate, infer, or hallucinate any values.
-- If a field has no supporting facts → null (scalar) or [] (array).
-- routing_rules: E.164 phone numbers only
+- If a field has no supporting facts → null (scalar), [] (array), or {} (object).
 - This is a PATCH — only include fields with actual new information.
-  Fields with null or [] will be IGNORED during merge.
+  Fields with null, [] or {} will be IGNORED during merge.
 
-SCHEMA (tone-format):
+SCHEMA:
 {
-  company_name             : <string | null>,
-  industry_type            : <string | null>,
-  services_mentioned       : [<string>, ...],
-  timezone                 : <string | null>,
-  business_hours           : <string | null>,
-  emergency_definition     : <string | null>,
-  routing_rules            : [<e164_phone_string>, ...],
-  integration_constraints  : <string | null>,
-  transfer_timeout_seconds : <number | null>,
-  address                  : <string | null>,
-  questions_or_unknowns    : [<string>, ...]
+  "company_name"                : <string | null>,
+  "industry_type"               : <string | null>,
+  "services_supported"          : [<string>, ...],
+  "business_hours"              : {
+    "days"     : [<string>, ...],
+    "start"    : <string | null>,
+    "end"      : <string | null>,
+    "timezone" : <string | null>
+  },
+  "office_address"              : <string | null>,
+  "emergency_definition"        : [<string>, ...],
+  "emergency_routing_rules"     : {
+    "contacts"  : [{ "name": <string>, "phone": <e164>, "priority": <number> }, ...],
+    "fallback"  : <string | null>
+  },
+  "non_emergency_routing_rules" : {
+    "action"   : <string | null>,
+    "fallback" : <string | null>
+  },
+  "call_transfer_rules"         : {
+    "timeout_seconds" : <number | null>,
+    "retries"         : <number | null>,
+    "on_fail"         : <string | null>
+  },
+  "integration_constraints"     : <string | null>,
+  "after_hours_flow_summary"    : <string | null>,
+  "office_hours_flow_summary"   : <string | null>,
+  "questions_or_unknowns"       : [<string>, ...],
+  "notes"                       : <string | null>
 }`,
         },
         {
