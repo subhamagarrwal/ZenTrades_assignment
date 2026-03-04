@@ -1,0 +1,322 @@
+{
+  "name": "Full Pipeline — A → Approval → B",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "start",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook",
+      "name": "① Webhook — Receive Input",
+      "type": "n8n-nodes-base.webhook",
+      "position": [100, 300],
+      "webhookId": "start-webhook",
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true, message: 'Pipeline A started. Check n8n for approval prompt.', account_id: $json.body.account_id }) }}"
+      },
+      "id": "ack",
+      "name": "② Acknowledge Immediately",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [300, 150],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "id": "check-transcript",
+              "leftValue": "={{ $('① Webhook — Receive Input').item.json.body?.transcript }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "exists" }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "if-transcript",
+      "name": "③ Has Transcript?",
+      "type": "n8n-nodes-base.if",
+      "position": [300, 350],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://clara:3000/run",
+        "sendBody": true,
+        "bodyContentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ account_id: $('① Webhook — Receive Input').item.json.body.account_id, company: $('① Webhook — Receive Input').item.json.body.company, transcript: $('① Webhook — Receive Input').item.json.body.transcript }) }}",
+        "options": { "timeout": 300000 }
+      },
+      "id": "run-a-transcript",
+      "name": "④a Pipeline A (Transcript)",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [550, 250],
+      "typeVersion": 4
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://clara:3000/run",
+        "sendBody": true,
+        "bodyContentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ account_id: $('① Webhook — Receive Input').item.json.body.account_id, company: $('① Webhook — Receive Input').item.json.body.company }) }}",
+        "options": { "timeout": 300000 }
+      },
+      "id": "run-a-existing",
+      "name": "④b Pipeline A (Existing Input)",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [550, 450],
+      "typeVersion": 4
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "merge-a",
+      "name": "⑤ Merge A Result",
+      "type": "n8n-nodes-base.merge",
+      "position": [800, 350],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "id": "check-ok",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "check-v1",
+      "name": "⑥ v1 Succeeded?",
+      "type": "n8n-nodes-base.if",
+      "position": [1000, 350],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "jsCode": "const result = $input.item.json;\nconst webhook = $('① Webhook — Receive Input').item.json.body;\n\nconst memo = result.files?.memo || {};\nconst spec = result.files?.agentDraftSpec || {};\n\nreturn [{\n  json: {\n    // pass forward for later nodes\n    account_id  : webhook.account_id,\n    company     : webhook.company,\n    v1_ok       : result.ok,\n    v1_version  : result.version,\n    // summary for approval message\n    summary: {\n      company_name    : memo.company_name   || webhook.company,\n      business_hours  : memo.business_hours || 'not extracted',\n      industry        : memo.industry       || 'unknown',\n      agent_name      : spec.agent_name     || 'unnamed',\n      retell_agent_id : spec.retell_agent_id || 'not created',\n      asana_task      : result.files?.memo?.asana_task_gid || 'not created',\n    }\n  }\n}];"
+      },
+      "id": "build-approval-context",
+      "name": "⑦ Build Approval Context",
+      "type": "n8n-nodes-base.code",
+      "position": [1200, 250],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "jsCode": "const webhook = $('① Webhook — Receive Input').item.json.body;\nconsole.error(`❌ Pipeline A FAILED for ${webhook.account_id}`);\nreturn [{ json: { ok: false, account_id: webhook.account_id, reason: 'Pipeline A failed — check clara logs' } }];"
+      },
+      "id": "a-failed",
+      "name": "⑦b Log A Failure",
+      "type": "n8n-nodes-base.code",
+      "position": [1200, 450],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "resume": "form",
+        "options": {
+          "formTitle": "Clara — Pipeline A Complete ✅",
+          "formDescription": "=**Account:** {{ $json.account_id }}\n**Company:** {{ $json.summary.company_name }}\n**Industry:** {{ $json.summary.industry }}\n**Agent Name:** {{ $json.summary.agent_name }}\n**Business Hours:** {{ $json.summary.business_hours }}\n**Retell Agent ID:** {{ $json.summary.retell_agent_id }}\n**Asana Task:** {{ $json.summary.asana_task }}\n\n---\nReview the v1 outputs and approve to continue to onboarding (Pipeline B).",
+          "formFields": {
+            "values": [
+              {
+                "fieldLabel": "decision",
+                "fieldType": "dropdown",
+                "requiredField": true,
+                "fieldOptions": {
+                  "values": [
+                    { "option": "approve" },
+                    { "option": "reject" }
+                  ]
+                }
+              },
+              {
+                "fieldLabel": "notes",
+                "fieldType": "text",
+                "requiredField": false
+              }
+            ]
+          }
+        }
+      },
+      "id": "wait-approval",
+      "name": "⑧ Wait for Approval",
+      "type": "n8n-nodes-base.wait",
+      "position": [1450, 250],
+      "typeVersion": 1,
+      "webhookId": "approval-wait"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "id": "check-approved",
+              "leftValue": "={{ $json.data?.decision ?? $json.decision }}",
+              "rightValue": "approve",
+              "operator": { "type": "string", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "check-approved",
+      "name": "⑨ Approved?",
+      "type": "n8n-nodes-base.if",
+      "position": [1700, 250],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "id": "check-form",
+              "leftValue": "={{ $('① Webhook — Receive Input').item.json.body?.form_data }}",
+              "rightValue": "",
+              "operator": { "type": "object", "operation": "exists" }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "if-form",
+      "name": "⑩ Has Form Data?",
+      "type": "n8n-nodes-base.if",
+      "position": [1950, 150],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://clara:3000/form",
+        "sendBody": true,
+        "bodyContentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ account_id: $('⑦ Build Approval Context').item.json.account_id, company: $('⑦ Build Approval Context').item.json.company, form_data: $('① Webhook — Receive Input').item.json.body.form_data }) }}",
+        "options": { "timeout": 300000 }
+      },
+      "id": "run-form",
+      "name": "⑪a Apply Form Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [2200, 100],
+      "typeVersion": 4
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://clara:3000/onboard",
+        "sendBody": true,
+        "bodyContentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ account_id: $('⑦ Build Approval Context').item.json.account_id, company: $('⑦ Build Approval Context').item.json.company }) }}",
+        "options": { "timeout": 300000 }
+      },
+      "id": "run-b",
+      "name": "⑪b Pipeline B (Onboarding Call)",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [2200, 250],
+      "typeVersion": 4
+    },
+    {
+      "parameters": {
+        "jsCode": "const ctx = $('⑦ Build Approval Context').item.json;\nconst notes = $('⑧ Wait for Approval').item.json.data?.notes || '';\nconsole.error(`🚫 Pipeline B REJECTED for ${ctx.account_id}. Notes: ${notes}`);\nreturn [{ json: { ok: false, account_id: ctx.account_id, rejected: true, notes } }];"
+      },
+      "id": "rejected",
+      "name": "⑩b Log Rejection",
+      "type": "n8n-nodes-base.code",
+      "position": [1950, 350],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "merge-b",
+      "name": "⑫ Merge B Result",
+      "type": "n8n-nodes-base.merge",
+      "position": [2450, 175],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "jsCode": "const ctx    = $('⑦ Build Approval Context').item.json;\nconst result = $input.item.json;\nconst memo   = result.files?.memo || {};\n\nreturn [{\n  json: {\n    account_id   : ctx.account_id,\n    company      : ctx.summary?.company_name,\n    pipeline_a   : '✅ v1 created',\n    pipeline_b   : result.ok ? `✅ ${result.version} created` : '❌ failed',\n    conflicts    : result.conflicts?.length ?? 0,\n    changes      : result.changes?.length  ?? 0,\n    retell_agent : memo.retell_agent_id    || ctx.summary?.retell_agent_id,\n    asana_task   : memo.asana_task_gid     || 'see v2 output',\n  }\n}];"
+      },
+      "id": "final-summary",
+      "name": "⑬ Final Summary",
+      "type": "n8n-nodes-base.code",
+      "position": [2650, 175],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {},
+      "id": "done",
+      "name": "Done",
+      "type": "n8n-nodes-base.noOp",
+      "position": [2850, 175],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "① Webhook — Receive Input": {
+      "main": [[
+        { "node": "② Acknowledge Immediately", "type": "main", "index": 0 },
+        { "node": "③ Has Transcript?",          "type": "main", "index": 0 }
+      ]]
+    },
+    "③ Has Transcript?": {
+      "main": [
+        [{ "node": "④a Pipeline A (Transcript)",     "type": "main", "index": 0 }],
+        [{ "node": "④b Pipeline A (Existing Input)", "type": "main", "index": 0 }]
+      ]
+    },
+    "④a Pipeline A (Transcript)":     { "main": [[{ "node": "⑤ Merge A Result", "type": "main", "index": 0 }]] },
+    "④b Pipeline A (Existing Input)": { "main": [[{ "node": "⑤ Merge A Result", "type": "main", "index": 1 }]] },
+    "⑤ Merge A Result":  { "main": [[{ "node": "⑥ v1 Succeeded?", "type": "main", "index": 0 }]] },
+    "⑥ v1 Succeeded?": {
+      "main": [
+        [{ "node": "⑦ Build Approval Context", "type": "main", "index": 0 }],
+        [{ "node": "⑦b Log A Failure",         "type": "main", "index": 0 }]
+      ]
+    },
+    "⑦ Build Approval Context": { "main": [[{ "node": "⑧ Wait for Approval", "type": "main", "index": 0 }]] },
+    "⑧ Wait for Approval":      { "main": [[{ "node": "⑨ Approved?",         "type": "main", "index": 0 }]] },
+    "⑨ Approved?": {
+      "main": [
+        [{ "node": "⑩ Has Form Data?", "type": "main", "index": 0 }],
+        [{ "node": "⑩b Log Rejection", "type": "main", "index": 0 }]
+      ]
+    },
+    "⑩ Has Form Data?": {
+      "main": [
+        [{ "node": "⑪a Apply Form Data",          "type": "main", "index": 0 }],
+        [{ "node": "⑪b Pipeline B (Onboarding Call)", "type": "main", "index": 0 }]
+      ]
+    },
+    "⑪a Apply Form Data":             { "main": [[{ "node": "⑫ Merge B Result", "type": "main", "index": 0 }]] },
+    "⑪b Pipeline B (Onboarding Call)":{ "main": [[{ "node": "⑫ Merge B Result", "type": "main", "index": 1 }]] },
+    "⑫ Merge B Result": { "main": [[{ "node": "⑬ Final Summary", "type": "main", "index": 0 }]] },
+    "⑬ Final Summary":  { "main": [[{ "node": "Done",            "type": "main", "index": 0 }]] }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "name": "Batch — Run All 5 Accounts (Demo + Onboarding)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start",
+      "name": "Start",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [100, 300],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  { json: { company: 'bens-electric',     account_id: 'demo_001' } },\n  { json: { company: 'acme-plumbing',     account_id: 'demo_002' } },\n  { json: { company: 'fire-protection',   account_id: 'demo_003' } },\n  { json: { company: 'hvac-solutions',    account_id: 'demo_004' } },\n  { json: { company: 'security-systems',  account_id: 'demo_005' } }\n];"
+      },
+      "id": "accounts",
+      "name": "Define Accounts",
+      "type": "n8n-nodes-base.code",
+      "position": [300, 300],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://clara:3000/run",
+        "sendBody": true,
+        "bodyContentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ account_id: $json.account_id, company: $json.company }) }}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "demo",
+      "name": "Run Demo → v1",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [550, 300],
+      "typeVersion": 4,
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://clara:3000/onboard",
+        "sendBody": true,
+        "bodyContentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ account_id: $json.account_id, company: $json.company }) }}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "onboard",
+      "name": "Run Onboarding → v2",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [800, 300],
+      "typeVersion": 4,
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\nconst account = $('Define Accounts').item.json;\nreturn [{\n  json: {\n    account_id: account.account_id,\n    company: account.company,\n    pipeline_a: item.ok ? 'success' : 'failed',\n    version: item.version || 'unknown',\n    memo: item.files?.memo?.company_name || 'unknown'\n  }\n}];"
+      },
+      "id": "summary",
+      "name": "Build Summary",
+      "type": "n8n-nodes-base.code",
+      "position": [1050, 300],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {},
+      "id": "done",
+      "name": "Done",
+      "type": "n8n-nodes-base.noOp",
+      "position": [1250, 300],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "Start":              { "main": [[{ "node": "Define Accounts",    "type": "main", "index": 0 }]] },
+    "Define Accounts":    { "main": [[{ "node": "Run Demo → v1",     "type": "main", "index": 0 }]] },
+    "Run Demo → v1":      { "main": [[{ "node": "Run Onboarding → v2", "type": "main", "index": 0 }]] },
+    "Run Onboarding → v2":{ "main": [[{ "node": "Build Summary",     "type": "main", "index": 0 }]] },
+    "Build Summary":      { "main": [[{ "node": "Done",              "type": "main", "index": 0 }]] }
+  }
+}

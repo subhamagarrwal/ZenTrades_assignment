@@ -11,6 +11,8 @@ services:
     container_name: clara_automation
     env_file:
       - ../.env
+    ports:
+      - "3000:3000"
     volumes:
       # Mount inputs so you can add audio files without rebuilding
       - ../inputs:/app/inputs
@@ -20,7 +22,8 @@ services:
       - ../changelog:/app/changelog
     working_dir: /app
     # Override command per-run (see usage below)
-    command: ["echo", "Use docker compose run clara <command>"]
+    command: ["node", "server.js"]
+    restart: unless-stopped
 
   # ─────────────────────────────────────
   # n8n Orchestrator (optional)
@@ -39,6 +42,8 @@ services:
       - n8n_data:/home/node/.n8n
       # Mount workflows for import
       - ../workflows:/home/node/workflows
+    depends_on:
+      - clara
     restart: unless-stopped
 
 volumes:
