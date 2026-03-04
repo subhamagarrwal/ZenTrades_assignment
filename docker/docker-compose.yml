@@ -1,25 +1,9 @@
 version: '3.8'
 
-services:
-  clara:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
-    container_name: clara_automation
-    env_file:
-      - ../.env
-    ports:
-      - "3000:3000"
-    volumes:
-      - ../inputs:/app/inputs
-      - ../outputs:/app/outputs
-      - ../changelog:/app/changelog
-    working_dir: /app
-    command: ["node", "server.js"]
-    restart: unless-stopped
-    networks:
-      - clara_net
+# Backend runs locally (node server.js) — only n8n is containerised.
+# n8n reaches the local backend via http://host.docker.internal:3000
 
+services:
   n8n:
     image: n8nio/n8n:latest
     container_name: clara_n8n
@@ -33,13 +17,9 @@ services:
     volumes:
       - n8n_data:/home/node/.n8n
       - ../workflows:/home/node/workflows
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: unless-stopped
-    networks:
-      - clara_net
-
-networks:
-  clara_net:
-    driver: bridge
 
 volumes:
   n8n_data:

@@ -4,44 +4,77 @@
     {
       "version_from": "v1",
       "version_to": "v2",
-      "generated_at": "2026-03-04T19:25:15.918Z",
-      "total_changes": 3,
+      "generated_at": "2026-03-04T20:50:47.549Z",
+      "total_changes": 6,
       "changes": [
         {
           "field": "company_name",
-          "before": "CBC Company",
-          "after": "Ben's Electric Solution Team",
+          "before": "Ben's Electric Solutions",
+          "after": "G&M Pressure Washing",
           "note": "Field updated"
         },
         {
-          "field": "services_supported",
+          "field": "business_hours",
+          "before": {
+            "days": [],
+            "start": null,
+            "end": null,
+            "timezone": null
+          },
+          "after": {
+            "days": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "start": "08:30",
+            "end": "17:00",
+            "timezone": null
+          },
+          "note": "Field updated"
+        },
+        {
+          "field": "emergency_definition",
           "before": [
-            "service calls",
-            "small jobs",
-            "odd jobs",
-            "renovations",
-            "troubleshooting",
-            "full projects (custom homes, tenant improvements)",
-            "EV charger installation",
-            "hot tub hookups",
-            "panel changes",
-            "service maintenance",
-            "outlet replacements",
-            "aluminum wiring mitigation",
-            "dedicated circuit installations",
-            "GFCI protection for hot tubs",
-            "underground conduit installation",
-            "electrical wiring for hot tubs"
+            "Gas pumps need immediate fixing",
+            "Emergency calls during holidays"
           ],
           "after": [
-            "Residential electrical services"
+            "calls related to the properties managed by G&M Pressure Washing, such as gas stations"
           ],
           "note": "Field updated"
         },
         {
-          "field": "notes",
-          "before": "Client is a sole proprietorship planning incorporation later in the year; owner Ben has 30 years of experience and is considering adding an operations manager (Greg). They use Jobber for scheduling and QuickBooks for accounting.",
-          "after": "Client wants Clara to mention the $115 service call fee only if the customer asks.",
+          "field": "non_emergency_routing_rules",
+          "before": {
+            "action": null,
+            "fallback": null
+          },
+          "after": {
+            "action": "Returned the next business day",
+            "fallback": null
+          },
+          "note": "Field updated"
+        },
+        {
+          "field": "after_hours_flow_summary",
+          "before": "Ben is on call after hours and decides whether to take emergency calls or defer them elsewhere.",
+          "after": "After-hours calls will be patched through to Ben.",
+          "note": "Field updated"
+        },
+        {
+          "field": "questions_or_unknowns",
+          "before": [
+            "How will the client handle calls about services they do not offer, such as generator maintenance?",
+            "How will the AI receptionist be integrated into the existing workflow?"
+          ],
+          "after": [
+            "Timezone is not explicitly stated",
+            "Physical address is not provided",
+            "Client phone number is not provided"
+          ],
           "note": "Field updated"
         }
       ],

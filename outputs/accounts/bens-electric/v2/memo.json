@@ -1,25 +1,44 @@
 {
-  "company_name": "Ben's Electric Solution Team",
-  "industry_type": "Electrical services",
+  "company_name": "G&M Pressure Washing",
+  "industry_type": "electrical services",
   "services_supported": [
-    "Residential electrical services"
+    "service calls",
+    "small jobs",
+    "odd jobs",
+    "renovations",
+    "troubleshooting",
+    "custom home projects",
+    "tenant improvements",
+    "outlet replacements",
+    "aluminum wiring mitigation",
+    "fixture replacements",
+    "EV charger wiring",
+    "dedicated circuit installation",
+    "GFCI protection",
+    "hot tub electrical work"
   ],
   "business_hours": {
-    "days": [],
-    "start": "08:00",
-    "end": null,
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "start": "08:30",
+    "end": "17:00",
     "timezone": null
   },
-  "office_address": "17119 Sundown Road, Southeast, Calgary, Alberta, P2X3B4",
+  "office_address": null,
   "emergency_definition": [
-    "Calls from regular property managers and general contractors are considered emergencies as determined by Ben"
+    "calls related to the properties managed by G&M Pressure Washing, such as gas stations"
   ],
   "emergency_routing_rules": {
     "contacts": [],
     "fallback": null
   },
   "non_emergency_routing_rules": {
-    "action": null,
+    "action": "Returned the next business day",
     "fallback": null
   },
   "call_transfer_rules": {
@@ -27,15 +46,14 @@
     "retries": null,
     "on_fail": null
   },
-  "integration_constraints": "Needs integration with Jobber (and potentially QuickBooks) for job and quote management.",
-  "after_hours_flow_summary": "Ben currently handles after‑hours calls; the client is open to using Clara AI to answer after‑hours calls and provide voicemail handling.",
-  "office_hours_flow_summary": "During business hours calls are routed to schedule appointments, prioritize club‑member customers, and may be escalated to the appropriate technician based on the service request.",
+  "integration_constraints": "Uses Jobber for CRM and QuickBooks for accounting; integration may need to connect Clara with these systems.",
+  "after_hours_flow_summary": "After-hours calls will be patched through to Ben.",
+  "office_hours_flow_summary": "Ben handles office work and takes calls during business hours, also goes out in the field for quotes and job assessments.",
   "questions_or_unknowns": [
-    "How will Clara filter different types of jobs and schedule them accordingly?",
-    "How will the booking feature integrate with the client’s existing Jobber calendar system?",
-    "Can exceptions be set up so certain calls go directly to Ben or specific team members?",
-    "How will Clara integrate with the current phone number?"
+    "Timezone is not explicitly stated",
+    "Physical address is not provided",
+    "Client phone number is not provided"
   ],
-  "notes": "Client wants Clara to mention the $115 service call fee only if the customer asks.",
+  "notes": "Client agreed to a starter plan ($249/month, 500 minutes) for a three‑month trial, with a contract to lock in pricing for 12 months if continued.",
   "account_id": "bens-electric"
 }

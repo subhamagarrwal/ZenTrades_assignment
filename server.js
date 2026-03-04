@@ -243,22 +243,21 @@ function deepMergeWithConflicts(existing, patch, path = '') {
 }
 
 // ──────────────────────────────────────────────
-// Apply onboarding form to existing memo
+// Apply onboarding form data to a memo (any base version)
+//   baseVersion: which version to read memo from ('v1' or 'v2')
+//   targetVersion: which version to write to ('v2')
 // ──────────────────────────────────────────────
-async function applyFormData(accountId, company, formData) {
-    console.log(`   📋 Applying onboarding form data...`);
+async function applyFormData(accountId, company, formData, baseVersion = 'v1', targetVersion = 'v2') {
+    console.log(`   📋 Applying onboarding form data (base: ${baseVersion} → target: ${targetVersion})...`);
 
-    // Find existing memo
     const accountDir = await findAccountOutputDir(company);
     if (!accountDir) {
         throw new Error(`No existing account found for company '${company}'. Run Pipeline A (demo) first.`);
     }
 
-    // Always read from v1 base memo
-    const baseMemoPath = path.join(accountDir, 'v1', 'memo.json');
-
+    const baseMemoPath = path.join(accountDir, baseVersion, 'memo.json');
     if (!await fs.pathExists(baseMemoPath)) {
-        throw new Error(`No v1 memo.json found at ${baseMemoPath}. Run Pipeline A first.`);
+        throw new Error(`No memo.json found at ${baseMemoPath}. Run Pipeline A first.`);
     }
 
     const existingMemo = await fs.readJson(baseMemoPath);
@@ -266,27 +265,26 @@ async function applyFormData(accountId, company, formData) {
     // Merge with conflict detection
     const { merged, conflicts } = deepMergeWithConflicts(existingMemo, formData);
 
-    // Always target v2 — form data is part of the onboarding process
-    const nextVersion = 'v2';
-    const nextDir = path.join(accountDir, nextVersion);
+    const nextDir = path.join(accountDir, targetVersion);
     await fs.ensureDir(nextDir);
 
     // Save merged memo
     merged.account_id = accountId;
     await fs.writeJson(path.join(nextDir, 'memo.json'), merged, { spaces: 2 });
-    console.log(`   ✅ Merged memo saved: ${nextDir}/memo.json`);
+    console.log(`   ✅ Merged memo saved: ${targetVersion}/memo.json`);
 
-    // Save form submission
+    // Save form submission record
     await fs.writeJson(path.join(nextDir, 'form_submission.json'), {
         submitted_at : new Date().toISOString(),
+        base_version : baseVersion,
         form_data    : formData,
     }, { spaces: 2 });
 
     // Save conflicts
     if (conflicts.length > 0) {
         await fs.writeJson(path.join(nextDir, 'conflicts.json'), {
-            detected_at   : new Date().toISOString(),
-            total         : conflicts.length,
+            detected_at : new Date().toISOString(),
+            total       : conflicts.length,
             conflicts,
         }, { spaces: 2 });
         console.log(`   ⚠️  ${conflicts.length} conflict(s) detected → conflicts.json`);
@@ -294,7 +292,7 @@ async function applyFormData(accountId, company, formData) {
         console.log(`   ✅ No conflicts`);
     }
 
-    // Build changes
+    // Build changes list
     const changes = [];
     for (const c of conflicts) {
         changes.push({ field: c.field, old: c.existing, new: c.resolved, source: 'form', conflict: true });
@@ -308,68 +306,58 @@ async function applyFormData(accountId, company, formData) {
         }
     }
 
-    await fs.writeJson(path.join(nextDir, 'changes.json'), {
-        version_from : 'v1',
-        version_to   : 'v2',
-        generated_at : new Date().toISOString(),
-        source       : 'onboarding_form',
-        changes,
-    }, { spaces: 2 });
-    console.log(`   ✅ Changes saved: ${nextDir}/changes.json`);
+    // Save / append to changes.json
+    const changesPath = path.join(nextDir, 'changes.json');
+    let existingChanges = null;
+    if (await fs.pathExists(changesPath)) {
+        existingChanges = await fs.readJson(changesPath);
+    }
 
-    // Regenerate agent spec from merged memo using inline import
+    if (existingChanges && existingChanges.changes) {
+        // Pipeline B already wrote changes — append form changes
+        existingChanges.source = (existingChanges.source || 'onboarding_call') + ' + onboarding_form';
+        existingChanges.changes.push(...changes.map(c => ({ ...c, source: 'form' })));
+        existingChanges.total_form_conflicts = conflicts.length;
+        await fs.writeJson(changesPath, existingChanges, { spaces: 2 });
+    } else {
+        await fs.writeJson(changesPath, {
+            version_from : baseVersion,
+            version_to   : targetVersion,
+            generated_at : new Date().toISOString(),
+            source       : 'onboarding_form',
+            changes,
+        }, { spaces: 2 });
+    }
+    console.log(`   ✅ Changes saved: ${targetVersion}/changes.json`);
+
+    // Regenerate agent spec from merged memo
     console.log(`   🤖 Regenerating agent spec...`);
     try {
         const { generateAgentDraftSpec } = await import('./scripts/v1/generateAgentDraftSpec.js');
-        const spec = generateAgentDraftSpec(accountId, merged, nextVersion);
+        const spec = generateAgentDraftSpec(accountId, merged, targetVersion);
 
-        // Carry forward agent_id & llm_id from v1 if they exist
-        const v1Dir = path.join(accountDir, 'v1');
-        const agentIdPath = path.join(v1Dir, 'agent_id.json');
-        const llmIdPath   = path.join(v1Dir, 'llm_id.json');
-        if (await fs.pathExists(agentIdPath)) {
-            const { agent_id } = await fs.readJson(agentIdPath);
-            spec.agent_id = agent_id;
-        }
-        if (await fs.pathExists(llmIdPath)) {
-            const { llm_id } = await fs.readJson(llmIdPath);
-            spec.llm_id = llm_id;
+        // Carry forward agent_id & llm_id from v1
+        for (const idFile of ['agent_id.json', 'llm_id.json']) {
+            const src = path.join(accountDir, 'v1', idFile);
+            if (await fs.pathExists(src)) {
+                const data = await fs.readJson(src);
+                if (data.agent_id) spec.agent_id = data.agent_id;
+                if (data.llm_id)   spec.llm_id   = data.llm_id;
+            }
         }
 
         await fs.writeJson(path.join(nextDir, 'agentDraftSpec.json'), spec, { spaces: 2 });
         console.log(`   ✅ agentDraftSpec.json regenerated`);
     } catch (specErr) {
         console.warn(`   ⚠️  Agent spec regeneration failed: ${specErr.message}`);
-        // Fallback: copy v1 spec if it exists
-        const v1Spec = path.join(accountDir, 'v1', 'agentDraftSpec.json');
-        if (await fs.pathExists(v1Spec)) {
-            await fs.copy(v1Spec, path.join(nextDir, 'agentDraftSpec.json'));
+        const fallbackSpec = path.join(accountDir, 'v1', 'agentDraftSpec.json');
+        if (await fs.pathExists(fallbackSpec)) {
+            await fs.copy(fallbackSpec, path.join(nextDir, 'agentDraftSpec.json'));
             console.log(`   ⚠️  Copied v1 agentDraftSpec.json as fallback`);
         }
     }
 
-    // Update changelog
-    const changelogDir = path.resolve(__dirname, 'changelog');
-    await fs.ensureDir(changelogDir);
-    const changelogPath = path.join(changelogDir, `${accountId}.json`);
-    let changelog = [];
-    if (await fs.pathExists(changelogPath)) {
-        const raw = await fs.readJson(changelogPath);
-        changelog = Array.isArray(raw) ? raw : [];  // ← FIX: ensure array
-    }
-    changelog.push({
-        version_from : 'v1',
-        version_to   : 'v2',
-        source       : 'onboarding_form',
-        generated_at : new Date().toISOString(),
-        total_changes: changes.length,
-        total_conflicts: conflicts.length,
-        changes,
-    });
-    await fs.writeJson(changelogPath, changelog, { spaces: 2 });
-    console.log(`   ✅ Changelog updated`);
-
-    return { nextVersion, merged, conflicts, changes };
+    return { nextVersion: targetVersion, merged, conflicts, changes };
 }
 
 // ──────────────────────────────────────────────
@@ -432,15 +420,18 @@ const server = http.createServer(async (req, res) => {
             return;
         }
 
-        // ── Pipeline B: Onboarding call → v2 ──
-        // Accepts:
-        //   1. onboarding_path → audio file (.mp3/.m4a/.wav/etc) → transcribe then LLM
-        //   2. onboarding_path → transcript (.txt) → LLM directly
-        //   3. transcript (inline text) → LLM directly
-        //   4. audio (uploaded binary) → save + transcribe then LLM
-        //   5. form_data (JSON object) → directly edit agentDraftSpec + memo, no LLM
+        // ── Pipeline B: Onboarding → v2 ──
+        // Accepts any combination of:
+        //   • onboarding_path (audio or .txt)  → transcribe if audio, then LLM
+        //   • transcript (inline text)          → save, then LLM
+        //   • audio (uploaded binary)           → save + transcribe, then LLM
+        //   • form_data (JSON object)           → direct merge on top (can be standalone OR combined)
         //
-        // If format is unsupported → reject with console error BEFORE any API calls.
+        // Combined: transcript/audio runs Pipeline B first → produces v2.
+        //           Then form_data is merged ON TOP of the v2 memo.
+        // Form only: skips LLM, merges form onto v1 memo → v2.
+        //
+        // Unsupported formats → reject with console error BEFORE any API calls.
         if (route === 'POST /onboard') {
             const { account_id, company, transcript, audio, onboarding_path, form_data } = await parseInput(req);
 
@@ -452,132 +443,131 @@ const server = http.createServer(async (req, res) => {
 
             console.log(`▶ PIPELINE B: ${company} → ${account_id}`);
 
-            // ────────────────────────────────────────
-            // BRANCH 1: Form data → direct field edit
-            // ────────────────────────────────────────
-            if (form_data && typeof form_data === 'object') {
-                console.log(`   📋 Form data detected — applying direct field edits (no LLM)`);
-                const result = await applyFormData(account_id, company, form_data);
-                const outputs = await readOutputs(company, result.nextVersion);
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({
-                    ok        : true,
-                    pipeline  : 'B (form)',
-                    ...outputs,
-                    conflicts : result.conflicts,
-                    changes   : result.changes,
-                }));
-                return;
-            }
+            const hasTranscriptInput = !!(onboarding_path || audio || transcript);
+            const hasFormData = !!(form_data && typeof form_data === 'object' && Object.keys(form_data).length > 0);
 
-            // ────────────────────────────────────────
-            // BRANCH 2: Audio or Transcript path/content
-            // ────────────────────────────────────────
-            let relativeToInputs;
-
-            if (onboarding_path) {
-                const cleaned = onboarding_path
-                    .replace(/^inputs[\\/]/, '')
-                    .replace(/\\/g, '/');
-                const ext = path.extname(cleaned).toLowerCase();
-
-                // ── Format validation — reject early ──
-                if (!isTranscriptExt(ext) && !isSupportedAudioExt(ext)) {
-                    console.error(`❌ Unsupported file format: "${ext}"`);
-                    console.error(`   Supported audio: ${[...SUPPORTED_AUDIO_EXTS].join(', ')}`);
-                    console.error(`   Supported text:  .txt`);
-                    console.error(`   ⛔ Stopping pipeline — no API calls made.`);
+            if (!hasTranscriptInput && !hasFormData) {
+                // Check for existing transcript on disk as last resort
+                const existing = path.resolve(__dirname, 'inputs', company, 'transcripts', 'onboarding', 'transcript.txt');
+                if (!await fs.pathExists(existing)) {
                     res.writeHead(400, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({
-                        error: `Unsupported file format: "${ext}". Supported: .txt, ${[...SUPPORTED_AUDIO_EXTS].join(', ')}`,
+                        error: 'No input provided. Send at least one of: onboarding_path, transcript, audio, or form_data',
                     }));
                     return;
                 }
+                // Fallback to existing transcript
+                console.log(`   📄 Using existing transcript on disk`);
+            }
 
-                if (isSupportedAudioExt(ext)) {
-                    // ── Audio file path → transcribe first (skip if transcript exists) ──
-                    const existingTranscript = path.resolve(__dirname, 'inputs', company, 'transcripts', 'onboarding', 'transcript.txt');
+            // ──────────────────────────────────────────
+            // PHASE 1: Audio / Transcript → LLM → v2
+            // ──────────────────────────────────────────
+            let pipelineBRan = false;
 
-                    if (await fs.pathExists(existingTranscript)) {
-                        console.log(`   ⏭️  Transcript already exists, skipping Whisper: ${existingTranscript}`);
-                    } else {
-                        console.log(`   🎵 Audio detected (${ext}): ${cleaned}`);
-                        const absAudioPath = path.resolve(__dirname, 'inputs', cleaned);
+            if (hasTranscriptInput || (!hasFormData)) {
+                let relativeToInputs;
 
-                        if (!await fs.pathExists(absAudioPath)) {
-                            res.writeHead(400, { 'Content-Type': 'application/json' });
-                            res.end(JSON.stringify({ error: `Audio file not found: inputs/${cleaned}` }));
-                            return;
-                        }
+                if (onboarding_path) {
+                    const cleaned = onboarding_path.replace(/^inputs[\\/]/, '').replace(/\\/g, '/');
+                    const ext = path.extname(cleaned).toLowerCase();
 
-                        console.log(`   🎵 Transcribing with Whisper...`);
-                        await execAsync(
-                            `node scripts/transcribeAudio.js "${absAudioPath}"`,
-                            { cwd: __dirname, timeout: 300000 }
-                        );
-                        console.log(`   ✅ Transcription complete`);
+                    // Format validation — reject early
+                    if (!isTranscriptExt(ext) && !isSupportedAudioExt(ext)) {
+                        console.error(`❌ Unsupported file format: "${ext}"`);
+                        console.error(`   Supported audio: ${[...SUPPORTED_AUDIO_EXTS].join(', ')}`);
+                        console.error(`   Supported text:  .txt`);
+                        console.error(`   ⛔ Stopping pipeline — no API calls made.`);
+                        res.writeHead(400, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({
+                            error: `Unsupported file format: "${ext}". Supported: .txt, ${[...SUPPORTED_AUDIO_EXTS].join(', ')}`,
+                        }));
+                        return;
                     }
 
+                    if (isSupportedAudioExt(ext)) {
+                        const existingTranscript = path.resolve(__dirname, 'inputs', company, 'transcripts', 'onboarding', 'transcript.txt');
+                        if (await fs.pathExists(existingTranscript)) {
+                            console.log(`   ⏭️  Transcript already exists, skipping Whisper`);
+                        } else {
+                            console.log(`   🎵 Audio detected (${ext}): ${cleaned}`);
+                            const absAudioPath = path.resolve(__dirname, 'inputs', cleaned);
+                            if (!await fs.pathExists(absAudioPath)) {
+                                res.writeHead(400, { 'Content-Type': 'application/json' });
+                                res.end(JSON.stringify({ error: `Audio file not found: inputs/${cleaned}` }));
+                                return;
+                            }
+                            console.log(`   🎵 Transcribing with Whisper...`);
+                            await execAsync(`node scripts/transcribeAudio.js "${absAudioPath}"`, { cwd: __dirname, timeout: 300000 });
+                            console.log(`   ✅ Transcription complete`);
+                        }
+                        relativeToInputs = `${company}/transcripts/onboarding/transcript.txt`;
+                    } else {
+                        relativeToInputs = cleaned;
+                    }
+                } else if (audio) {
+                    const ext = path.extname(audio.filename).toLowerCase();
+                    if (!isSupportedAudioExt(ext)) {
+                        console.error(`❌ Unsupported uploaded audio format: "${ext}" (file: ${audio.filename})`);
+                        console.error(`   Supported: ${[...SUPPORTED_AUDIO_EXTS].join(', ')}`);
+                        console.error(`   ⛔ Stopping pipeline — no API calls made.`);
+                        res.writeHead(400, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({
+                            error: `Unsupported audio format: "${ext}". Supported: ${[...SUPPORTED_AUDIO_EXTS].join(', ')}`,
+                        }));
+                        return;
+                    }
+                    const existingTranscript = path.resolve(__dirname, 'inputs', company, 'transcripts', 'onboarding', 'transcript.txt');
+                    if (await fs.pathExists(existingTranscript)) {
+                        console.log(`   ⏭️  Transcript already exists, skipping upload+transcription`);
+                    } else {
+                        console.log(`   🎵 Uploaded audio (${ext}): ${audio.filename}`);
+                        await saveInputAndTranscribe(company, 'onboarding', null, audio);
+                    }
+                    relativeToInputs = `${company}/transcripts/onboarding/transcript.txt`;
+                } else if (transcript) {
+                    console.log(`   📄 Saving inline transcript...`);
+                    await saveInputAndTranscribe(company, 'onboarding', transcript, null);
                     relativeToInputs = `${company}/transcripts/onboarding/transcript.txt`;
                 } else {
-                    // ── .txt transcript path ──
-                    relativeToInputs = cleaned;
-                }
-            } else if (audio) {
-                // ── Uploaded audio binary → validate format, save & transcribe ──
-                const ext = path.extname(audio.filename).toLowerCase();
-
-                if (!isSupportedAudioExt(ext)) {
-                    console.error(`❌ Unsupported uploaded audio format: "${ext}" (file: ${audio.filename})`);
-                    console.error(`   Supported: ${[...SUPPORTED_AUDIO_EXTS].join(', ')}`);
-                    console.error(`   ⛔ Stopping pipeline — no API calls made.`);
-                    res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({
-                        error: `Unsupported audio format: "${ext}". Supported: ${[...SUPPORTED_AUDIO_EXTS].join(', ')}`,
-                    }));
-                    return;
+                    relativeToInputs = `${company}/transcripts/onboarding/transcript.txt`;
                 }
 
-                const existingTranscript = path.resolve(__dirname, 'inputs', company, 'transcripts', 'onboarding', 'transcript.txt');
-                if (await fs.pathExists(existingTranscript)) {
-                    console.log(`   ⏭️  Transcript already exists, skipping upload+transcription`);
-                } else {
-                    console.log(`   🎵 Uploaded audio (${ext}): ${audio.filename}`);
-                    await saveInputAndTranscribe(company, 'onboarding', null, audio);
-                }
-                relativeToInputs = `${company}/transcripts/onboarding/transcript.txt`;
-            } else if (transcript) {
-                // ── Raw transcript text → save to file, then LLM ──
-                console.log(`   📄 Saving inline transcript...`);
-                await saveInputAndTranscribe(company, 'onboarding', transcript, null);
-                relativeToInputs = `${company}/transcripts/onboarding/transcript.txt`;
-            } else {
-                // ── Fallback: use existing transcript on disk ──
-                const existingTranscript = path.resolve(__dirname, 'inputs', company, 'transcripts', 'onboarding', 'transcript.txt');
-                if (!await fs.pathExists(existingTranscript)) {
-                    res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({
-                        error: `No input provided and no existing transcript found at inputs/${company}/transcripts/onboarding/transcript.txt`,
-                    }));
-                    return;
-                }
-                relativeToInputs = `${company}/transcripts/onboarding/transcript.txt`;
+                console.log(`   🟢 Running Pipeline B (LLM) with: ${relativeToInputs}`);
+                await execAsync(
+                    `node scripts/v2/runOnboarding.js "${relativeToInputs}" "${account_id}" "${company}"`,
+                    { cwd: __dirname, timeout: 300000 }
+                );
+                console.log(`   ✅ Pipeline B (LLM) complete`);
+                pipelineBRan = true;
             }
 
-            console.log(`   🟢 Running Pipeline B with: ${relativeToInputs}`);
-            const { stdout } = await execAsync(
-                `node scripts/v2/runOnboarding.js "${relativeToInputs}" "${account_id}" "${company}"`,
-                { cwd: __dirname, timeout: 300000 }
-            );
-            console.log(`   ✅ Pipeline B complete`);
+            // ──────────────────────────────────────────
+            // PHASE 2: Form data → merge on top
+            // ──────────────────────────────────────────
+            let formResult = null;
+            if (hasFormData) {
+                // If Pipeline B just wrote v2, merge form on top of v2.
+                // If Pipeline B didn't run, merge form onto v1 → v2.
+                const baseVer = pipelineBRan ? 'v2' : 'v1';
+                console.log(`   📋 Applying form data on top of ${baseVer}...`);
+                formResult = await applyFormData(account_id, company, form_data, baseVer, 'v2');
+                console.log(`   ✅ Form merge complete`);
+            }
 
-            const outputs = await readOutputs(company);
+            const outputs = await readOutputs(company, 'v2');
+            const response = { ok: true, pipeline: 'B', ...outputs };
+            if (formResult) {
+                response.form_applied = true;
+                response.conflicts    = formResult.conflicts;
+                response.form_changes = formResult.changes;
+            }
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ ok: true, pipeline: 'B', ...outputs }));
+            res.end(JSON.stringify(response));
             return;
         }
 
-        // ── Pipeline C: Onboarding FORM → v(n+1) ──
+        // ── Pipeline C: Standalone form → v2 (kept for backward compat) ──
         if (route === 'POST /form') {
             const { account_id, company, form_data } = await parseInput(req);
 
@@ -595,8 +585,7 @@ const server = http.createServer(async (req, res) => {
 
             console.log(`▶ FORM SUBMISSION: ${company} → ${account_id}`);
 
-            const result = await applyFormData(account_id, company, form_data);
-
+            const result = await applyFormData(account_id, company, form_data, 'v1', 'v2');
             const outputs = await readOutputs(company, result.nextVersion);
 
             res.writeHead(200, { 'Content-Type': 'application/json' });

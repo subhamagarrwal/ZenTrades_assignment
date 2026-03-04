@@ -1,33 +1,50 @@
-{
-  "name": "Full Pipeline — A → Approval → B",
+﻿{
+  "name": "Clara Pipeline - v1 (Demo) + v2 (Onboarding)",
   "nodes": [
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "start",
+        "path": "v1",
         "responseMode": "lastNode",
         "options": {}
       },
-      "id": "webhook-a",
-      "name": "Webhook /start",
+      "id": "webhook-v1",
+      "name": "Webhook /v1",
       "type": "n8n-nodes-base.webhook",
       "position": [100, 300],
-      "webhookId": "pipeline-start",
+      "webhookId": "pipeline-v1",
       "typeVersion": 1
     },
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "approve",
-        "responseMode": "lastNode",
-        "options": {}
+        "jsCode": "const body = $input.item.json.body;\n\nif (!body.account_id || !body.company) {\n  return [{ json: { ok: false, error: 'account_id and company are required' } }];\n}\n\nconst inputPath = body.transcript_path || (body.company + '/transcripts/demo/transcript.txt');\nconst ext = inputPath.split('.').pop().toLowerCase();\n\nconst audioExts = ['mp3','wav','m4a','ogg','flac','webm','aac','wma','mp4','mpeg','mpga'];\nconst validExts = ['txt', ...audioExts];\n\nif (!validExts.includes(ext)) {\n  return [{ json: {\n    ok: false,\n    error: 'Unsupported file format: .' + ext + '. Supported: .txt, .' + audioExts.join(', .'),\n    hint: 'Provide a .txt transcript or a Whisper-compatible audio file'\n  }}];\n}\n\nreturn [{ json: {\n  valid: true,\n  account_id: body.account_id,\n  company: body.company,\n  transcript_path: body.transcript_path || null,\n  input_type: ext === 'txt' ? 'transcript' : 'audio',\n  ext: ext\n}}];"
       },
-      "id": "webhook-b",
-      "name": "Webhook /approve",
-      "type": "n8n-nodes-base.webhook",
-      "position": [100, 650],
-      "webhookId": "pipeline-approve",
-      "typeVersion": 1
+      "id": "validate-v1",
+      "name": "Validate v1 Input",
+      "type": "n8n-nodes-base.code",
+      "position": [350, 300],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": false, "leftValue": "", "typeValidation": "loose" },
+          "conditions": [
+            {
+              "id": "valid-v1-check",
+              "leftValue": "={{ $json.valid }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "true" }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "if-v1-valid",
+      "name": "v1 Valid?",
+      "type": "n8n-nodes-base.if",
+      "position": [580, 300],
+      "typeVersion": 2
     },
     {
       "parameters": {
@@ -35,23 +52,26 @@
         "url": "http://host.docker.internal:3000/run",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ account_id: $json.body.account_id, company: $json.body.company, transcript_path: $json.body.transcript_path }) }}",
+        "jsonBody": "={{ JSON.stringify({ account_id: $('Validate v1 Input').item.json.account_id, company: $('Validate v1 Input').item.json.company, transcript_path: $('Validate v1 Input').item.json.transcript_path }) }}",
         "options": { "timeout": 300000 }
       },
       "id": "run-pipeline-a",
-      "name": "Pipeline A — POST /run",
+      "name": "POST /run (v1)",
       "type": "n8n-nodes-base.httpRequest",
-      "position": [400, 300],
-      "typeVersion": 4
+      "position": [830, 200],
+      "typeVersion": 4,
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 5000
     },
     {
       "parameters": {
-        "jsCode": "const result = $input.item.json;\nconst body   = $('Webhook /start').item.json.body;\n\nif (!result.ok) {\n  return [{ json: {\n    ok      : false,\n    error   : 'Pipeline A failed',\n    details : result\n  }}];\n}\n\nconst memo = result.files?.memo || {};\nconst spec = result.files?.agentDraftSpec || {};\n\nreturn [{ json: {\n  ok          : true,\n  account_id  : body.account_id,\n  company     : body.company,\n  message     : 'Pipeline A complete. Review v1 summary then POST to /approve.',\n  next_step   : {\n    url    : 'POST http://localhost:5678/webhook-test/approve',\n    approve: { account_id: body.account_id, company: body.company, decision: 'approve' },\n    reject : { account_id: body.account_id, company: body.company, decision: 'reject'  }\n  },\n  v1_summary: {\n    company_name    : memo.company_name          || body.company,\n    industry        : memo.industry_type         || 'unknown',\n    services        : memo.services_supported    || [],\n    business_hours  : memo.business_hours        || {},\n    office_address  : memo.office_address        || null,\n    emergency_def   : memo.emergency_definition  || [],\n    emergency_contacts: memo.emergency_routing_rules?.contacts || [],\n    after_hours     : memo.after_hours_flow_summary  || '',\n    office_hours    : memo.office_hours_flow_summary || '',\n    agent_name      : spec.agent_name            || 'unnamed',\n    retell_agent_id : spec.retell_agent_id       || 'not created',\n    asana_task      : memo.asana_task_gid        || 'not created',\n    unknowns        : memo.questions_or_unknowns || []\n  }\n}}];"
+        "jsCode": "const result = $input.item.json;\nconst ctx = $('Validate v1 Input').item.json;\n\nif (!result.ok) {\n  return [{ json: {\n    ok: false,\n    error: 'Pipeline A failed',\n    account_id: ctx.account_id,\n    company: ctx.company,\n    details: result.error || result\n  }}];\n}\n\nconst memo = result.files?.memo || {};\nconst spec = result.files?.agentDraftSpec || {};\n\nreturn [{ json: {\n  ok: true,\n  pipeline: 'A (demo -> v1)',\n  account_id: ctx.account_id,\n  company: ctx.company,\n  version: result.version || 'v1',\n  summary: {\n    company_name: memo.company_name || ctx.company,\n    industry: memo.industry_type || 'unknown',\n    services_count: (memo.services_supported || []).length,\n    business_hours: memo.business_hours || {},\n    office_address: memo.office_address || null,\n    emergency_contacts: (memo.emergency_routing_rules?.contacts || []).length,\n    agent_name: spec.agent_name || 'unnamed',\n    agent_id: spec.agent_id || null,\n    llm_id: spec.llm_id || null,\n    unknowns: memo.questions_or_unknowns || []\n  }\n}}];"
       },
-      "id": "build-v1-summary",
-      "name": "Build v1 Summary",
+      "id": "summary-v1",
+      "name": "v1 Summary",
       "type": "n8n-nodes-base.code",
-      "position": [700, 300],
+      "position": [1080, 200],
       "typeVersion": 2
     },
     {
@@ -59,92 +79,67 @@
         "respondWith": "json",
         "responseBody": "={{ JSON.stringify($json, null, 2) }}"
       },
-      "id": "respond-a",
-      "name": "Respond — Review v1",
+      "id": "respond-v1-ok",
+      "name": "Respond v1 OK",
       "type": "n8n-nodes-base.respondToWebhook",
-      "position": [1000, 300],
+      "position": [1330, 200],
       "typeVersion": 1
     },
     {
       "parameters": {
-        "jsCode": "const body = $('Webhook /approve').item.json.body;\nconst decision = (body.decision || '').toLowerCase().trim();\n\nif (decision !== 'approve') {\n  return [{ json: {\n    ok       : false,\n    rejected : true,\n    account_id: body.account_id,\n    notes    : body.notes || 'No notes provided'\n  }}];\n}\n\n// Pass through for next node\nreturn [{ json: {\n  approved   : true,\n  account_id : body.account_id,\n  company    : body.company,\n  has_form   : !!(body.form_data && Object.keys(body.form_data).length > 0),\n  form_data  : body.form_data || null,\n  onboarding_path: body.onboarding_path || null\n}}];"
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json, null, 2) }}"
       },
-      "id": "check-decision",
-      "name": "Check Decision",
+      "id": "respond-v1-err",
+      "name": "Respond v1 Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [830, 420],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "v2",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "webhook-v2",
+      "name": "Webhook /v2",
+      "type": "n8n-nodes-base.webhook",
+      "position": [100, 750],
+      "webhookId": "pipeline-v2",
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.item.json.body;\n\nif (!body.account_id || !body.company) {\n  return [{ json: { ok: false, error: 'account_id and company are required' } }];\n}\n\nconst audioExts = ['mp3','wav','m4a','ogg','flac','webm','aac','wma','mp4','mpeg','mpga'];\nconst validExts = ['txt', ...audioExts];\n\nconst hasPath = !!body.onboarding_path;\nconst hasTranscript = !!body.transcript;\nconst hasForm = !!(body.form_data && typeof body.form_data === 'object' && Object.keys(body.form_data).length > 0);\nconst hasAny = hasPath || hasTranscript || hasForm;\n\nif (!hasAny) {\n  return [{ json: {\n    ok: false,\n    error: 'No input provided. Send at least one of: onboarding_path, transcript, or form_data'\n  }}];\n}\n\nif (hasPath) {\n  const ext = body.onboarding_path.split('.').pop().toLowerCase();\n  if (!validExts.includes(ext)) {\n    return [{ json: {\n      ok: false,\n      error: 'Unsupported file format: .' + ext + '. Supported: .txt, .' + audioExts.join(', .'),\n      hint: 'Provide a .txt transcript or a Whisper-compatible audio file'\n    }}];\n  }\n}\n\nreturn [{ json: {\n  valid: true,\n  account_id: body.account_id,\n  company: body.company,\n  onboarding_path: body.onboarding_path || null,\n  transcript: body.transcript || null,\n  form_data: body.form_data || null,\n  has_transcript_input: hasPath || hasTranscript,\n  has_form: hasForm,\n  input_summary: [\n    hasPath ? ('path: ' + body.onboarding_path) : null,\n    hasTranscript ? 'inline transcript' : null,\n    hasForm ? ('form (' + Object.keys(body.form_data).length + ' fields)') : null\n  ].filter(Boolean).join(' + ')\n}}];"
+      },
+      "id": "validate-v2",
+      "name": "Validate v2 Input",
       "type": "n8n-nodes-base.code",
-      "position": [400, 650],
+      "position": [350, 750],
       "typeVersion": 2
     },
     {
       "parameters": {
         "conditions": {
-          "options": {
-            "caseSensitive": false,
-            "leftValue": "",
-            "typeValidation": "loose"
-          },
+          "options": { "caseSensitive": false, "leftValue": "", "typeValidation": "loose" },
           "conditions": [
             {
-              "id": "approved-check",
-              "leftValue": "={{ $json.approved }}",
+              "id": "valid-v2-check",
+              "leftValue": "={{ $json.valid }}",
               "rightValue": true,
-              "operator": {
-                "type": "boolean",
-                "operation": "true"
-              }
+              "operator": { "type": "boolean", "operation": "true" }
             }
           ],
           "combinator": "and"
         }
       },
-      "id": "if-approved",
-      "name": "Approved?",
+      "id": "if-v2-valid",
+      "name": "v2 Valid?",
       "type": "n8n-nodes-base.if",
-      "position": [700, 650],
+      "position": [600, 750],
       "typeVersion": 2
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": false,
-            "leftValue": "",
-            "typeValidation": "loose"
-          },
-          "conditions": [
-            {
-              "id": "form-check",
-              "leftValue": "={{ $json.has_form }}",
-              "rightValue": true,
-              "operator": {
-                "type": "boolean",
-                "operation": "true"
-              }
-            }
-          ],
-          "combinator": "and"
-        }
-      },
-      "id": "if-form",
-      "name": "Has Form Data?",
-      "type": "n8n-nodes-base.if",
-      "position": [1000, 500],
-      "typeVersion": 2
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "http://host.docker.internal:3000/form",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ account_id: $('Check Decision').item.json.account_id, company: $('Check Decision').item.json.company, form_data: $('Check Decision').item.json.form_data }) }}",
-        "options": { "timeout": 300000 }
-      },
-      "id": "run-form",
-      "name": "Apply Form Data → v2",
-      "type": "n8n-nodes-base.httpRequest",
-      "position": [1300, 400],
-      "typeVersion": 4
     },
     {
       "parameters": {
@@ -152,34 +147,26 @@
         "url": "http://host.docker.internal:3000/onboard",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ account_id: $('Check Decision').item.json.account_id, company: $('Check Decision').item.json.company, onboarding_path: $('Check Decision').item.json.onboarding_path }) }}",
+        "jsonBody": "={{ JSON.stringify({ account_id: $('Validate v2 Input').item.json.account_id, company: $('Validate v2 Input').item.json.company, onboarding_path: $('Validate v2 Input').item.json.onboarding_path, transcript: $('Validate v2 Input').item.json.transcript, form_data: $('Validate v2 Input').item.json.form_data }) }}",
         "options": { "timeout": 300000 }
       },
-      "id": "run-b",
-      "name": "Pipeline B — POST /onboard",
+      "id": "run-pipeline-b",
+      "name": "POST /onboard (v2)",
       "type": "n8n-nodes-base.httpRequest",
-      "position": [1300, 600],
-      "typeVersion": 4
+      "position": [870, 650],
+      "typeVersion": 4,
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 5000
     },
     {
       "parameters": {
-        "respondWith": "json",
-        "responseBody": "={{ JSON.stringify($json, null, 2) }}"
+        "jsCode": "const result = $input.item.json;\nconst ctx = $('Validate v2 Input').item.json;\n\nif (!result.ok) {\n  return [{ json: {\n    ok: false,\n    error: 'Pipeline B failed',\n    account_id: ctx.account_id,\n    company: ctx.company,\n    input_summary: ctx.input_summary,\n    details: result.error || result\n  }}];\n}\n\nconst memo = result.files?.memo || {};\nconst spec = result.files?.agentDraftSpec || {};\nconst changes = result.files?.changes || {};\n\nreturn [{ json: {\n  ok: true,\n  pipeline: 'B (onboarding -> v2)',\n  account_id: ctx.account_id,\n  company: ctx.company,\n  version: result.version || 'v2',\n  input_summary: ctx.input_summary,\n  form_applied: result.form_applied || false,\n  summary: {\n    company_name: memo.company_name || ctx.company,\n    total_changes: changes.total_changes || (changes.changes || []).length,\n    source: changes.source || 'unknown',\n    agent_name: spec.agent_name || 'unnamed',\n    agent_id: spec.agent_id || null,\n    llm_id: spec.llm_id || null,\n    unknowns_remaining: memo.questions_or_unknowns || []\n  }\n}}];"
       },
-      "id": "respond-rejected",
-      "name": "Respond — Rejected",
-      "type": "n8n-nodes-base.respondToWebhook",
-      "position": [1000, 800],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "jsCode": "const result = $input.item.json;\nconst ctx    = $('Check Decision').item.json;\nconst memo   = result.files?.memo || {};\n\nreturn [{ json: {\n  ok           : result.ok,\n  account_id   : ctx.account_id,\n  company      : ctx.company,\n  pipeline_a   : '✅ v1 created',\n  pipeline_b   : result.ok ? `✅ ${result.version || 'v2'} created` : '❌ failed',\n  conflicts    : result.conflicts?.length ?? 0,\n  changes      : result.changes?.length   ?? 0,\n  retell_agent : memo.retell_agent_id     || 'see outputs',\n  asana_task   : memo.asana_task_gid      || 'see outputs',\n  unknowns_remaining: memo.questions_or_unknowns || []\n}}];"
-      },
-      "id": "final-summary",
-      "name": "Final Summary",
+      "id": "summary-v2",
+      "name": "v2 Summary",
       "type": "n8n-nodes-base.code",
-      "position": [1600, 500],
+      "position": [1120, 650],
       "typeVersion": 2
     },
     {
@@ -187,45 +174,60 @@
         "respondWith": "json",
         "responseBody": "={{ JSON.stringify($json, null, 2) }}"
       },
-      "id": "respond-b",
-      "name": "Respond — Pipeline B Done",
+      "id": "respond-v2-ok",
+      "name": "Respond v2 OK",
       "type": "n8n-nodes-base.respondToWebhook",
-      "position": [1900, 500],
+      "position": [1370, 650],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json, null, 2) }}"
+      },
+      "id": "respond-v2-err",
+      "name": "Respond v2 Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [870, 870],
       "typeVersion": 1
     }
   ],
   "connections": {
-    "Webhook /start": {
-      "main": [[{ "node": "Pipeline A — POST /run", "type": "main", "index": 0 }]]
+    "Webhook /v1": {
+      "main": [[{ "node": "Validate v1 Input", "type": "main", "index": 0 }]]
     },
-    "Pipeline A — POST /run": {
-      "main": [[{ "node": "Build v1 Summary", "type": "main", "index": 0 }]]
+    "Validate v1 Input": {
+      "main": [[{ "node": "v1 Valid?", "type": "main", "index": 0 }]]
     },
-    "Build v1 Summary": {
-      "main": [[{ "node": "Respond — Review v1", "type": "main", "index": 0 }]]
-    },
-    "Webhook /approve": {
-      "main": [[{ "node": "Check Decision", "type": "main", "index": 0 }]]
-    },
-    "Check Decision": {
-      "main": [[{ "node": "Approved?", "type": "main", "index": 0 }]]
-    },
-    "Approved?": {
+    "v1 Valid?": {
       "main": [
-        [{ "node": "Has Form Data?",    "type": "main", "index": 0 }],
-        [{ "node": "Respond — Rejected","type": "main", "index": 0 }]
+        [{ "node": "POST /run (v1)", "type": "main", "index": 0 }],
+        [{ "node": "Respond v1 Error", "type": "main", "index": 0 }]
       ]
     },
-    "Has Form Data?": {
+    "POST /run (v1)": {
+      "main": [[{ "node": "v1 Summary", "type": "main", "index": 0 }]]
+    },
+    "v1 Summary": {
+      "main": [[{ "node": "Respond v1 OK", "type": "main", "index": 0 }]]
+    },
+    "Webhook /v2": {
+      "main": [[{ "node": "Validate v2 Input", "type": "main", "index": 0 }]]
+    },
+    "Validate v2 Input": {
+      "main": [[{ "node": "v2 Valid?", "type": "main", "index": 0 }]]
+    },
+    "v2 Valid?": {
       "main": [
-        [{ "node": "Apply Form Data → v2",    "type": "main", "index": 0 }],
-        [{ "node": "Pipeline B — POST /onboard","type": "main", "index": 0 }]
+        [{ "node": "POST /onboard (v2)", "type": "main", "index": 0 }],
+        [{ "node": "Respond v2 Error", "type": "main", "index": 0 }]
       ]
     },
-    "Apply Form Data → v2":       { "main": [[{ "node": "Final Summary", "type": "main", "index": 0 }]] },
-    "Pipeline B — POST /onboard": { "main": [[{ "node": "Final Summary", "type": "main", "index": 0 }]] },
-    "Final Summary": {
-      "main": [[{ "node": "Respond — Pipeline B Done", "type": "main", "index": 0 }]]
+    "POST /onboard (v2)": {
+      "main": [[{ "node": "v2 Summary", "type": "main", "index": 0 }]]
+    },
+    "v2 Summary": {
+      "main": [[{ "node": "Respond v2 OK", "type": "main", "index": 0 }]]
     }
   }
 }

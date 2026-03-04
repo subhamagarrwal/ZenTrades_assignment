@@ -1,33 +1,32 @@
 {
-  "company_name": "CBC Company",
-  "industry_type": "Electrical services",
+  "company_name": "Ben's Electric Solutions",
+  "industry_type": "electrical services",
   "services_supported": [
     "service calls",
     "small jobs",
     "odd jobs",
     "renovations",
     "troubleshooting",
-    "full projects (custom homes, tenant improvements)",
-    "EV charger installation",
-    "hot tub hookups",
-    "panel changes",
-    "service maintenance",
+    "custom home projects",
+    "tenant improvements",
     "outlet replacements",
     "aluminum wiring mitigation",
-    "dedicated circuit installations",
-    "GFCI protection for hot tubs",
-    "underground conduit installation",
-    "electrical wiring for hot tubs"
+    "fixture replacements",
+    "EV charger wiring",
+    "dedicated circuit installation",
+    "GFCI protection",
+    "hot tub electrical work"
   ],
   "business_hours": {
     "days": [],
-    "start": "08:00",
+    "start": null,
     "end": null,
     "timezone": null
   },
-  "office_address": "17119 Sundown Road, Southeast, Calgary, Alberta, P2X3B4",
+  "office_address": null,
   "emergency_definition": [
-    "Calls from regular property managers and general contractors are considered emergencies as determined by Ben"
+    "Gas pumps need immediate fixing",
+    "Emergency calls during holidays"
   ],
   "emergency_routing_rules": {
     "contacts": [],
@@ -42,15 +41,13 @@
     "retries": null,
     "on_fail": null
   },
-  "integration_constraints": "Needs integration with Jobber (and potentially QuickBooks) for job and quote management.",
-  "after_hours_flow_summary": "Ben currently handles after‑hours calls; the client is open to using Clara AI to answer after‑hours calls and provide voicemail handling.",
-  "office_hours_flow_summary": "During business hours calls are routed to schedule appointments, prioritize club‑member customers, and may be escalated to the appropriate technician based on the service request.",
+  "integration_constraints": "Uses Jobber for CRM and QuickBooks for accounting; integration may need to connect Clara with these systems.",
+  "after_hours_flow_summary": "Ben is on call after hours and decides whether to take emergency calls or defer them elsewhere.",
+  "office_hours_flow_summary": "Ben handles office work and takes calls during business hours, also goes out in the field for quotes and job assessments.",
   "questions_or_unknowns": [
-    "How will Clara filter different types of jobs and schedule them accordingly?",
-    "How will the booking feature integrate with the client’s existing Jobber calendar system?",
-    "Can exceptions be set up so certain calls go directly to Ben or specific team members?",
-    "How will Clara integrate with the current phone number?"
+    "How will the client handle calls about services they do not offer, such as generator maintenance?",
+    "How will the AI receptionist be integrated into the existing workflow?"
   ],
-  "notes": "Client is a sole proprietorship planning incorporation later in the year; owner Ben has 30 years of experience and is considering adding an operations manager (Greg). They use Jobber for scheduling and QuickBooks for accounting.",
+  "notes": "Client agreed to a starter plan ($249/month, 500 minutes) for a three‑month trial, with a contract to lock in pricing for 12 months if continued.",
   "account_id": "bens-electric"
 }

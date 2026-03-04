@@ -1,35 +1,26 @@
-[
-  {
-    "company_name": "Ben's Electric Solution Team",
-    "services_supported": [
-      "Residential electrical services"
+{
+  "company_name": "G&M Pressure Washing",
+  "business_hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
     ],
-    "notes": "Client wants Clara to mention the $115 service call fee only if the customer asks."
+    "start": "08:30",
+    "end": "17:00"
   },
-  {
-    "company_name": "G&M Pressure Washing",
-    "industry_type": "Pressure washing, Property management",
-    "services_supported": [
-      "Pressure washing"
-    ],
-    "business_hours": {
-      "days": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday"
-      ],
-      "start": "08:30",
-      "end": "17:00",
-      "timezone": null
-    },
-    "non_emergency_routing_rules": {
-      "action": "Return call next business day",
-      "fallback": null
-    },
-    "after_hours_flow_summary": "After-hours emergency calls will be patched through to the client; non-emergency after-hours calls will be returned the next business day.",
-    "office_hours_flow_summary": "Main line forwarded to AI agent; caller can be patched through to a person if they want to speak to someone. AI answers calls and provides a quick purpose before patching.",
-    "notes": "Client will test the AI agent and provide feedback before going live."
-  }
-]
+  "emergency_definition": [
+    "calls related to the properties managed by G&M Pressure Washing, such as gas stations"
+  ],
+  "non_emergency_routing_rules": {
+    "action": "Returned the next business day"
+  },
+  "after_hours_flow_summary": "After-hours calls will be patched through to Ben.",
+  "questions_or_unknowns": [
+    "Timezone is not explicitly stated",
+    "Physical address is not provided",
+    "Client phone number is not provided"
+  ]
+}

@@ -22,7 +22,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "http://clara:3000/run",
+        "url": "http://host.docker.internal:3000/run",
         "sendBody": true,
         "bodyContentType": "json",
         "specifyBody": "json",
@@ -43,7 +43,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "http://clara:3000/onboard",
+        "url": "http://host.docker.internal:3000/onboard",
         "sendBody": true,
         "bodyContentType": "json",
         "specifyBody": "json",
