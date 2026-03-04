@@ -30,7 +30,7 @@ async function getAudioDuration(inputPath) {
 }
 
 // ──────────────────────────────────────────────
-// Chunk audio
+// Chunk audio — writes to disk inside chunksDir
 // ──────────────────────────────────────────────
 async function chunkAudio(inputPath, chunksDir) {
     await fs.ensureDir(chunksDir);
@@ -69,21 +69,23 @@ async function chunkAudio(inputPath, chunksDir) {
                 .run();
         });
 
+        // ✅ Store metadata only — NOT the file contents in memory
         chunks.push({ path: chunkPath, start, end, index });
         start += chunkDuration;
         index++;
     }
 
-    console.log(`\n✅ Created ${chunks.length} chunks`);
+    console.log(`\n✅ Created ${chunks.length} chunks in: ${chunksDir}`);
     return chunks;
 }
 
 // ──────────────────────────────────────────────
-// Transcribe each chunk
+// Transcribe each chunk — reads from disk, NOT memory
 // ──────────────────────────────────────────────
 async function transcribeChunk(chunk, total) {
     console.log(`\n🎙  Transcribing chunk ${chunk.index + 1}/${total}: ${path.basename(chunk.path)}`);
 
+    // ✅ Stream directly from disk — no in-memory buffer
     const transcription = await groq.audio.transcriptions.create({
         file: fs.createReadStream(chunk.path),
         model: 'whisper-large-v3-turbo',
@@ -127,7 +129,7 @@ function mergeTranscripts(chunks, transcriptions) {
     const fullText = allSegments
         .map(s => {
             const mins = Math.floor(s.start / 60);
-            const secs = (s.start % 60).toFixed(0).padStart(2, '0');
+            const secs = Math.floor(s.start % 60).toString().padStart(2, '0');
             return `(${mins}:${secs}) ${s.text}`;
         })
         .join('\n');
@@ -136,14 +138,14 @@ function mergeTranscripts(chunks, transcriptions) {
 }
 
 // ──────────────────────────────────────────────
-// Cleanup: delete audio chunks + chunksDir
+// Cleanup: delete entire chunks dir after merge
 // ──────────────────────────────────────────────
 async function cleanupChunks(chunksDir) {
     try {
         await fs.remove(chunksDir);
-        console.log(`🧹 Cleaned up chunks dir: ${chunksDir}`);
+        console.log(`🧹 Deleted chunks dir: ${chunksDir}`);
     } catch (err) {
-        console.warn(`⚠️  Could not clean up chunks dir: ${err.message}`);
+        console.warn(`⚠️  Could not delete chunks dir: ${err.message}`);
     }
 }
 
@@ -163,25 +165,30 @@ async function main() {
         process.exit(1);
     }
 
-    const fileName = path.basename(inputAudio, path.extname(inputAudio));
-    const outputDir = path.resolve(__dirname, '../transcription_output', fileName);
-    const chunksDir = path.join(outputDir, 'chunks');
+    // ✅ Derive folder name from input path
+    // inputs/demo/audio.mp3  →  inputs/transcripts/demo/transcript.txt
+    const inputAudioAbs  = path.resolve(inputAudio);
+    const inputsRoot     = path.resolve(__dirname, '../inputs');
+    const relFromInputs  = path.relative(inputsRoot, path.dirname(inputAudioAbs)); // e.g. "demo"
+    const outputDir      = path.resolve(inputsRoot, 'transcripts', relFromInputs);
+    const chunksDir      = path.join(outputDir, 'chunks');
 
     await fs.ensureDir(outputDir);
 
     console.log('═══════════════════════════════════════');
     console.log('🎵 AUDIO TRANSCRIPTION PIPELINE');
     console.log('═══════════════════════════════════════');
-    console.log(`📂 Input:  ${inputAudio}`);
-    console.log(`📂 Output: ${outputDir}`);
+    console.log(`📂 Input:      ${inputAudioAbs}`);
+    console.log(`📂 Output dir: ${outputDir}`);
+    console.log(`📂 Chunks dir: ${chunksDir}  (deleted after merge)`);
     console.log('═══════════════════════════════════════\n');
 
-    // Step 1: Chunk
+    // ── Step 1: Chunk audio → written to disk ──
     console.log('STEP 1: CHUNKING AUDIO');
     console.log('───────────────────────');
-    const chunks = await chunkAudio(inputAudio, chunksDir);
+    const chunks = await chunkAudio(inputAudioAbs, chunksDir);
 
-    // Step 2: Transcribe
+    // ── Step 2: Transcribe each chunk from disk ──
     console.log('\nSTEP 2: TRANSCRIBING CHUNKS');
     console.log('───────────────────────────');
     const transcriptions = [];
@@ -190,16 +197,19 @@ async function main() {
         transcriptions.push(transcription);
     }
 
-    // Step 3: Merge
+    // ── Step 3: Merge ──
     console.log('\nSTEP 3: MERGING TRANSCRIPTS');
     console.log('────────────────────────────');
     const { fullText, segments } = mergeTranscripts(chunks, transcriptions);
 
-    await fs.writeFile(path.join(outputDir, 'transcript.txt'), fullText);
-    await fs.writeJson(path.join(outputDir, 'transcript_segments.json'), segments, { spaces: 2 });
+    const transcriptPath = path.join(outputDir, 'transcript.txt');
+    const segmentsPath   = path.join(outputDir, 'transcript_segments.json');
+
+    await fs.writeFile(transcriptPath, fullText);
+    await fs.writeJson(segmentsPath, segments, { spaces: 2 });
     console.log('✅ Merged transcript saved');
 
-    // Step 4: Cleanup chunks (audio files + chunk JSONs)
+    // ── Step 4: Delete chunks dir ──
     console.log('\nSTEP 4: CLEANUP');
     console.log('────────────────');
     await cleanupChunks(chunksDir);
@@ -207,10 +217,10 @@ async function main() {
     console.log('\n═══════════════════════════════════════');
     console.log('✅ TRANSCRIPTION COMPLETE');
     console.log('═══════════════════════════════════════');
-    console.log(`📄 Full transcript:  ${path.join(outputDir, 'transcript.txt')}`);
-    console.log(`📋 Segments JSON:    ${path.join(outputDir, 'transcript_segments.json')}`);
+    console.log(`📄 Transcript:       ${transcriptPath}`);
+    console.log(`📋 Segments JSON:    ${segmentsPath}`);
     console.log(`🔢 Total segments:   ${segments.length}`);
-    console.log(`📦 Chunks processed: ${chunks.length} (deleted after merge)`);
+    console.log(`📦 Chunks processed: ${chunks.length} (deleted)`);
     console.log('═══════════════════════════════════════\n');
 
     console.log('📝 TRANSCRIPT PREVIEW:');
