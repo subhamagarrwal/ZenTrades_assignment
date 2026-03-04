@@ -1,27 +1,41 @@
 import { createChatCompletion } from '../../clients/groq_client.js';
 
 const MAX_WORDS = 2250;
-
 const MODEL = 'llama-3.3-70b-versatile';
 
 // ──────────────────────────────────────────────
-// Chunk by timestamp lines
+// Chunk ONLY at timestamp boundaries (mm:ss)
+// Never splits mid-sentence or mid-number
 // ──────────────────────────────────────────────
 function chunkTranscript(transcript) {
     const lines = transcript.split('\n').filter(l => l.trim());
+
+    // ✅ Only treat lines starting with (digits:digits) as timestamp lines
+    const TIMESTAMP_RE = /^\(\d+:\d{2}\)/;
+
     const chunks = [];
-    let current = [], wordCount = 0;
+    let current = [];
+    let currentWordCount = 0;
 
     for (const line of lines) {
+        const isTimestampLine = TIMESTAMP_RE.test(line.trim());
         const wc = line.split(/\s+/).length;
-        if (wordCount + wc > MAX_WORDS && current.length > 0) {
+
+        // ✅ Only allow a split at a timestamp boundary, never mid-line
+        if (
+            isTimestampLine &&
+            currentWordCount + wc > MAX_WORDS &&
+            current.length > 0
+        ) {
             chunks.push(current.join('\n'));
             current = [];
-            wordCount = 0;
+            currentWordCount = 0;
         }
+
         current.push(line);
-        wordCount += wc;
+        currentWordCount += wc;
     }
+
     if (current.length > 0) chunks.push(current.join('\n'));
     return chunks;
 }
@@ -98,46 +112,6 @@ Schema:
     const raw = await createChatCompletion(messages, MODEL);
     const cleaned = raw.replace(/```json|```/g, '').trim();
     return JSON.parse(cleaned);
-}
-
-// ──────────────────────────────────────────────
-// Merge partial memos
-// ──────────────────────────────────────────────
-function mergeMemos(memos) {
-    const merged = {
-        company_name: null,
-        industry_type: null,
-        services_mentioned: [],
-        timezone: null,
-        business_hours: null,
-        emergency_definition: null,
-        routing_rules: [],
-        integration_constraints: null,
-        transfer_timeout_seconds: null,
-        address: null,
-        questions_or_unknowns: [],
-    };
-
-    const SCALARS = [
-        'company_name', 'industry_type', 'timezone', 'business_hours',
-        'emergency_definition', 'integration_constraints', 'transfer_timeout_seconds', 'address',
-    ];
-
-    for (const memo of memos) {
-        for (const key of SCALARS) {
-            if (!merged[key] && memo[key]) merged[key] = memo[key];
-        }
-        for (const key of ['services_mentioned', 'routing_rules', 'questions_or_unknowns']) {
-            if (Array.isArray(memo[key])) {
-                merged[key] = [...new Set([...merged[key], ...memo[key].filter(Boolean)])];
-            }
-        }
-    }
-
-    if (merged.routing_rules.length === 0) merged.routing_rules = null;
-    if (merged.services_mentioned.length === 0) merged.services_mentioned = null;
-
-    return merged;
 }
 
 // ──────────────────────────────────────────────

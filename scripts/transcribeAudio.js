@@ -30,19 +30,10 @@ async function getAudioDuration(inputPath) {
 }
 
 // ──────────────────────────────────────────────
-// Chunk audio - SKIP if already chunked
+// Chunk audio
 // ──────────────────────────────────────────────
 async function chunkAudio(inputPath, chunksDir) {
     await fs.ensureDir(chunksDir);
-
-    // ✅ Check if chunks already exist
-    const chunkMetaFile = path.join(chunksDir, 'chunks_meta.json');
-    if (await fs.pathExists(chunkMetaFile)) {
-        const meta = await fs.readJson(chunkMetaFile);
-        console.log(`♻️  Chunks already exist (${meta.chunks.length} chunks) - skipping chunking`);
-        console.log(`   └─ Delete ${chunksDir} to re-chunk`);
-        return meta.chunks;
-    }
 
     console.log('🔍 Analyzing audio file...');
     const duration = await getAudioDuration(inputPath);
@@ -83,33 +74,14 @@ async function chunkAudio(inputPath, chunksDir) {
         index++;
     }
 
-    // ✅ Save chunk metadata so we can skip next time
-    await fs.writeJson(chunkMetaFile, { 
-        created_at: new Date().toISOString(),
-        source: inputPath,
-        total_chunks: chunks.length,
-        chunks 
-    }, { spaces: 2 });
-
     console.log(`\n✅ Created ${chunks.length} chunks`);
     return chunks;
 }
 
 // ──────────────────────────────────────────────
-// Transcribe each chunk - SKIP if already done
+// Transcribe each chunk
 // ──────────────────────────────────────────────
-async function transcribeChunk(chunk, total, outputDir) {
-    const chunkTranscriptPath = path.join(
-        outputDir,
-        `chunk_${String(chunk.index).padStart(3, '0')}_transcript.json`
-    );
-
-    // ✅ Skip if transcript already exists
-    if (await fs.pathExists(chunkTranscriptPath)) {
-        console.log(`♻️  Chunk ${chunk.index + 1}/${total} already transcribed - skipping`);
-        return await fs.readJson(chunkTranscriptPath);
-    }
-
+async function transcribeChunk(chunk, total) {
     console.log(`\n🎙  Transcribing chunk ${chunk.index + 1}/${total}: ${path.basename(chunk.path)}`);
 
     const transcription = await groq.audio.transcriptions.create({
@@ -120,7 +92,6 @@ async function transcribeChunk(chunk, total, outputDir) {
         timestamp_granularities: ['segment'],
     });
 
-    await fs.writeJson(chunkTranscriptPath, transcription, { spaces: 2 });
     console.log(`   ✅ Transcribed ${transcription.segments?.length ?? 0} segments`);
     return transcription;
 }
@@ -165,6 +136,18 @@ function mergeTranscripts(chunks, transcriptions) {
 }
 
 // ──────────────────────────────────────────────
+// Cleanup: delete audio chunks + chunksDir
+// ──────────────────────────────────────────────
+async function cleanupChunks(chunksDir) {
+    try {
+        await fs.remove(chunksDir);
+        console.log(`🧹 Cleaned up chunks dir: ${chunksDir}`);
+    } catch (err) {
+        console.warn(`⚠️  Could not clean up chunks dir: ${err.message}`);
+    }
+}
+
+// ──────────────────────────────────────────────
 // MAIN
 // ──────────────────────────────────────────────
 async function main() {
@@ -203,7 +186,7 @@ async function main() {
     console.log('───────────────────────────');
     const transcriptions = [];
     for (const chunk of chunks) {
-        const transcription = await transcribeChunk(chunk, chunks.length, outputDir);
+        const transcription = await transcribeChunk(chunk, chunks.length);
         transcriptions.push(transcription);
     }
 
@@ -216,13 +199,18 @@ async function main() {
     await fs.writeJson(path.join(outputDir, 'transcript_segments.json'), segments, { spaces: 2 });
     console.log('✅ Merged transcript saved');
 
+    // Step 4: Cleanup chunks (audio files + chunk JSONs)
+    console.log('\nSTEP 4: CLEANUP');
+    console.log('────────────────');
+    await cleanupChunks(chunksDir);
+
     console.log('\n═══════════════════════════════════════');
     console.log('✅ TRANSCRIPTION COMPLETE');
     console.log('═══════════════════════════════════════');
     console.log(`📄 Full transcript:  ${path.join(outputDir, 'transcript.txt')}`);
     console.log(`📋 Segments JSON:    ${path.join(outputDir, 'transcript_segments.json')}`);
     console.log(`🔢 Total segments:   ${segments.length}`);
-    console.log(`📦 Chunks created:   ${chunks.length}`);
+    console.log(`📦 Chunks processed: ${chunks.length} (deleted after merge)`);
     console.log('═══════════════════════════════════════\n');
 
     console.log('📝 TRANSCRIPT PREVIEW:');
