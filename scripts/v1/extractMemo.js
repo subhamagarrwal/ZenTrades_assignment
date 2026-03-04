@@ -81,6 +81,13 @@ async function extractStructuredMemo(compressedSummary) {
             content: `Convert the operational summary into this exact JSON schema.
 Return ONLY valid JSON. No explanation. No markdown. No extra fields.
 
+CRITICAL RULES FOR company_name:
+- The transcript is a SALES CALL between Clara AI (the vendor/seller) and a potential CLIENT business.
+- "Clara", "Clara AI", "Clara Answers" are the VENDOR's product — NEVER the client's company name.
+- Extract the CLIENT'S company name only (the business being sold to).
+- If the client's company name is NOT explicitly mentioned, set company_name to null.
+- Do NOT infer or guess the company name from context.
+
 Rules:
 - Use null for any missing field
 - Arrays must never contain null values — use empty array [] if nothing found
