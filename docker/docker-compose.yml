@@ -1,9 +1,6 @@
 version: '3.8'
 
 services:
-  # ─────────────────────────────────────
-  # Clara Automation Pipeline
-  # ─────────────────────────────────────
   clara:
     build:
       context: ..
@@ -14,20 +11,15 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      # Mount inputs so you can add audio files without rebuilding
       - ../inputs:/app/inputs
-      # Mount outputs so results persist outside container
       - ../outputs:/app/outputs
-      # Mount changelog
       - ../changelog:/app/changelog
     working_dir: /app
-    # Override command per-run (see usage below)
     command: ["node", "server.js"]
     restart: unless-stopped
+    networks:
+      - clara_net
 
-  # ─────────────────────────────────────
-  # n8n Orchestrator (optional)
-  # ─────────────────────────────────────
   n8n:
     image: n8nio/n8n:latest
     container_name: clara_n8n
@@ -40,11 +32,14 @@ services:
       - GENERIC_TIMEZONE=America/Denver
     volumes:
       - n8n_data:/home/node/.n8n
-      # Mount workflows for import
       - ../workflows:/home/node/workflows
-    depends_on:
-      - clara
     restart: unless-stopped
+    networks:
+      - clara_net
+
+networks:
+  clara_net:
+    driver: bridge
 
 volumes:
   n8n_data:

@@ -1,23 +1,23 @@
 FROM node:20-slim
 
-# Install ffmpeg for audio processing
+# Install system deps (cached unless this changes)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends ffmpeg curl && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy package files first for layer caching
+# Copy package files first — cached unless dependencies change
 COPY package.json package-lock.json* ./
 
-# Install dependencies
-RUN npm install --production
+# Install all deps including devDependencies (nodemon)
+RUN npm install
 
-# Copy everything else
+# Copy source — this layer rebuilds only when code changes
 COPY . .
 
-# Create output directories
-RUN mkdir -p outputs/accounts changelog
+# Pre-create dirs
+RUN mkdir -p outputs/accounts changelog inputs
 
-# Default command shows help
-CMD ["node", "scripts/v1/runDemo.js"]
+# Use nodemon for dev hot-reload
+CMD ["npx", "nodemon", "--watch", "server.js", "--watch", "scripts", "server.js"]

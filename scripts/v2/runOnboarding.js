@@ -195,11 +195,10 @@ async function main() {
     console.log(`📄 Transcript: ${fullTranscriptPath}`);
     console.log('═══════════════════════════════════════════\n');
 
-    // ── Detect versions ──
-    const currentVersion = await detectCurrentVersion(accountDir);
-    const nextVersionNum = parseInt(currentVersion.replace('v', ''), 10) + 1;
-    const nextVersion    = `v${nextVersionNum}`;
-    console.log(`📌 Current: ${currentVersion} → Next: ${nextVersion}\n`);
+    // ── Fixed versions: always read v1, write v2 ──
+    const currentVersion = 'v1';
+    const nextVersion    = 'v2';
+    console.log(`📌 Base: ${currentVersion} → Target: ${nextVersion} (overwrite if exists)\n`);
 
     // ── Step 1: Load current memo ──
     console.log('STEP 1: LOADING CURRENT MEMO');
@@ -291,14 +290,14 @@ async function main() {
     console.log('✅ PIPELINE B COMPLETE');
     console.log('═══════════════════════════════════════════');
     console.log(`📁 ${path.basename(accountDir)}/`);
-    console.log(`   ${currentVersion}/  (unchanged)`);
-    console.log(`   ${nextVersion}/`);
+    console.log(`   v1/  (unchanged)`);
+    console.log(`   v2/`);
     console.log(`      ├ memo.json`);
     console.log(`      ├ agentDraftSpec.json`);
     console.log(`      ├ onboarding_update.json`);
     console.log(`      ├ changes.json`);
-    console.log(`      ├ agent_id.json  (reused from ${currentVersion})`);
-    console.log(`      └ llm_id.json    (reused from ${currentVersion})`);
+    console.log(`      ├ agent_id.json  (reused from v1)`);
+    console.log(`      └ llm_id.json    (reused from v1)`);
     console.log(`📋 changelog/${accountId}.json`);
     if (asanaTask) {
         console.log(`📋 Asana: https://app.asana.com/0/${process.env.ASANA_PROJECT_GID}/${asanaTask.gid}`);

@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "axios": "^1.13.6",
@@ -22,7 +24,8 @@
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.0",
-    "babel-jest": "^30.2.0"
+    "babel-jest": "^30.2.0",
+    "nodemon": "^3.1.14"
   },
   "jest": {
     "transform": {

@@ -100,21 +100,25 @@ async function parseInput(req) {
         const boundary = contentType.split('boundary=')[1];
         const parts = parseMultipart(body, boundary);
         return {
-            account_id : parts.account_id,
-            company    : parts.company,
-            transcript : parts.transcript || null,
-            audio      : parts.audio || null,
-            form_data  : parts.form_data ? JSON.parse(parts.form_data) : null,
+            account_id      : parts.account_id,
+            company         : parts.company,
+            transcript      : parts.transcript || null,
+            audio           : parts.audio || null,
+            form_data       : parts.form_data ? JSON.parse(parts.form_data) : null,
+            transcript_path : parts.transcript_path || null,
+            onboarding_path : parts.onboarding_path || null,
         };
     }
 
     const json = JSON.parse(body.toString());
     return {
-        account_id : json.account_id,
-        company    : json.company,
-        transcript : json.transcript || null,
-        form_data  : json.form_data || null,
-        audio      : json.audio_base64
+        account_id      : json.account_id,
+        company         : json.company,
+        transcript      : json.transcript || null,
+        form_data       : json.form_data  || null,
+        transcript_path : json.transcript_path  || null,
+        onboarding_path : json.onboarding_path  || null,
+        audio           : json.audio_base64
             ? { filename: json.audio_filename || 'upload.mp3', data: Buffer.from(json.audio_base64, 'base64') }
             : null,
     };
@@ -241,9 +245,8 @@ async function applyFormData(accountId, company, formData) {
     // Merge with conflict detection
     const { merged, conflicts } = deepMergeWithConflicts(existingMemo, formData);
 
-    // Determine next version
-    const versionNum = parseInt(latestVersion.replace('v', ''), 10);
-    const nextVersion = `v${versionNum + 1}`;
+    // Always target v2 — form data is part of the onboarding process
+    const nextVersion = 'v2';
     const nextDir = path.join(accountDir, nextVersion);
     await fs.ensureDir(nextDir);
 
@@ -316,7 +319,8 @@ async function applyFormData(accountId, company, formData) {
     const changelogPath = path.join(changelogDir, `${accountId}.json`);
     let changelog = [];
     if (await fs.pathExists(changelogPath)) {
-        changelog = await fs.readJson(changelogPath);
+        const raw = await fs.readJson(changelogPath);
+        changelog = Array.isArray(raw) ? raw : [];  // ← FIX: ensure array
     }
     changelog.push({
         version_from : latestVersion,
@@ -352,7 +356,7 @@ const server = http.createServer(async (req, res) => {
 
         // ── Pipeline A: Demo → v1 ──
         if (route === 'POST /run') {
-            const { account_id, company, transcript, audio } = await parseInput(req);
+            const { account_id, company, transcript, audio, transcript_path } = await parseInput(req);
 
             if (!account_id || !company) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -362,25 +366,37 @@ const server = http.createServer(async (req, res) => {
 
             console.log(`▶ PIPELINE A: ${company} → ${account_id}`);
 
-            await saveInputAndTranscribe(company, 'demo', transcript, audio);
+            // runDemo.js expects path RELATIVE to inputs/ folder
+            // e.g. "bens-electric/transcripts/demo/transcript.txt"
+            // NOT "inputs/bens-electric/transcripts/demo/transcript.txt"
+            let relativeToInputs;
+            if (transcript_path) {
+                relativeToInputs = transcript_path
+                    .replace(/^inputs\//, '')        // strip leading "inputs/"
+                    .replace(/^inputs\\/, '')         // strip leading "inputs\" (windows)
+                    .replace(/\\/g, '/');             // normalize slashes
+            } else {
+                relativeToInputs = `${company}/transcripts/demo/transcript.txt`;
+            }
 
-            console.log(`   🔵 Running Pipeline A...`);
+            console.log(`   🔵 Running Pipeline A with: ${relativeToInputs}`);
             const { stdout } = await execAsync(
-                `node scripts/v1/runDemo.js "${company}/transcripts/demo/transcript.txt" "${account_id}"`,
+                `node scripts/v1/runDemo.js "${relativeToInputs}" "${account_id}"`,
                 { cwd: __dirname, timeout: 300000 }
             );
             console.log(`   ✅ Pipeline A complete`);
 
             const outputs = await readOutputs(account_id);
-
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ ok: true, pipeline: 'A', ...outputs, logs: stdout }));
+            res.end(JSON.stringify({ ok: true, pipeline: 'A', ...outputs }));
             return;
         }
 
         // ── Pipeline B: Onboarding call → v2 ──
+        // Accepts: transcript (.txt path), audio (.mp3/.wav path), uploaded audio,
+        //          or raw transcript text. If audio → Whisper transcribes first.
         if (route === 'POST /onboard') {
-            const { account_id, company, transcript, audio } = await parseInput(req);
+            const { account_id, company, transcript, audio, onboarding_path } = await parseInput(req);
 
             if (!account_id || !company) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -390,19 +406,66 @@ const server = http.createServer(async (req, res) => {
 
             console.log(`▶ PIPELINE B: ${company} → ${account_id}`);
 
-            await saveInputAndTranscribe(company, 'onboarding', transcript, audio);
+            const AUDIO_EXTS = ['.mp3', '.wav', '.m4a', '.ogg', '.flac', '.webm'];
 
-            console.log(`   🟢 Running Pipeline B...`);
+            // Resolve the transcript path for runOnboarding.js (relative to inputs/)
+            let relativeToInputs;
+
+            if (onboarding_path) {
+                const cleaned = onboarding_path
+                    .replace(/^inputs[\\/]/, '')
+                    .replace(/\\/g, '/');
+                const ext = path.extname(cleaned).toLowerCase();
+
+                if (AUDIO_EXTS.includes(ext)) {
+                    // ── Audio file path provided → transcribe first ──
+                    console.log(`   🎵 Audio detected: ${cleaned}`);
+                    const absAudioPath = path.resolve(__dirname, 'inputs', cleaned);
+
+                    if (!await fs.pathExists(absAudioPath)) {
+                        res.writeHead(400, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ error: `Audio file not found: inputs/${cleaned}` }));
+                        return;
+                    }
+
+                    console.log(`   🎵 Transcribing with Whisper...`);
+                    await execAsync(
+                        `node scripts/transcribeAudio.js "${absAudioPath}"`,
+                        { cwd: __dirname, timeout: 300000 }
+                    );
+                    console.log(`   ✅ Transcription complete`);
+
+                    // transcribeAudio.js outputs to: inputs/{company}/transcripts/onboarding/transcript.txt
+                    relativeToInputs = `${company}/transcripts/onboarding/transcript.txt`;
+                } else {
+                    // ── Transcript path provided directly ──
+                    relativeToInputs = cleaned;
+                }
+            } else if (audio) {
+                // ── Uploaded audio binary → save & transcribe ──
+                console.log(`   🎵 Uploaded audio: ${audio.filename}`);
+                await saveInputAndTranscribe(company, 'onboarding', null, audio);
+                relativeToInputs = `${company}/transcripts/onboarding/transcript.txt`;
+            } else if (transcript) {
+                // ── Raw transcript text → save to file ──
+                console.log(`   📄 Saving inline transcript...`);
+                await saveInputAndTranscribe(company, 'onboarding', transcript, null);
+                relativeToInputs = `${company}/transcripts/onboarding/transcript.txt`;
+            } else {
+                // ── Fallback: use existing transcript on disk ──
+                relativeToInputs = `${company}/transcripts/onboarding/transcript.txt`;
+            }
+
+            console.log(`   🟢 Running Pipeline B with: ${relativeToInputs}`);
             const { stdout } = await execAsync(
-                `node scripts/v2/runOnboarding.js "${company}/transcripts/onboarding/transcript.txt" "${account_id}"`,
+                `node scripts/v2/runOnboarding.js "${relativeToInputs}" "${account_id}"`,
                 { cwd: __dirname, timeout: 300000 }
             );
             console.log(`   ✅ Pipeline B complete`);
 
             const outputs = await readOutputs(account_id);
-
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ ok: true, pipeline: 'B', ...outputs, logs: stdout }));
+            res.end(JSON.stringify({ ok: true, pipeline: 'B', ...outputs }));
             return;
         }
 

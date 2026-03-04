@@ -1,20 +1,22 @@
 {
   "company_name": "Ben's Electric Solutions",
-  "industry_type": "Electrical services",
+  "industry_type": "electrical contracting",
   "services_supported": [
     "service calls",
     "small jobs",
     "odd jobs",
     "renovations",
     "troubleshooting",
-    "full projects (custom homes, tenant improvements)",
-    "outlet replacements",
-    "aluminum wiring mitigation",
+    "new custom homes",
+    "tenant improvements",
     "EV charger installations",
-    "LED lighting upgrades",
-    "plumbing and gas line connections for hot tubs",
-    "electrical installations for hot tubs",
-    "maintenance and repair work"
+    "hot tub hookups",
+    "panel changes",
+    "outlet replacements",
+    "aluminum wiring remediation",
+    "LED upgrades",
+    "GFCI protection installation",
+    "hot tub plumbing and gas line connections"
   ],
   "business_hours": {
     "days": [],
@@ -23,15 +25,12 @@
     "timezone": null
   },
   "office_address": null,
-  "emergency_definition": [],
+  "emergency_definition": [
+    "property managers",
+    "general contractors"
+  ],
   "emergency_routing_rules": {
-    "contacts": [
-      {
-        "name": "Ben",
-        "phone": "+14039751773",
-        "priority": 1
-      }
-    ],
+    "contacts": [],
     "fallback": null
   },
   "non_emergency_routing_rules": {
@@ -43,16 +42,18 @@
     "retries": null,
     "on_fail": null
   },
-  "integration_constraints": "Requires integration with Jobber and QuickBooks.",
-  "after_hours_flow_summary": "Ben is the primary on‑call contact after hours and on weekends; calls may be routed to him directly or to voicemail. Clara can answer 24/7 and forward notifications via email, text, or dashboard.",
-  "office_hours_flow_summary": "During regular hours Clara answers calls, routes them to appropriate team members, can book site visits, and supports club‑membership priority scheduling. Calls can be logged in the Jobber system.",
+  "integration_constraints": "Integration with Jobber CRM is required.",
+  "after_hours_flow_summary": "Calls received after business hours or on weekends are forwarded to Ben or a designated team member; emergency calls are routed immediately to the owner, while non‑emergency calls may be placed in voicemail or a general queue.",
+  "office_hours_flow_summary": "During business hours Clara answers calls, routes them to the appropriate team member based on the service requested, supports multiple languages, assigns calls, and provides a dashboard for call tracking and analytics.",
   "questions_or_unknowns": [
-    "What are the exact ending time for regular business hours?",
-    "Which days of the week constitute regular business days?",
-    "What is the official office address?",
-    "Is there a designated fallback action for non‑emergency calls (e.g., voicemail or email)?",
-    "Are there additional emergency contacts besides Ben?"
+    "What are the specific business days (e.g., Monday‑Friday)?",
+    "What is the end time for business hours?",
+    "What is the timezone of the business?",
+    "What is the office or billing address?",
+    "What is the primary business phone number in E.164 format?",
+    "Who are the emergency contact persons with phone numbers and priority levels?",
+    "Are there any specific non‑emergency routing actions (e.g., voicemail, queue)?"
   ],
-  "notes": "Client is currently a sole proprietorship planning to incorporate later in the year; Ben is owner and primary contact, with an operations manager (Greg) joining soon.",
+  "notes": "Ben is planning to incorporate the sole proprietorship soon and will add an operations manager (Greg) for admin tasks. A membership/club program is being considered for priority scheduling and discounts. The client expects to grow to five employees by year‑end.",
   "account_id": "demo_001"
 }
