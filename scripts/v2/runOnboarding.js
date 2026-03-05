@@ -10,37 +10,24 @@ import { createAsanaReviewTask } from '../../clients/asana_client.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const MERGE_MODEL = 'openai/gpt-oss-120b';
 
-// ──────────────────────────────────────────────
-// Slugify company name → folder-safe slug
-// ──────────────────────────────────────────────
 function slugifyCompany(name) {
     return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 }
 
-// ──────────────────────────────────────────────
-// Find account dir — by company slug, or account_id prefix
-// ──────────────────────────────────────────────
 async function findAccountDir(identifier, rootDir) {
     const accountsRoot = path.resolve(rootDir, 'outputs/accounts');
     if (!await fs.pathExists(accountsRoot)) return null;
 
     const entries = await fs.readdir(accountsRoot);
     const slug = slugifyCompany(identifier);
-
-    // Exact match (raw or slugified)
     const exact = entries.find(e => e === identifier || e === slug);
     if (exact) return path.join(accountsRoot, exact);
-
-    // Prefix match (legacy account_id_ prefix)
     const prefixed = entries.find(e => e.startsWith(identifier + '_') || e.startsWith(slug + '_'));
     if (prefixed) return path.join(accountsRoot, prefixed);
 
     return null;
 }
 
-// ──────────────────────────────────────────────
-// 120B LLM merge — base memo + extracted patch
-// ──────────────────────────────────────────────
 async function llmMergeMemos(currentMemo, patch) {
     console.log(`   🧠 [120B] Merging current memo + onboarding patch...`);
 
@@ -114,9 +101,6 @@ SCHEMA:
     return parsed;
 }
 
-// ──────────────────────────────────────────────
-// Changelog diff — deep compare old vs new memo
-// ──────────────────────────────────────────────
 function generateChangelog(oldMemo, newMemo, versionFrom, versionTo) {
     const changes = [];
     const ALL_KEYS = [...new Set([...Object.keys(oldMemo), ...Object.keys(newMemo)])];
@@ -124,8 +108,6 @@ function generateChangelog(oldMemo, newMemo, versionFrom, versionTo) {
     for (const key of ALL_KEYS) {
         const oldVal = oldMemo[key];
         const newVal = newMemo[key];
-
-        // Skip internal bookkeeping fields
         if (key === 'account_id') continue;
 
         const oldStr = JSON.stringify(oldVal ?? null);
@@ -154,9 +136,6 @@ function generateChangelog(oldMemo, newMemo, versionFrom, versionTo) {
     };
 }
 
-// ──────────────────────────────────────────────
-// Upsert per-account changelog in /changelog/
-// ──────────────────────────────────────────────
 async function upsertAccountChangelog(changelogDir, accountId, changelogEntry) {
     await fs.ensureDir(changelogDir);
     const changelogPath = path.join(changelogDir, `${accountId}.json`);
@@ -165,7 +144,6 @@ async function upsertAccountChangelog(changelogDir, accountId, changelogEntry) {
     if (await fs.pathExists(changelogPath)) {
         try {
             const raw = await fs.readJson(changelogPath);
-            // Handle both formats: { account_id, history: [] } OR legacy plain array
             if (Array.isArray(raw)) {
                 existing = { account_id: accountId, history: raw };
             } else if (raw && Array.isArray(raw.history)) {
@@ -176,7 +154,7 @@ async function upsertAccountChangelog(changelogDir, accountId, changelogEntry) {
         }
     }
 
-    // Overwrite entry for this version_to if it already exists (idempotent)
+    // Overwrite entry for this version_to if it already exists
     const idx = existing.history.findIndex(e => e.version_to === changelogEntry.version_to);
     if (idx >= 0) {
         existing.history[idx] = changelogEntry;
@@ -189,22 +167,17 @@ async function upsertAccountChangelog(changelogDir, accountId, changelogEntry) {
     return changelogPath;
 }
 
-// ──────────────────────────────────────────────
-// MAIN
-// ──────────────────────────────────────────────
 async function main() {
     const transcriptArg = process.argv[2];   // relative to inputs/ OR absolute
     const accountId     = process.argv[3] || 'demo_001';
     const companyArg    = process.argv[4] || null;   // company slug passed by server.js
 
-    // ── Guard: transcript arg required ──
     if (!transcriptArg) {
         console.error('❌ Usage: node runOnboarding.js <transcript_path> <account_id> [company_slug]');
         console.error('   transcript_path: relative to inputs/ OR absolute path');
         process.exit(1);
     }
 
-    // ── Resolve transcript path ──
     const rootDir = path.resolve(__dirname, '../../');
     let fullTranscriptPath;
 
@@ -226,7 +199,6 @@ async function main() {
         }
     }
 
-    // ── Guard: only .txt allowed here (audio transcription is done by server.js) ──
     const ext = path.extname(fullTranscriptPath).toLowerCase();
     if (ext !== '.txt') {
         console.error(`❌ runOnboarding.js expects a .txt transcript. Got: "${ext}"`);
@@ -234,7 +206,6 @@ async function main() {
         process.exit(1);
     }
 
-    // ── Resolve account directory ──
     const changelogDir = path.resolve(rootDir, 'changelog');
     const accountsRoot = path.resolve(rootDir, 'outputs/accounts');
 
@@ -254,7 +225,6 @@ async function main() {
         process.exit(1);
     }
 
-    // ── Guard: v1 memo must exist ──
     const v1MemoPath = path.join(accountDir, 'v1', 'memo.json');
     if (!await fs.pathExists(v1MemoPath)) {
         console.error(`❌ v1 memo.json not found at: ${v1MemoPath}`);
@@ -275,17 +245,11 @@ async function main() {
     const nextDir        = path.join(accountDir, nextVersion);
     console.log(`📌 Base: ${currentVersion} → Target: ${nextVersion} (overwrite if exists)\n`);
 
-    // ──────────────────────────────────────────
-    // STEP 1: Load v1 memo
-    // ──────────────────────────────────────────
     console.log('STEP 1: LOADING CURRENT MEMO');
     console.log('─────────────────────────────');
     const currentMemo = await fs.readJson(v1MemoPath);
     console.log(`   ✅ Loaded v1 memo for "${currentMemo.company_name || accountId}"\n`);
 
-    // ──────────────────────────────────────────
-    // STEP 2: Extract patch from onboarding transcript
-    // ──────────────────────────────────────────
     console.log('STEP 2: EXTRACTING ONBOARDING FACTS');
     console.log('─────────────────────────────────────');
     const transcript = await fs.readFile(fullTranscriptPath, 'utf-8');
@@ -309,9 +273,6 @@ async function main() {
     await fs.writeJson(path.join(nextDir, 'onboarding_update.json'), patch, { spaces: 2 });
     console.log(`   💾 Raw patch saved → ${nextVersion}/onboarding_update.json\n`);
 
-    // ──────────────────────────────────────────
-    // STEP 3: LLM merge — base + patch → new memo
-    // ──────────────────────────────────────────
     console.log('STEP 3: MERGING MEMOS (LLM)');
     console.log('─────────────────────────────');
     let newMemo;
@@ -328,9 +289,6 @@ async function main() {
     await fs.writeJson(path.join(nextDir, 'memo.json'), newMemo, { spaces: 2 });
     console.log(`   ✅ Merged memo saved → ${nextVersion}/memo.json\n`);
 
-    // ──────────────────────────────────────────
-    // STEP 4: Generate changelog diff
-    // ──────────────────────────────────────────
     console.log('STEP 4: GENERATING CHANGELOG');
     console.log('─────────────────────────────');
     const changelogEntry = generateChangelog(currentMemo, newMemo, currentVersion, nextVersion);
@@ -344,9 +302,6 @@ async function main() {
     const globalChangelogPath = await upsertAccountChangelog(changelogDir, accountId, changelogEntry);
     console.log(`   ✅ Global changelog updated → ${globalChangelogPath}\n`);
 
-    // ──────────────────────────────────────────
-    // STEP 5: Regenerate agent draft spec
-    // ──────────────────────────────────────────
     console.log('STEP 5: REGENERATING AGENT DRAFT SPEC');
     console.log('──────────────────────────────────────');
     let spec;
@@ -375,9 +330,6 @@ async function main() {
     await fs.writeJson(path.join(nextDir, 'agentDraftSpec.json'), spec, { spaces: 2 });
     console.log(`   ✅ agentDraftSpec.json saved → ${nextVersion}/agentDraftSpec.json\n`);
 
-    // ──────────────────────────────────────────
-    // STEP 6: Create Asana review task
-    // ──────────────────────────────────────────
     console.log('STEP 6: CREATING ASANA TASK');
     console.log('────────────────────────────');
     const asanaTask = await createAsanaReviewTask({
@@ -394,9 +346,6 @@ async function main() {
     }
     console.log();
 
-    // ──────────────────────────────────────────
-    // DONE
-    // ──────────────────────────────────────────
     console.log('═══════════════════════════════════════════');
     console.log('✅ PIPELINE B COMPLETE');
     console.log('═══════════════════════════════════════════');

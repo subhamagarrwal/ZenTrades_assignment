@@ -4,7 +4,6 @@ const client = new Groq({
     apiKey: process.env.GROQ_API_KEY,
 });
 
-// ─── 429 detection + retry config ──────────────────────────
 const MAX_RETRIES = 2;
 const RETRY_DELAY_MS = 5000;
 
@@ -31,7 +30,7 @@ async function getFallback() {
     return _fallback;
 }
 
-// ─── Chat completion with retry → local fallback ───────────
+
 export async function createChatCompletion(messages, model = 'llama-3.3-70b-versatile', maxTokens = 4096) {
     for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
         try {
@@ -64,7 +63,6 @@ export async function createChatCompletion(messages, model = 'llama-3.3-70b-vers
     }
 }
 
-// ─── Streaming completion with retry → local fallback ──────
 export async function streamChatCompletion(messages, model = 'llama-3.3-70b-versatile') {
     let fullResponse = '';
 

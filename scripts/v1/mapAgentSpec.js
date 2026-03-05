@@ -6,9 +6,6 @@ import { generateAgentDraftSpec, getOutputPath, buildSystemPrompt } from './gene
 
 const retellClient = new Retell({ apiKey: process.env.RETELL_API_KEY });
 
-// ──────────────────────────────────────────────
-// Upsert LLM: update if exists, create if not
-// ──────────────────────────────────────────────
 async function upsertRetellLlm(basePath, systemPrompt) {
     const llmIdPath = path.join(basePath, 'llm_id.json');
 
@@ -56,9 +53,6 @@ async function upsertRetellLlm(basePath, systemPrompt) {
     return llmId;
 }
 
-// ──────────────────────────────────────────────
-// Upsert Agent: update if exists, create if not
-// ──────────────────────────────────────────────
 async function upsertRetellAgent(basePath, llmId, agentName) {
     const agentIdPath = path.join(basePath, 'agent_id.json');
 
@@ -109,9 +103,6 @@ async function upsertRetellAgent(basePath, llmId, agentName) {
     return agentId;
 }
 
-// ──────────────────────────────────────────────
-// Search previous versions for existing ID
-// ──────────────────────────────────────────────
 async function findExistingId(accountDir, filename) {
     if (!await fs.pathExists(accountDir)) return null;
 
@@ -133,9 +124,6 @@ async function findExistingId(accountDir, filename) {
     return null;
 }
 
-// ──────────────────────────────────────────────
-// Main: createFullAgent (with upsert)
-// ──────────────────────────────────────────────
 export async function createFullAgent(accountId, memo, version = 'v1') {
     memo.account_id = accountId;
 
@@ -145,15 +133,13 @@ export async function createFullAgent(accountId, memo, version = 'v1') {
     // Save memo
     const memoPath = path.join(basePath, 'memo.json');
     await fs.writeJson(memoPath, memo, { spaces: 2 });
-    console.log(`✅ Memo saved at: ${memoPath}`);
-    console.log('✅ Memo saved');
+    console.log(`✅ Memo saved: ${memoPath}`);
 
     // Generate and save agent draft spec
     const spec = generateAgentDraftSpec(accountId, memo, version);
     const specPath = path.join(basePath, 'agentDraftSpec.json');
     await fs.writeJson(specPath, spec, { spaces: 2 });
-    console.log(`✅ AgentDraftSpec saved at: ${specPath}`);
-    console.log('✅ Agent draft spec generated');
+    console.log(`✅ AgentDraftSpec saved: ${specPath}`);
 
     // Upsert LLM (reuse existing or create new)
     const systemPrompt = buildSystemPrompt(memo);

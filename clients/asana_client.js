@@ -2,9 +2,6 @@ import 'dotenv/config';
 
 const ASANA_BASE_URL = 'https://app.asana.com/api/1.0';
 
-// ──────────────────────────────────────────────
-// Create Asana task for v2 review
-// ──────────────────────────────────────────────
 export async function createAsanaReviewTask({ accountId, companyName, nextVersion, accountDirName, changelogEntry }) {
 
     const token      = process.env.ASANA_ACCESS_TOKEN;
@@ -20,14 +17,12 @@ export async function createAsanaReviewTask({ accountId, companyName, nextVersio
         return null;
     }
 
-    // ── Build change list ──
     const changeList = changelogEntry.changes.length > 0
         ? changelogEntry.changes.map(c =>
             `• ${c.field}: ${JSON.stringify(c.old)} → ${JSON.stringify(c.new)}`
           ).join('\n')
         : '• No fields changed';
 
-    // ── Build output paths ──
     const basePath = `outputs/accounts/${accountDirName}/${nextVersion}`;
 
     const taskDescription = `

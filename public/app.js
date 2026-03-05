@@ -1,6 +1,5 @@
 'use strict';
 
-// ── DOM refs ──
 const $ = (id) => document.getElementById(id);
 
 const companyEl   = $('company');
@@ -28,7 +27,6 @@ const batchSection     = $('batch-section');
 const batchStatusLabel = $('batch-status-label');
 const batchAccounts    = $('batch-accounts');
 
-// ── State ──
 let v1Running = false;
 let v2Running = false;
 let v1Done    = false;
@@ -41,14 +39,12 @@ const STABLE_THRESHOLD = 4;    // hide after 4 polls (~12s) of no change
 const getCompany   = () => companyEl.value.trim();
 const getAccountId = () => accountIdEl.value.trim() || getCompany();
 
-// ── Sync button states ──
 function sync() {
   const c = !!getCompany();
   v1RunEl.disabled = !c || !v1FileEl.files.length || v1Running;
   v2RunEl.disabled = !c || (!v2FileEl.files.length && !v2FormEl.value.trim()) || v2Running || !v1Done;
 }
 
-// ── Log helpers ──
 function log(panel, text, cls = 'log-line') {
   const div = document.createElement('div');
   div.className = cls;
@@ -61,7 +57,6 @@ function clearLog(panel) {
   panel.innerHTML = '';
 }
 
-// ── Running timer ──
 function startTimer(el) {
   const t0 = Date.now();
   el.textContent = '0.0s';
@@ -71,7 +66,6 @@ function startTimer(el) {
   return () => clearInterval(id);
 }
 
-// ── SSE stream consumer ──
 async function runPipeline(url, formData, logPanel, resultEl, timerEl) {
   clearLog(logPanel);
   logPanel.classList.add('visible');
@@ -144,9 +138,6 @@ async function runPipeline(url, formData, logPanel, resultEl, timerEl) {
   }
 }
 
-// ═══════════════════════════════════════════════
-// CHANGELOG RENDERING
-// ═══════════════════════════════════════════════
 function formatVal(v) {
   if (v == null) return 'null';
   if (Array.isArray(v)) return v.join(', ');
@@ -202,9 +193,6 @@ async function showChangelog(company) {
   } catch { changelogSection.style.display = 'none'; }
 }
 
-// ═══════════════════════════════════════════════
-// BATCH MONITOR — auto-show when batch is running
-// ═══════════════════════════════════════════════
 async function pollBatchStatus() {
   try {
     const r = await fetch('/api/batch-status');
@@ -296,7 +284,6 @@ function stopBatchPolling() {
   }
 }
 
-// ── Check existing outputs on company input ──
 let checkTimeout;
 async function checkExistingOutputs() {
   const c = getCompany();
@@ -318,11 +305,9 @@ async function checkExistingOutputs() {
     }
   } catch { /* ignore */ }
 
-  // Always try to load changelog for this company (persists across page loads)
   await showChangelog(c);
 }
 
-// ── Event listeners ──
 companyEl.addEventListener('input', () => {
   clearTimeout(checkTimeout);
   checkTimeout = setTimeout(checkExistingOutputs, 600);
@@ -343,7 +328,6 @@ v2FileEl.addEventListener('change', () => {
 
 v2FormEl.addEventListener('input', sync);
 
-// ── Run v1 ──
 v1RunEl.addEventListener('click', async () => {
   if (v1Running) return;
   v1Running = true;
@@ -368,7 +352,6 @@ v1RunEl.addEventListener('click', async () => {
   sync();
 });
 
-// ── Run v2 ──
 v2RunEl.addEventListener('click', async () => {
   if (v2Running) return;
   v2Running = true;
@@ -389,11 +372,9 @@ v2RunEl.addEventListener('click', async () => {
   v2RunEl.textContent = 'Run v2';
   sync();
 
-  // Show changelog after v2 completes
   if (result && result.code === 0) {
     await showChangelog(getCompany());
   }
 });
 
-// ── Start batch polling on page load ──
 startBatchPolling();

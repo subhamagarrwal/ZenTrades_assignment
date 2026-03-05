@@ -7,9 +7,6 @@ const MODELS = {
     compose : 'openai/gpt-oss-120b',
 };
 
-// ──────────────────────────────────────────────
-// Chunk at timestamp boundaries only
-// ──────────────────────────────────────────────
 function chunkTranscript(transcript) {
     const lines = transcript.split('\n').filter(l => l.trim());
     const TIMESTAMP_RE = /^\(\d+:\d{2}\)/;
@@ -35,9 +32,6 @@ function chunkTranscript(transcript) {
     return chunks;
 }
 
-// ──────────────────────────────────────────────
-// Stage 1 — 70B: Extract facts from one chunk
-// ──────────────────────────────────────────────
 async function extractChunkFacts(chunkText, chunkIndex, total) {
     console.log(`   📋 [70B] Extracting onboarding facts from chunk ${chunkIndex + 1}/${total}...`);
 
@@ -98,9 +92,6 @@ IGNORE: greetings, sales pitch, small talk, pricing negotiations, Clara product 
     return await createChatCompletion(messages, MODELS.extract, 2048);
 }
 
-// ──────────────────────────────────────────────
-// Stage 2 — 120B: Compose structured update JSON
-// ──────────────────────────────────────────────
 async function composeUpdateFromFacts(allFacts) {
     console.log(`   🧠 [120B] Composing structured onboarding update from facts...`);
 
@@ -177,9 +168,6 @@ SCHEMA:
     return parsed;
 }
 
-// ──────────────────────────────────────────────
-// Main export
-// ──────────────────────────────────────────────
 export async function extractMemo(transcript) {
     if (!transcript || !transcript.trim()) {
         throw new Error('extractMemo: transcript is empty');

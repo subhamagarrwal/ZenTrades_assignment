@@ -10,9 +10,6 @@ const execAsync = promisify(exec);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = 3000;
 
-// ──────────────────────────────────────────────
-// Supported audio formats (Whisper-compatible via ffmpeg)
-// ──────────────────────────────────────────────
 const SUPPORTED_AUDIO_EXTS = new Set(['.mp3', '.wav', '.m4a', '.ogg', '.flac', '.webm', '.aac', '.wma', '.mp4', '.mpeg', '.mpga']);
 
 function isSupportedAudioExt(ext) {
@@ -23,9 +20,6 @@ function isTranscriptExt(ext) {
     return ext.toLowerCase() === '.txt';
 }
 
-// ──────────────────────────────────────────────
-// Read full request body as buffer
-// ──────────────────────────────────────────────
 function readBody(req) {
     return new Promise((resolve, reject) => {
         const chunks = [];
@@ -35,9 +29,6 @@ function readBody(req) {
     });
 }
 
-// ──────────────────────────────────────────────
-// Parse multipart (audio + fields)
-// ──────────────────────────────────────────────
 function parseMultipart(buffer, boundary) {
     const parts = {};
     const raw = buffer.toString('binary');
@@ -60,9 +51,6 @@ function parseMultipart(buffer, boundary) {
     return parts;
 }
 
-// ──────────────────────────────────────────────
-// Find account output folder by company slug
-// ──────────────────────────────────────────────
 function slugifyCompany(company) {
     return company.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 }
@@ -73,24 +61,17 @@ async function findAccountOutputDir(company) {
     if (!await fs.pathExists(base)) return null;
     const exact = path.join(base, slug);
     if (await fs.pathExists(exact)) return exact;
-    // Fallback: prefix match (handles legacy {accountId}_{slug} folders)
     const entries = await fs.readdir(base);
     const match = entries.find(e => e === slug || e.endsWith('_' + slug) || e.startsWith(slug + '_'));
     return match ? path.join(base, match) : null;
 }
 
-// ──────────────────────────────────────────────
-// Get latest version folder
-// ──────────────────────────────────────────────
 async function getLatestVersion(accountDir) {
     const entries = await fs.readdir(accountDir);
     const versions = entries.filter(e => /^v\d+$/.test(e)).sort();
     return versions.length > 0 ? versions[versions.length - 1] : null;
 }
 
-// ──────────────────────────────────────────────
-// Read outputs for a given version
-// ──────────────────────────────────────────────
 async function readOutputs(company, version) {
     const dir = await findAccountOutputDir(company);
     if (!dir) return null;
@@ -110,9 +91,6 @@ async function readOutputs(company, version) {
     return result;
 }
 
-// ──────────────────────────────────────────────
-// Parse input — supports JSON or multipart
-// ──────────────────────────────────────────────
 async function parseInput(req) {
     const contentType = req.headers['content-type'] || '';
     const body = await readBody(req);
@@ -145,9 +123,6 @@ async function parseInput(req) {
     };
 }
 
-// ──────────────────────────────────────────────
-// Save input and transcribe if needed
-// ──────────────────────────────────────────────
 async function saveInputAndTranscribe(company, type, transcript, audio) {
     const transcriptDir = path.resolve(__dirname, 'inputs', company, 'transcripts', type);
     const transcriptPath = path.join(transcriptDir, 'transcript.txt');
@@ -179,9 +154,6 @@ async function saveInputAndTranscribe(company, type, transcript, audio) {
     console.log(`   📄 Using existing transcript: ${transcriptPath}`);
 }
 
-// ──────────────────────────────────────────────
-// Deep merge with conflict detection
-// ──────────────────────────────────────────────
 function deepMergeWithConflicts(existing, patch, path = '') {
     const merged = { ...existing };
     const conflicts = [];
@@ -242,11 +214,6 @@ function deepMergeWithConflicts(existing, patch, path = '') {
     return { merged, conflicts };
 }
 
-// ──────────────────────────────────────────────
-// Apply onboarding form data to a memo (any base version)
-//   baseVersion: which version to read memo from ('v1' or 'v2')
-//   targetVersion: which version to write to ('v2')
-// ──────────────────────────────────────────────
 async function applyFormData(accountId, company, formData, baseVersion = 'v1', targetVersion = 'v2') {
     console.log(`   📋 Applying onboarding form data (base: ${baseVersion} → target: ${targetVersion})...`);
 
@@ -360,9 +327,6 @@ async function applyFormData(accountId, company, formData, baseVersion = 'v1', t
     return { nextVersion: targetVersion, merged, conflicts, changes };
 }
 
-// ──────────────────────────────────────────────
-// SSE streaming helper for child processes
-// ──────────────────────────────────────────────
 function spawnWithSSE(cmd, args, res) {
     return new Promise((resolve, reject) => {
         const child = spawn(cmd, args, { cwd: __dirname, env: process.env });
@@ -384,24 +348,18 @@ function spawnWithSSE(cmd, args, res) {
     });
 }
 
-// ──────────────────────────────────────────────
-// SERVER
-// ──────────────────────────────────────────────
-
 const server = http.createServer(async (req, res) => {
     const route = `${req.method} ${req.url.split('?')[0]}`;
     console.log(`\n→ ${route}`);
 
     try {
 
-        // ── Health ──
         if (route === 'GET /health') {
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ ok: true, service: 'clara-automation', time: new Date().toISOString() }));
             return;
         }
 
-        // ── Static files (web UI) ──
         if (req.method === 'GET') {
             const urlPath = req.url.split('?')[0];
             const safePath = path.normalize(urlPath).replace(/^(\.\.(\/|\\|$))+/, '');
@@ -415,8 +373,6 @@ const server = http.createServer(async (req, res) => {
             }
         }
 
-        // ── Pipeline A: Demo → v1 ──
-        // runDemo.js handles both .txt and audio files internally
         if (route === 'POST /run') {
             const { account_id, company, transcript_path } = await parseInput(req);
 
@@ -433,7 +389,6 @@ const server = http.createServer(async (req, res) => {
                 .replace(/^inputs[\\/]/, '')
                 .replace(/\\/g, '/');
 
-            // ── Format validation ──
             const ext = path.extname(relativeToInputs).toLowerCase();
             if (!isTranscriptExt(ext) && !isSupportedAudioExt(ext)) {
                 console.error(`❌ Unsupported file format: ${ext}`);
@@ -458,18 +413,6 @@ const server = http.createServer(async (req, res) => {
             return;
         }
 
-        // ── Pipeline B: Onboarding → v2 ──
-        // Accepts any combination of:
-        //   • onboarding_path (audio or .txt)  → transcribe if audio, then LLM
-        //   • transcript (inline text)          → save, then LLM
-        //   • audio (uploaded binary)           → save + transcribe, then LLM
-        //   • form_data (JSON object)           → direct merge on top (can be standalone OR combined)
-        //
-        // Combined: transcript/audio runs Pipeline B first → produces v2.
-        //           Then form_data is merged ON TOP of the v2 memo.
-        // Form only: skips LLM, merges form onto v1 memo → v2.
-        //
-        // Unsupported formats → reject with console error BEFORE any API calls.
         if (route === 'POST /onboard') {
             const { account_id, company, transcript, audio, onboarding_path, form_data } = await parseInput(req);
 
@@ -498,9 +441,6 @@ const server = http.createServer(async (req, res) => {
                 console.log(`   📄 Using existing transcript on disk`);
             }
 
-            // ──────────────────────────────────────────
-            // PHASE 1: Audio / Transcript → LLM → v2
-            // ──────────────────────────────────────────
             let pipelineBRan = false;
 
             if (hasTranscriptInput || (!hasFormData)) {
@@ -580,13 +520,8 @@ const server = http.createServer(async (req, res) => {
                 pipelineBRan = true;
             }
 
-            // ──────────────────────────────────────────
-            // PHASE 2: Form data → merge on top
-            // ──────────────────────────────────────────
             let formResult = null;
             if (hasFormData) {
-                // If Pipeline B just wrote v2, merge form on top of v2.
-                // If Pipeline B didn't run, merge form onto v1 → v2.
                 const baseVer = pipelineBRan ? 'v2' : 'v1';
                 console.log(`   📋 Applying form data on top of ${baseVer}...`);
                 formResult = await applyFormData(account_id, company, form_data, baseVer, 'v2');
@@ -605,7 +540,6 @@ const server = http.createServer(async (req, res) => {
             return;
         }
 
-        // ── Pipeline C: Standalone form → v2 (kept for backward compat) ──
         if (route === 'POST /form') {
             const { account_id, company, form_data } = await parseInput(req);
 
@@ -637,7 +571,6 @@ const server = http.createServer(async (req, res) => {
             return;
         }
 
-        // ── Get outputs ──
         if (route === 'GET /outputs') {
             const url = new URL(req.url, 'http://localhost');
             const company = url.searchParams.get('company') || url.searchParams.get('account_id');
@@ -659,7 +592,6 @@ const server = http.createServer(async (req, res) => {
             return;
         }
 
-        // ── Get changelog for a company ──
         if (req.method === 'GET' && req.url.startsWith('/api/changelog')) {
             const url = new URL(req.url, 'http://localhost');
             const company = url.searchParams.get('company');
@@ -681,7 +613,6 @@ const server = http.createServer(async (req, res) => {
             return;
         }
 
-        // ── Batch status: all accounts + changelogs ──
         if (req.method === 'GET' && req.url.startsWith('/api/batch-status')) {
             const accountsDir = path.join(__dirname, 'outputs', 'accounts');
             const changelogDir = path.join(__dirname, 'changelog');
@@ -716,7 +647,6 @@ const server = http.createServer(async (req, res) => {
             return;
         }
 
-        // ── Streaming API: v1 pipeline (web UI) ──
         if (route === 'POST /api/v1') {
             const contentType = req.headers['content-type'] || '';
             const body = await readBody(req);
@@ -786,7 +716,6 @@ const server = http.createServer(async (req, res) => {
             return;
         }
 
-        // ── Streaming API: v2 pipeline (web UI) ──
         if (route === 'POST /api/v2') {
             const contentType = req.headers['content-type'] || '';
             const body = await readBody(req);

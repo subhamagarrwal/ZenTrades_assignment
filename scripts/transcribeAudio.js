@@ -17,10 +17,10 @@ const CHUNK_SIZE_MB = 19;
 const CHUNK_SIZE_BYTES = CHUNK_SIZE_MB * 1024 * 1024;
 const OVERLAP_SECONDS = 10;
 
-// ─── 429 helpers ───────────────────────────────
+
 const MAX_RETRIES = 2;
 const RETRY_DELAY_MS = 5000;
-let _useLocalWhisper = false;   // sticky — once 429, stay local for the run
+let _useLocalWhisper = false;
 
 function is429(error) {
     return error?.status === 429 ||
@@ -37,9 +37,6 @@ function parseRetryAfter(error) {
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-// ──────────────────────────────────────────────
-// Get audio duration
-// ──────────────────────────────────────────────
 async function getAudioDuration(inputPath) {
     return new Promise((resolve, reject) => {
         ffmpeg.ffprobe(inputPath, (err, metadata) => {
@@ -49,9 +46,6 @@ async function getAudioDuration(inputPath) {
     });
 }
 
-// ──────────────────────────────────────────────
-// Chunk audio — writes to disk inside chunksDir
-// ──────────────────────────────────────────────
 async function chunkAudio(inputPath, chunksDir) {
     await fs.ensureDir(chunksDir);
 
@@ -97,13 +91,9 @@ async function chunkAudio(inputPath, chunksDir) {
     return chunks;
 }
 
-// ──────────────────────────────────────────────
-// Transcribe each chunk — with retry + local fallback
-// ──────────────────────────────────────────────
 async function transcribeChunk(chunk, total) {
     console.log(`\n🎙  Transcribing chunk ${chunk.index + 1}/${total}: ${path.basename(chunk.path)}`);
 
-    // If a previous chunk already hit persistent 429, go straight to local
     if (_useLocalWhisper) {
         return transcribeChunkLocal(chunk, total);
     }
@@ -149,9 +139,6 @@ async function transcribeChunkLocal(chunk, total) {
     }
 }
 
-// ──────────────────────────────────────────────
-// Merge transcripts with corrected timestamps
-// ──────────────────────────────────────────────
 function mergeTranscripts(chunks, transcriptions) {
     let allSegments = [];
     let lastEndTime = 0;
@@ -188,9 +175,6 @@ function mergeTranscripts(chunks, transcriptions) {
     return { fullText, segments: allSegments };
 }
 
-// ──────────────────────────────────────────────
-// Cleanup: delete entire chunks dir after merge
-// ──────────────────────────────────────────────
 async function cleanupChunks(chunksDir) {
     try {
         await fs.remove(chunksDir);
@@ -200,47 +184,25 @@ async function cleanupChunks(chunksDir) {
     }
 }
 
-// ──────────────────────────────────────────────
-// Resolve output dir from audio path
-//
-// inputs/{company}/audio/demo.mp3
-//   → inputs/{company}/transcripts/demo/
-//
-// inputs/{company}/audio/demo/demo_audio.mp3
-//   → inputs/{company}/transcripts/demo/
-//
-// Rule: walk up from the audio file until we find
-// the folder named "audio", take the stem above it
-// as company dir, use the FIRST subfolder under
-// "audio" (or the filename stem) as the session name.
-// ──────────────────────────────────────────────
 function resolveOutputDir(inputAudioAbs) {
     const parts = inputAudioAbs.split(path.sep);
-
-    // Find index of the "audio" segment
     const audioIdx = parts.findLastIndex(p => p.toLowerCase() === 'audio');
 
     if (audioIdx === -1) {
         throw new Error(`Could not find an "audio" folder in path: ${inputAudioAbs}`);
     }
 
-    // Company dir is everything up to (not including) "audio"
+    // Company dir is everything up to "audio"
     const companyDir = parts.slice(0, audioIdx).join(path.sep);
 
-    // Session name = first path segment after "audio"
-    // e.g. audio/demo.mp3        → "demo"
-    // e.g. audio/demo/file.mp3   → "demo"
     const afterAudio = parts.slice(audioIdx + 1);
     const sessionName = afterAudio.length === 1
-        ? path.basename(afterAudio[0], path.extname(afterAudio[0]))  // "demo.mp3" → "demo"
-        : afterAudio[0];                                              // "demo/..." → "demo"
+        ? path.basename(afterAudio[0], path.extname(afterAudio[0]))
+        : afterAudio[0];
 
     return path.join(companyDir, 'transcripts', sessionName);
 }
 
-// ──────────────────────────────────────────────
-// MAIN
-// ──────────────────────────────────────────────
 async function main() {
     const inputAudio = process.argv[2];
 

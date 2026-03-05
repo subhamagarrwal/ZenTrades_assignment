@@ -17,7 +17,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const MODELS_DIR = process.env.MODELS_DIR || path.join(PROJECT_ROOT, 'models');
 
-// ─── Model definitions ────────────────────────────────────
+
 const WHISPER_MODEL = {
     file: 'ggml-small.bin',
     url: 'https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin',
@@ -34,13 +34,12 @@ const LLAMA_PORT = 8081;
 let _llamaProc = null;
 let _llamaReady = false;
 
-// ─── Binary check ──────────────────────────────────────────
+
 function hasBinary(name) {
     try {
         execFileSync(name, ['--help'], { stdio: 'pipe', timeout: 5000 });
         return true;
     } catch (e) {
-        // ENOENT = binary doesn't exist; anything else = exists but errored
         return e.code !== 'ENOENT';
     }
 }
@@ -48,7 +47,7 @@ function hasBinary(name) {
 export const WHISPER_AVAILABLE = hasBinary('whisper-cli');
 export const LLAMA_AVAILABLE = hasBinary('llama-server');
 
-// ─── Model download (curl, progress to stderr) ────────────
+
 async function ensureModel(model) {
     const dest = path.join(MODELS_DIR, model.file);
     if (await fs.pathExists(dest)) return dest;
@@ -62,7 +61,7 @@ async function ensureModel(model) {
         });
         proc.on('close', (code) => {
             if (code !== 0) {
-                fs.removeSync(dest);   // remove partial download
+                fs.removeSync(dest);
                 return reject(new Error(`curl exited ${code} downloading ${model.file}`));
             }
             console.log(`✅ Downloaded ${model.file}`);
@@ -81,7 +80,7 @@ export async function ensureModels() {
     console.log('✅ All fallback models ready');
 }
 
-// ─── Local Whisper STT ─────────────────────────────────────
+
 export async function localTranscribe(audioChunkPath) {
     if (!WHISPER_AVAILABLE) {
         throw new Error('whisper-cli binary not found. Run inside the Docker container or install whisper.cpp.');
@@ -89,7 +88,7 @@ export async function localTranscribe(audioChunkPath) {
 
     const modelPath = await ensureModel(WHISPER_MODEL);
 
-    // Convert to 16 kHz mono WAV (whisper.cpp requirement)
+    // Convert to 16 kHz mono WAV
     const wavPath = audioChunkPath + '.fallback.wav';
     await new Promise((resolve, reject) => {
         const ff = spawn('ffmpeg', [
@@ -101,7 +100,7 @@ export async function localTranscribe(audioChunkPath) {
         ff.on('error', reject);
     });
 
-    // Run whisper-cli  →  writes <outputPrefix>.json
+    // Run whisper-cli
     const outputPrefix = wavPath.replace(/\.wav$/, '');
 
     return new Promise((resolve, reject) => {
@@ -149,18 +148,16 @@ export async function localTranscribe(audioChunkPath) {
     });
 }
 
-// ─── Lazy llama-server management ──────────────────────────
+
 async function ensureLlamaServer() {
     if (_llamaReady) return;
 
-    // If a previous process (from an earlier script invocation) is already
-    // listening on the port, reuse it — no need to spawn a new one.
     try {
         await httpGet(`http://127.0.0.1:${LLAMA_PORT}/health`);
         _llamaReady = true;
         console.log('✅ Local LLM server already running — reusing');
         return;
-    } catch { /* not up yet — fall through to spawn */ }
+    } catch { }
 
     if (!LLAMA_AVAILABLE) {
         throw new Error('llama-server binary not found. Run inside the Docker container or install llama.cpp.');
@@ -181,9 +178,7 @@ async function ensureLlamaServer() {
         '-t', String(threads),
     ], { stdio: ['ignore', 'pipe', 'pipe'] });
 
-    // Unref the process and its streams so they don't prevent Node from
-    // exiting once the calling script (runOnboarding.js, etc.) finishes.
-    // The server keeps running; it's just no longer holding the event loop.
+    // Unref so the server doesn't hold the Node event loop open
     _llamaProc.unref();
     if (_llamaProc.stdout) _llamaProc.stdout.unref();
     if (_llamaProc.stderr) _llamaProc.stderr.unref();
@@ -218,7 +213,7 @@ async function ensureLlamaServer() {
     throw new Error('llama-server did not become ready within 120s');
 }
 
-// ─── Local LLM completion (OpenAI-compatible API) ──────────
+
 export async function localChatCompletion(messages, maxTokens = 4096) {
     await ensureLlamaServer();
     console.log('🤖 Using local LLM fallback (Qwen2.5-1.5B — slower than Groq)...');
@@ -231,7 +226,7 @@ export async function localChatCompletion(messages, maxTokens = 4096) {
     return response.choices[0].message.content;
 }
 
-// ─── HTTP helpers ──────────────────────────────────────────
+
 function httpGet(url) {
     return new Promise((resolve, reject) => {
         http.get(url, (res) => {
@@ -278,7 +273,7 @@ function httpPost(url, body) {
     });
 }
 
-// ─── Cleanup on process exit ───────────────────────────────
+
 function cleanup() {
     if (_llamaProc) {
         _llamaProc.kill('SIGTERM');

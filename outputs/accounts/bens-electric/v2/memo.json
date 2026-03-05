@@ -2,14 +2,8 @@
   "company_name": "Ben's Electric Solution Team",
   "industry_type": "electrical contracting",
   "services_supported": [
-    "EV charger installation",
-    "hot tub electrical hookups",
-    "panel changes",
-    "outlet replacements",
-    "aluminum wiring mitigation",
-    "LED lighting upgrades",
-    "electrical repairs",
-    "plumbing and gas line connections for hot tubs"
+    "electrical work",
+    "residential electrical services"
   ],
   "business_hours": {
     "days": [
@@ -19,21 +13,20 @@
       "Thursday",
       "Friday"
     ],
-    "start": "8:30 AM",
-    "end": "5:00 PM",
+    "start": "08:30",
+    "end": "17:00",
     "timezone": null
   },
   "office_address": null,
   "emergency_definition": [
-    "Calls from regular property managers and general contractors are considered emergencies",
-    "Emergency calls from other clients are evaluated case‑by‑case by Ben"
+    "G&M Pressure Washing emergencies"
   ],
   "emergency_routing_rules": {
     "contacts": [],
     "fallback": null
   },
   "non_emergency_routing_rules": {
-    "action": null,
+    "action": "Caller will be contacted the next business day",
     "fallback": null
   },
   "call_transfer_rules": {
@@ -41,19 +34,14 @@
     "retries": null,
     "on_fail": null
   },
-  "integration_constraints": "Requires integration with Jobber CRM (currently used for scheduling and invoicing).",
-  "after_hours_flow_summary": "After‑hours calls are taken directly by Ben; there is no automated voicemail or 24/7 on‑call system.",
-  "office_hours_flow_summary": "During business hours Clara answers calls, books site visits and jobs via Jobber, but appointment confirmations require Ben's approval.",
+  "integration_constraints": "Integration with client's website.",
+  "after_hours_flow_summary": "After hours, emergency calls from G&M Pressure Washing are patched through to Ben; all other callers receive a message and will be contacted the next business day.",
+  "office_hours_flow_summary": "During business hours (Mon‑Fri 8:30 AM‑5:00 PM), Clara answers calls, mentions the $115 service call fee only if asked, and can forward calls to the second number once it is set up or transfer to Ben on request.",
   "questions_or_unknowns": [
-    "Timezone not provided",
-    "Physical address not provided",
-    "Phone numbers for routing not provided",
-    "Emergency definitions and routing not provided",
-    "Non-emergency after-hours handling not provided",
-    "Call transfer rules not provided",
-    "CRM/software constraints not provided",
-    "Services supported not explicitly listed"
+    "Timezone for business hours",
+    "Phone numbers for routing and second line",
+    "SMS notification number"
   ],
-  "notes": "Client wants Clara to mention the $115 service call fee only if the caller asks. Preferred notification email is info@benselectricsolutionsteam.com. Wants both email and SMS notifications for new calls; SMS to be sent to the main business line number. Main line will still receive texts directly; only incoming calls are forwarded to Clara.",
+  "notes": "Client is currently a sole proprietorship planning to incorporate later in the year. Interested in using Clara for collections, dispatcher‑based job assignment, appointment confirmations, review collection, and leveraging a club membership program for priority scheduling and discounts.",
   "account_id": "bens-electric"
 }

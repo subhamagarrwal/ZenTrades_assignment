@@ -7,9 +7,6 @@ const MODELS = {
     compose : 'openai/gpt-oss-120b',
 };
 
-// ──────────────────────────────────────────────
-// Chunk ONLY at timestamp boundaries (mm:ss)
-// ──────────────────────────────────────────────
 function chunkTranscript(transcript) {
     const lines = transcript.split('\n').filter(l => l.trim());
     const TIMESTAMP_RE = /^\(\d+:\d{2}\)/;
@@ -35,9 +32,6 @@ function chunkTranscript(transcript) {
     return chunks;
 }
 
-// ──────────────────────────────────────────────
-// Stage 1 — 70B: Extract facts from each chunk
-// ──────────────────────────────────────────────
 async function extractChunkFacts(chunkText, chunkIndex, total) {
     console.log(`   📋 [70B] Extracting facts from chunk ${chunkIndex + 1}/${total}...`);
 
@@ -88,9 +82,6 @@ FOCUS ON:
     return await createChatCompletion(messages, MODELS.extract, 2048);
 }
 
-// ──────────────────────────────────────────────
-// Stage 2 — 120B: Compose structured memo from facts
-// ──────────────────────────────────────────────
 async function composeMemoFromFacts(allFacts) {
     console.log(`   🧠 [120B] Composing structured memo from facts...`);
 
@@ -157,9 +148,6 @@ SCHEMA (fill every key):
     return JSON.parse(cleaned);
 }
 
-// ──────────────────────────────────────────────
-// Main export
-// ──────────────────────────────────────────────
 export async function extractMemo(transcript) {
     const chunks = chunkTranscript(transcript);
     console.log(`📝 Transcript → ${chunks.length} chunk(s)`);

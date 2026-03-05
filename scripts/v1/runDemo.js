@@ -13,17 +13,6 @@ const __dirname  = path.dirname(fileURLToPath(import.meta.url));
 const execAsync  = promisify(exec);
 const AUDIO_EXTS = new Set(['.mp3', '.wav', '.m4a', '.ogg', '.flac', '.webm', '.aac', '.wma']);
 
-// ──────────────────────────────────────────────
-// Usage: node scripts/v1/runDemo.js <input-path> [account-id]
-//
-//   <input-path> is relative to inputs/ folder — can be:
-//     bens-electric/transcripts/demo/transcript.txt    ← plain transcript
-//     bens-electric/audio/demo/recording.mp3           ← any audio format
-//
-//   Transcription output is saved to:
-//     inputs/<company>/transcripts/demo/transcript.txt
-// ──────────────────────────────────────────────
-
 const inputArg  = process.argv[2];
 const accountId = process.argv[3] || 'demo_001';
 const version   = 'v1';
@@ -47,7 +36,6 @@ const fullInputPath = await (async () => {
 
 async function runDemo() {
     try {
-        // ── Step 1: Resolve transcript (transcribe if audio) ──
         console.log('📄 Resolving input...');
         console.log(`   ${fullInputPath}`);
 
@@ -61,13 +49,11 @@ async function runDemo() {
         let transcript;
 
         if (ext === '.txt') {
-            // ── Plain transcript — read directly ──
             console.log('   📝 Text transcript detected');
             transcript = await fs.readFile(fullInputPath, 'utf-8');
             console.log('✅ Transcript loaded\n');
 
         } else if (AUDIO_EXTS.has(ext)) {
-            // ── Audio file — transcribe first (skip if transcript already exists) ──
             const parts    = fullInputPath.split(path.sep);
             const audioIdx = parts.findLastIndex(p => p.toLowerCase() === 'audio');
             const afterAudio = parts.slice(audioIdx + 1);
@@ -131,9 +117,7 @@ async function runDemo() {
             console.error('❌ agentDraftSpec.json not found at:', specPath);
         }
 
-        // ── Step: Asana Task ──
         console.log('\nSTEP: CREATING ASANA TASK');
-        console.log('──────────────────────────');
         const asanaTask = await createAsanaReviewTask({
             accountId,
             companyName    : memo.company_name || accountId,

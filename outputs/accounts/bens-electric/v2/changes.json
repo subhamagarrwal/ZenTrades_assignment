@@ -1,14 +1,32 @@
 {
   "version_from": "v1",
   "version_to": "v2",
-  "generated_at": "2026-03-05T03:10:31.430Z",
-  "total_changes": 4,
+  "generated_at": "2026-03-05T04:16:24.487Z",
+  "total_changes": 9,
   "changes": [
     {
       "field": "company_name",
       "before": null,
       "after": "Ben's Electric Solution Team",
       "note": "Field populated for the first time"
+    },
+    {
+      "field": "services_supported",
+      "before": [
+        "EV charger installation",
+        "hot tub electrical hookups",
+        "panel changes",
+        "outlet replacements",
+        "aluminum wiring mitigation",
+        "LED lighting upgrades",
+        "electrical repairs",
+        "plumbing and gas line connections for hot tubs"
+      ],
+      "after": [
+        "electrical work",
+        "residential electrical services"
+      ],
+      "note": "Field updated"
     },
     {
       "field": "business_hours",
@@ -26,10 +44,51 @@
           "Thursday",
           "Friday"
         ],
-        "start": "8:30 AM",
-        "end": "5:00 PM",
+        "start": "08:30",
+        "end": "17:00",
         "timezone": null
       },
+      "note": "Field updated"
+    },
+    {
+      "field": "emergency_definition",
+      "before": [
+        "Calls from regular property managers and general contractors are considered emergencies",
+        "Emergency calls from other clients are evaluated case‑by‑case by Ben"
+      ],
+      "after": [
+        "G&M Pressure Washing emergencies"
+      ],
+      "note": "Field updated"
+    },
+    {
+      "field": "non_emergency_routing_rules",
+      "before": {
+        "action": null,
+        "fallback": null
+      },
+      "after": {
+        "action": "Caller will be contacted the next business day",
+        "fallback": null
+      },
+      "note": "Field updated"
+    },
+    {
+      "field": "integration_constraints",
+      "before": "Requires integration with Jobber CRM (currently used for scheduling and invoicing).",
+      "after": "Integration with client's website.",
+      "note": "Field updated"
+    },
+    {
+      "field": "after_hours_flow_summary",
+      "before": "After‑hours calls are taken directly by Ben; there is no automated voicemail or 24/7 on‑call system.",
+      "after": "After hours, emergency calls from G&M Pressure Washing are patched through to Ben; all other callers receive a message and will be contacted the next business day.",
+      "note": "Field updated"
+    },
+    {
+      "field": "office_hours_flow_summary",
+      "before": "During business hours Clara answers calls, books site visits and jobs via Jobber, but appointment confirmations require Ben's approval.",
+      "after": "During business hours (Mon‑Fri 8:30 AM‑5:00 PM), Clara answers calls, mentions the $115 service call fee only if asked, and can forward calls to the second number once it is set up or transfer to Ben on request.",
       "note": "Field updated"
     },
     {
@@ -41,21 +100,10 @@
         "Who should receive emergency calls as the primary contact (phone number)?"
       ],
       "after": [
-        "Timezone not provided",
-        "Physical address not provided",
-        "Phone numbers for routing not provided",
-        "Emergency definitions and routing not provided",
-        "Non-emergency after-hours handling not provided",
-        "Call transfer rules not provided",
-        "CRM/software constraints not provided",
-        "Services supported not explicitly listed"
+        "Timezone for business hours",
+        "Phone numbers for routing and second line",
+        "SMS notification number"
       ],
-      "note": "Field updated"
-    },
-    {
-      "field": "notes",
-      "before": "Client is currently a sole proprietorship planning to incorporate later in the year. Interested in using Clara for collections, dispatcher‑based job assignment, appointment confirmations, review collection, and leveraging a club membership program for priority scheduling and discounts.",
-      "after": "Client wants Clara to mention the $115 service call fee only if the caller asks. Preferred notification email is info@benselectricsolutionsteam.com. Wants both email and SMS notifications for new calls; SMS to be sent to the main business line number. Main line will still receive texts directly; only incoming calls are forwarded to Clara.",
       "note": "Field updated"
     }
   ],
