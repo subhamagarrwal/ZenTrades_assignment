@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "Clara Pipeline - v1 (Demo) + v2 (Onboarding)",
   "nodes": [
     {
@@ -49,7 +49,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "http://host.docker.internal:3000/run",
+        "url": "http://clara:3000/run",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify({ account_id: $('Validate v1 Input').item.json.account_id, company: $('Validate v1 Input').item.json.company, transcript_path: $('Validate v1 Input').item.json.transcript_path }) }}",
@@ -144,7 +144,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "http://host.docker.internal:3000/onboard",
+        "url": "http://clara:3000/onboard",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify({ account_id: $('Validate v2 Input').item.json.account_id, company: $('Validate v2 Input').item.json.company, onboarding_path: $('Validate v2 Input').item.json.onboarding_path, transcript: $('Validate v2 Input').item.json.transcript, form_data: $('Validate v2 Input').item.json.form_data }) }}",

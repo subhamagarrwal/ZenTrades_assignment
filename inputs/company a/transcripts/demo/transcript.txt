@@ -1,0 +1,135 @@
+ Gemini said
+
+(0:00) Nick: All right, looks like the recording is on. I'll let David in now.
+(0:03) Maya: Sounds good.
+(0:08) Nick: Admitting him now.
+(0:14) Nick: Hey, David. Can you hear us?
+(0:17) David: Hey guys. Yeah, I got you. Can you hear me all right?
+(0:21) Nick: Loud and clear. Thanks for making the time today, David. I know things get crazy out in the field.
+(0:28) David: Yeah, no worries. Just finished up a furnace call, so I'm just sitting in the truck right now.
+(0:34) Nick: Perfect. Well, I want to be respectful of your time, so we'll jump right in. I'm Nick, from the partnerships side here at Clara AI. And with me is Maya, our lead Solutions Architect.
+(0:45) Maya: Hey David, nice to meet you.
+(0:47) David: Hey Maya.
+(0:49) Nick: Maya really knows the trades inside and out. She's the one who helps map how Clara actually fits into your day-to-day. So she's going to drive the demo today.
+(1:00) Maya: Yeah, and David, before I just start showing you screens, I want to make sure I actually understand what's broken in your process right now.
+(1:08) David: Broken is probably a good word for it.
+(1:11) Maya: Right? So, just starting from the basics, how is your team structured right now?
+(1:17) David: So we're based in Denver. It's me, I'm the owner but I'm still in a truck. I have three other full-time techs. And my wife Sarah helps with the office stuff part-time.
+(1:30) Maya: Okay, four trucks total. And when someone calls the main line, where does that ring?
+(1:36) David: It rings to Sarah's phone first. If she doesn't pick up, it rolls to my cell.
+(1:42) Maya: And if you're under a house dealing with ductwork?
+(1:46) David: Then it goes to voicemail. Which is the main problem. Because nobody leaves a voicemail anymore.
+(1:52) Maya: Exactly. They just go to the next guy on Google.
+(1:55) David: Yeah, exactly. They just want someone to answer. We tried a human answering service last summer.
+(2:01) Maya: How did that go?
+(2:04) David: Terrible. They didn't know anything. A customer would say their AC is blowing warm, and the operator would just say, "I'll take a message." It just made customers mad.
+(2:15) Maya: Because fundamentally, taking a message isn't solving the customer's problem. The customer needs to know they are on the schedule.
+(2:23) David: Exactly.
+(2:25) Maya: So if we look at this from a first principles perspective, the bottleneck isn't just answering the phone. It's qualifying the lead and securing the appointment. If a system can't do that, it's just adding friction.
+(2:38) David: Right. And Sarah is spending half her day just calling people back who hung up or left half a message.
+(2:45) Maya: So that's what Clara is built for. We don't use those rigid "press 1 for service" phone trees. It's an actual conversational AI that is trained specifically on your HVAC business.
+(2:58) David: So it talks to them? Like a real person?
+(3:02) Maya: Yes. It listens, understands the context, and speaks back. If they interrupt Clara, she stops and listens.
+(3:11) David: But does it actually know what it's talking about? Like, if someone asks about a heat pump versus a standard condenser?
+(3:19) Maya: It does. We train it on standard HVAC knowledge, and then we layer your specific business rules on top. So it knows the difference between a routine maintenance call and a gas leak.
+(3:31) David: Okay. I mean, I'm a little skeptical.
+(3:35) Maya: I'd be worried if you weren't. Honestly, the easiest way to understand this is just to try it.
+(3:42) David: Sure.
+(3:44) Maya: I'm putting a phone number in the Zoom chat right now. Can you call that from your cell phone?
+(3:50) David: Yeah, let me pull it up.
+(3:54) Maya: Put it on speaker so we can all hear. And just roleplay as a customer. Give her a real scenario.
+(4:02) David: All right, dialing now.
+(4:10) Clara: Thanks for calling Mile High Heating and Air. This is Clara. How can I help you today?
+(4:15) David: Hi, yeah. My AC unit outside is making a really loud grinding noise, and it's blowing completely warm air inside.
+(4:25) Clara: I'm so sorry to hear that. Dealing with a broken AC is frustrating. A grinding noise combined with warm air could mean an issue with the compressor or the condenser fan motor. We should definitely get a technician out to take a look.
+(4:40) Clara: To start, could I get your first and last name, and the address you're calling from?
+(4:45) David: It's John Smith. Address is 1234 Elm Street in Denver. But hey, how much is this going to cost just to get someone out here?
+(4:56) Clara: I understand wanting to know the costs upfront, John. Our standard diagnostic fee to come out and inspect the unit is $89. Once the technician finds the issue, they will give you a straight-forward quote for the repair before doing any work. Does that sound fair?
+(5:13) David: Yeah, $89 is fine. But I need someone today.
+(5:18) Clara: Let me check our schedule for today, John.
+(5:22) Clara: It looks like we are fully booked for the morning, but I do have a window available this afternoon between 2:00 PM and 4:00 PM. Would that work for you?
+(5:32) David: No, I've got to pick up my kids at 3:00. Do you have anything tomorrow morning?
+(5:38) Clara: Not a problem. We can work around your schedule. For tomorrow, I have a slot between 8:00 AM and 10:00 AM. How does that work?
+(5:48) David: Tomorrow at 8 AM is perfect.
+(5:51) Clara: Great. I've got you down for tomorrow between 8:00 AM and 10:00 AM at 1234 Elm Street. What's the best phone number for the technician to call when they are on their way?
+(6:04) David: You can just use this number.
+(6:07) Clara: Perfect. I have this number on file. You are all set, John. Is there anything else I can help you with today?
+(6:14) David: Actually, do you guys work on commercial stuff? I manage a restaurant downtown.
+(6:20) Clara: We absolutely do. We handle commercial HVAC systems, including rooftop units. When you're ready to have that looked at, just give us a call back to set up a commercial site visit.
+(6:31) David: Okay, thanks.
+(6:33) Clara: You're welcome, John. Have a great rest of your day.
+(6:39) David: Wow. Okay. That was actually pretty good.
+(6:44) Maya: What stood out to you?
+(6:47) David: It actually answered my pricing question. And it knew that a grinding noise could be a fan motor. That's exactly what I tell customers to build a little trust.
+(6:58) Maya: Right. That's the difference between a static answering service and an AI that maps intent. It doesn't just read a script; it addresses the underlying concern.
+(7:08) David: Yeah, I tried to throw it off with the commercial question at the end, too.
+(7:12) Maya: And it handled it smoothly. Now, the natural question is, where does that information go? Because if Sarah still has to manually copy this into your system, we haven't saved you much time.
+(7:25) David: Yeah, exactly. We use ServiceTitan. So how does that work?
+(7:30) Maya: So Clara has a native, bi-directional API integration with ServiceTitan.
+(7:36) David: Bi-directional?
+(7:38) Maya: Yes. Meaning Clara isn't just pushing data in; she's reading it in real-time. When she offered you that 2:00 PM slot, she was actually querying your ServiceTitan dispatch board to see where you had availability based on the zip code you provided.
+(7:55) David: No way. It actually looks at my board?
+(7:58) Maya: Exactly. And when you agreed to 8:00 AM tomorrow, Clara generated a structured API payload. It created a new Customer Profile for John Smith, a Location Record for Elm Street, and dropped an unassigned Job ticket directly onto your dispatch board for tomorrow morning.
+(8:18) David: That is crazy. So Sarah doesn't have to touch it.
+(8:22) Maya: She doesn't have to touch it. The call summary is automatically added to the job notes, and there's a link to the audio recording if your techs want to listen to the exact tone of the customer before they arrive.
+(8:35) David: Okay, that is a game changer. But what if it's an emergency? What if someone calls at 2 AM and says there is water pouring out of their ceiling from the attic unit? I don't want Clara booking that for next Tuesday.
+(8:50) Maya: That's a great point. And this is where we customize your business rules. During setup, we define your escalation triggers. If a caller says "water leaking," "smell gas," "sparks," or anything that denotes an emergency, Clara pivots.
+(9:08) David: What does she do?
+(9:10) Maya: She immediately says, "This sounds like an emergency, please hold while I connect you to our on-call technician." She then live-transfers the call directly to your cell phone.
+(9:22) David: And if I'm asleep and don't answer?
+(9:25) Maya: If it hits your voicemail, Clara takes the call back, tells the customer you're on another line but have been paged, and then she sends an urgent SMS and email to you and Sarah with the word "EMERGENCY" and the customer's details.
+(9:41) David: That's really smart. That way I don't lose total control over the important stuff.
+(9:46) Maya: Right. Clara is a filter. She handles the 80% of routine calls—the tire-kickers, the routine maintenance, the basic service calls. She leaves the complex, high-stakes 20% to you.
+(10:00) David: What about my suppliers? If my guy from Carrier calls to say a part is in, is Clara going to try and charge him a diagnostic fee?
+(10:10) Maya: No. You can whitelist numbers. So any calls from your techs, your wife, or your main suppliers bypass Clara entirely and ring straight through to you.
+(10:22) David: Oh, nice.
+(10:24) Maya: And even if a supplier calls from a new number, Clara's AI understands intent. If they say, "Hey, this is Jim from Johnstone Supply," Clara won't run a booking flow. She'll say, "Hi Jim, would you like me to transfer you to David, or take a message?"
+(10:40) David: That's exactly what I'd want.
+(10:43) Nick: David, I want to jump in here for a second. We've talked a lot about inbound. But I want to ask you about your outbound process. Do you guys have a list of past customers who haven't booked a tune-up recently?
+(10:55) David: Oh man, our ServiceTitan is full of them. We have hundreds of dead leads. We just don't have the time to sit there and dial them.
+(11:05) Nick: That's where we take this from just a cost-saving tool to a revenue-generating tool. Clara has an outbound reactivation feature.
+(11:15) David: How does that work?
+(11:17) Nick: You pull a list from ServiceTitan. Say, 200 customers who haven't had a spring tune-up in two years. You load that list into Clara. She can call them, sounding completely natural, and say, "Hi, this is Clara with Mile High Heating. We noticed you're due for your annual tune-up, and we're running a $50 special this week. Would you like to get that scheduled?"
+(11:40) David: She just cold calls them?
+(11:42) Nick: Warm calls, since they are past customers. But yes. And because she's an AI, she can dial all 200 of them simultaneously, have 50 parallel conversations, and instantly populate your dispatch board with tune-ups.
+(11:58) David: That is... wow. That alone would pay for whatever this costs.
+(12:05) Maya: Exactly. We're trying to give you an entire front office that scales up infinitely.
+(12:12) David: All right, you guys have my attention. Let's talk about the elephant in the room. How much does this cost? Because my old answering service was $600 a month, and they were terrible.
+(12:24) Nick: We price this based on actual utility. We don't have human overhead, so we don't have to charge human prices. Our standard Trade Pro tier is $349 a month.
+(12:38) David: Just $349 flat?
+(12:41) Nick: $349 a month. That gives you 800 minutes of talk time. And the system automatically filters out spam calls, robocalls, and quick hangups. We don't charge you for those.
+(12:54) David: What happens if I go over 800 minutes? Because in July, our phones ring off the hook.
+(13:00) Nick: It's just 15 cents for every additional minute. We never cut your phones off. But to put it in perspective, if an average booking call is 3 minutes long, 800 minutes is over 260 handled conversations a month.
+(13:15) David: Yeah, that's a lot of calls. And are there contracts?
+(13:20) Nick: Month to month. We know that if Clara isn't actually putting jobs on your board and saving Sarah time, you aren't going to keep it. We have to earn your business every 30 days.
+(13:32) David: I really respect that. Okay, so logistically, how do we actually set this up? Because my pricing is specific to certain zones. I don't want her giving the wrong info.
+(13:45) Maya: That's entirely what onboarding is for. It takes us about 48 hours to get you live.
+(13:52) David: That fast?
+(13:54) Maya: Yes. Step one is a Kickoff Call. We get on a Zoom for about 45 minutes, and I basically just interview you. We go through your price book, your zip codes, your business hours, and how you want her to answer specific questions.
+(14:10) David: Okay, makes sense.
+(14:12) Maya: Step two, my team builds your custom agent. Step three, we give you a test phone number. You spend a day or two calling it, testing it, trying to trick it. If she says something weird, you tell us, and we adjust the logic parameters.
+(14:30) David: So she doesn't actually talk to my real customers until I say so?
+(14:35) Maya: Exactly. We don't flip the switch until you are 100% confident.
+(14:40) David: And what about my actual phone number? I've got my number wrapped on all four of my vans. I can't change it.
+(14:48) Maya: You don't change anything. You keep your number. We just have you set up "conditional call forwarding" with your phone provider. So if someone calls your main line, and you or Sarah don't answer after three rings, it seamlessly routes to Clara.
+(15:05) David: Oh, so we can still try to answer it first if we want to?
+(15:09) Maya: Yep. You have first dibs. Clara is just your ultimate safety net.
+(15:15) David: Man, this is really well thought out.
+(15:19) Nick: We built it entirely around the feedback of guys just like you, David.
+(15:25) David: Yeah, I can tell. Honestly, let's do it. Let's get this set up. I know Sarah is going to love this.
+(15:33) Nick: Awesome. I'm really glad to hear that. To get the ball rolling, I just need to generate a quick agreement for that $349 tier. Can you confirm the exact legal name of your business?
+(15:46) David: Yeah, it's Mile High Heating and Air, LLC.
+(15:52) Nick: Got it. And what's the best email to send the DocuSign to?
+(15:57) David: Use david@milehighhvac.com.
+(16:03) Nick: Perfect. I'm drafting that up right now. While I do that, let's look at getting that Kickoff Call on the calendar. Maya, how does tomorrow look for you?
+(16:15) Maya: I have a block open tomorrow morning around 10:00 AM Mountain Time. Does that work for you, David?
+(16:21) David: Yeah, 10 AM works. I'll make sure I'm parked somewhere quiet for that one.
+(16:26) Nick: Great. I just sent the calendar invite to that email. Also, David, attached to that invite is a really quick onboarding questionnaire. It just asks for a list of your zip codes and basic dispatch fees. If you can fill that out tonight, it gives Maya a huge head start for tomorrow's call.
+(16:45) David: Yeah, I can knock that out when I get home tonight.
+(16:49) Nick: Excellent. And I just hit send on the DocuSign. It has a secure link for the card on file for the subscription. As soon as that's processed, it automatically spins up your workspace on our backend.
+(17:02) David: Awesome. I see the email come through on my phone. I'll get that signed as soon as I wrap up my next call.
+(17:10) Nick: Perfect. David, we are really pumped to get you going on this. It's going to make a massive difference for your dispatching.
+(17:18) David: I'm really looking forward to it. It sounds exactly like what we need. Thanks for the demo, guys. I appreciate you taking the time.
+(17:26) Maya: Absolutely, David. Have a great rest of your day, stay safe out there. See you tomorrow at 10.
+(17:32) David: You too. See ya.
+(17:35) Nick: Bye David.

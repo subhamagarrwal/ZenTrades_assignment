@@ -37,7 +37,13 @@ if (!inputArg) {
     process.exit(1);
 }
 
-const fullInputPath = path.resolve(__dirname, '../../inputs', inputArg);
+const fullInputPath = await (async () => {
+    const relToInputs = path.resolve(__dirname, '../../inputs', inputArg);
+    const relToRoot   = path.resolve(__dirname, '../../', inputArg);
+    if (await fs.pathExists(relToInputs)) return relToInputs;
+    if (await fs.pathExists(relToRoot))   return relToRoot;
+    return relToInputs; // default — will fail with clear error below
+})();
 
 async function runDemo() {
     try {

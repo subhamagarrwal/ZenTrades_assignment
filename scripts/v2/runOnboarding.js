@@ -11,6 +11,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const MERGE_MODEL = 'openai/gpt-oss-120b';
 
 // ──────────────────────────────────────────────
+// Slugify company name → folder-safe slug
+// ──────────────────────────────────────────────
+function slugifyCompany(name) {
+    return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+// ──────────────────────────────────────────────
 // Find account dir — by company slug, or account_id prefix
 // ──────────────────────────────────────────────
 async function findAccountDir(identifier, rootDir) {
@@ -18,13 +25,14 @@ async function findAccountDir(identifier, rootDir) {
     if (!await fs.pathExists(accountsRoot)) return null;
 
     const entries = await fs.readdir(accountsRoot);
+    const slug = slugifyCompany(identifier);
 
-    // Exact match first
-    const exact = entries.find(e => e === identifier);
+    // Exact match (raw or slugified)
+    const exact = entries.find(e => e === identifier || e === slug);
     if (exact) return path.join(accountsRoot, exact);
 
     // Prefix match (legacy account_id_ prefix)
-    const prefixed = entries.find(e => e.startsWith(identifier + '_'));
+    const prefixed = entries.find(e => e.startsWith(identifier + '_') || e.startsWith(slug + '_'));
     if (prefixed) return path.join(accountsRoot, prefixed);
 
     return null;

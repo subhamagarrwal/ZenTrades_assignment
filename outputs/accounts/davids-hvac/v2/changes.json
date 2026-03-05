@@ -1,0 +1,138 @@
+{
+  "version_from": "v1",
+  "version_to": "v2",
+  "generated_at": "2026-03-05T01:35:44.913Z",
+  "total_changes": 12,
+  "changes": [
+    {
+      "field": "company_name",
+      "before": "Mile High Heating and Air, LLC",
+      "after": "Flow State Plumbing",
+      "note": "Field updated"
+    },
+    {
+      "field": "industry_type",
+      "before": "heating and air conditioning services",
+      "after": "Plumbing",
+      "note": "Field updated"
+    },
+    {
+      "field": "services_supported",
+      "before": [
+        "HVAC maintenance",
+        "HVAC repair",
+        "Residential HVAC",
+        "Commercial HVAC",
+        "Outbound reactivation"
+      ],
+      "after": [
+        "plumbing installations",
+        "plumbing repairs",
+        "plumbing maintenance",
+        "annual tank flush",
+        "repipe jobs"
+      ],
+      "note": "Field updated"
+    },
+    {
+      "field": "business_hours",
+      "before": {
+        "days": [],
+        "start": null,
+        "end": null,
+        "timezone": "America/Denver"
+      },
+      "after": {
+        "days": [],
+        "start": null,
+        "end": "16:30",
+        "timezone": "America/Denver"
+      },
+      "note": "Field updated"
+    },
+    {
+      "field": "emergency_definition",
+      "before": [
+        "water leaking",
+        "gas smells",
+        "other urgent issues"
+      ],
+      "after": [
+        "active flooding that cannot be isolated or turned off",
+        "raw sewage backing up into the house",
+        "no hot water (only if there is an infant or elderly person in the house)"
+      ],
+      "note": "Field updated"
+    },
+    {
+      "field": "emergency_routing_rules",
+      "before": {
+        "contacts": [],
+        "fallback": null
+      },
+      "after": {
+        "contacts": [],
+        "fallback": "Send urgent SMS to the Batphone and owner Mike if voicemail is reached"
+      },
+      "note": "Field updated"
+    },
+    {
+      "field": "non_emergency_routing_rules",
+      "before": {
+        "action": null,
+        "fallback": null
+      },
+      "after": {
+        "action": "Clara takes a message and has office manager Jenny call the customer back first thing in the morning",
+        "fallback": null
+      },
+      "note": "Field updated"
+    },
+    {
+      "field": "integration_constraints",
+      "before": "Uses ServiceTitan for CRM and dispatch.",
+      "after": "Integrate directly with Housecall Pro for booking routine services and creating customer profiles",
+      "note": "Field updated"
+    },
+    {
+      "field": "after_hours_flow_summary",
+      "before": "Calls unanswered after three rings will be forwarded to Clara as a safety net for after‑hours or unanswered calls.",
+      "after": "After-hours calls trigger emergency routing; if non-emergency, Clara takes a message and office manager Jenny will call back in the morning. After-hours emergency fee is $350.",
+      "note": "Field updated"
+    },
+    {
+      "field": "office_hours_flow_summary",
+      "before": "During business hours the main line rings to Sarah's phone first; if not answered it rolls to David's cell phone.",
+      "after": "During office hours, Clara handles calls, transfers to Jenny if the customer demands to speak to a human, otherwise processes routine plumbing requests.",
+      "note": "Field updated"
+    },
+    {
+      "field": "questions_or_unknowns",
+      "before": [
+        "What are the client's exact business hours (days and times)?",
+        "What is the exact office address?",
+        "What is the main line phone number in E.164 format?",
+        "Who should be contacted for emergency call routing (names and phone numbers)?",
+        "What is the desired non‑emergency routing action during business hours?",
+        "What are the desired call transfer timeout and retry settings?",
+        "Which supplier numbers should be whitelisted to avoid diagnostic fees?"
+      ],
+      "after": [
+        "Timezone not provided",
+        "Office address not provided",
+        "Dedicated Clara phone number not provided",
+        "Email address for notifications not provided",
+        "SMS notification numbers not provided",
+        "Business days not specified"
+      ],
+      "note": "Field updated"
+    },
+    {
+      "field": "notes",
+      "before": "Owner David and his part‑time office help from wife Sarah. The company operates 4 trucks with 3 full‑time technicians besides David. They have a list of past customers for outbound reactivation. Email: david@milehighhvac.com.",
+      "after": "Standard dispatch fee is $69 (waived if customer approves work). After-hours emergency fee is $350. Annual tank flush costs $149.",
+      "note": "Field updated"
+    }
+  ],
+  "source": "onboarding_call"
+}

@@ -17,6 +17,26 @@ const CHUNK_SIZE_MB = 19;
 const CHUNK_SIZE_BYTES = CHUNK_SIZE_MB * 1024 * 1024;
 const OVERLAP_SECONDS = 10;
 
+// ─── 429 helpers ───────────────────────────────
+const MAX_RETRIES = 2;
+const RETRY_DELAY_MS = 5000;
+let _useLocalWhisper = false;   // sticky — once 429, stay local for the run
+
+function is429(error) {
+    return error?.status === 429 ||
+        error?.statusCode === 429 ||
+        error?.error?.code === 'rate_limit_exceeded' ||
+        String(error?.message).includes('429');
+}
+
+function parseRetryAfter(error) {
+    const msg = error?.error?.message || error?.message || '';
+    const match = msg.match(/try again in ([\d.]+)s/i);
+    return match ? Math.ceil(parseFloat(match[1]) * 1000) + 500 : null;
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
 // ──────────────────────────────────────────────
 // Get audio duration
 // ──────────────────────────────────────────────
@@ -78,21 +98,55 @@ async function chunkAudio(inputPath, chunksDir) {
 }
 
 // ──────────────────────────────────────────────
-// Transcribe each chunk — streams from disk
+// Transcribe each chunk — with retry + local fallback
 // ──────────────────────────────────────────────
 async function transcribeChunk(chunk, total) {
     console.log(`\n🎙  Transcribing chunk ${chunk.index + 1}/${total}: ${path.basename(chunk.path)}`);
 
-    const transcription = await groq.audio.transcriptions.create({
-        file: fs.createReadStream(chunk.path),
-        model: 'whisper-large-v3-turbo',
-        temperature: 0,
-        response_format: 'verbose_json',
-        timestamp_granularities: ['segment'],
-    });
+    // If a previous chunk already hit persistent 429, go straight to local
+    if (_useLocalWhisper) {
+        return transcribeChunkLocal(chunk, total);
+    }
 
-    console.log(`   ✅ Transcribed ${transcription.segments?.length ?? 0} segments`);
-    return transcription;
+    for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+        try {
+            const transcription = await groq.audio.transcriptions.create({
+                file: fs.createReadStream(chunk.path),
+                model: 'whisper-large-v3-turbo',
+                temperature: 0,
+                response_format: 'verbose_json',
+                timestamp_granularities: ['segment'],
+            });
+
+            console.log(`   ✅ Transcribed ${transcription.segments?.length ?? 0} segments`);
+            return transcription;
+        } catch (error) {
+            if (is429(error) && attempt < MAX_RETRIES) {
+                const wait = parseRetryAfter(error) || RETRY_DELAY_MS * (attempt + 1);
+                console.warn(`   ⚠️  Groq 429 — retry ${attempt + 1}/${MAX_RETRIES} in ${(wait / 1000).toFixed(1)}s...`);
+                await sleep(wait);
+                continue;
+            }
+            if (is429(error)) {
+                console.warn('   ⚠️  Groq Whisper rate-limited — switching to local whisper-small for remaining chunks...');
+                _useLocalWhisper = true;
+                return transcribeChunkLocal(chunk, total);
+            }
+            throw error;
+        }
+    }
+}
+
+async function transcribeChunkLocal(chunk, total) {
+    try {
+        const { localTranscribe } = await import('../clients/local_fallback.js');
+        const result = await localTranscribe(chunk.path);
+        console.log(`   ✅ Local whisper: ${result.segments?.length ?? 0} segments`);
+        return result;
+    } catch (fbErr) {
+        console.error(`   ❌ Local whisper fallback failed: ${fbErr.message}`);
+        throw fbErr;
+    }
 }
 
 // ──────────────────────────────────────────────

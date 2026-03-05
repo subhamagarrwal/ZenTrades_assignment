@@ -1,21 +1,15 @@
 {
-  "company_name": "G&M Pressure Washing",
-  "industry_type": "electrical services",
+  "company_name": "Ben's Electric Solution Team",
+  "industry_type": "electrical contracting",
   "services_supported": [
-    "service calls",
-    "small jobs",
-    "odd jobs",
-    "renovations",
-    "troubleshooting",
-    "custom home projects",
-    "tenant improvements",
+    "EV charger installation",
+    "hot tub electrical hookups",
+    "panel changes",
     "outlet replacements",
     "aluminum wiring mitigation",
-    "fixture replacements",
-    "EV charger wiring",
-    "dedicated circuit installation",
-    "GFCI protection",
-    "hot tub electrical work"
+    "LED lighting upgrades",
+    "electrical repairs",
+    "plumbing and gas line connections for hot tubs"
   ],
   "business_hours": {
     "days": [
@@ -31,14 +25,15 @@
   },
   "office_address": null,
   "emergency_definition": [
-    "calls related to the properties managed by G&M Pressure Washing, such as gas stations"
+    "Calls from regular property managers and general contractors are considered emergencies",
+    "Emergency calls from other clients are evaluated case‑by‑case by Ben"
   ],
   "emergency_routing_rules": {
     "contacts": [],
     "fallback": null
   },
   "non_emergency_routing_rules": {
-    "action": "Returned the next business day",
+    "action": null,
     "fallback": null
   },
   "call_transfer_rules": {
@@ -46,14 +41,15 @@
     "retries": null,
     "on_fail": null
   },
-  "integration_constraints": "Uses Jobber for CRM and QuickBooks for accounting; integration may need to connect Clara with these systems.",
-  "after_hours_flow_summary": "After-hours calls will be patched through to Ben.",
-  "office_hours_flow_summary": "Ben handles office work and takes calls during business hours, also goes out in the field for quotes and job assessments.",
+  "integration_constraints": "Requires integration with Jobber CRM (currently used for scheduling and invoicing).",
+  "after_hours_flow_summary": "After‑hours calls are taken directly by Ben; there is no automated voicemail or 24/7 on‑call system.",
+  "office_hours_flow_summary": "During business hours Clara answers calls, books site visits and jobs via Jobber, but appointment confirmations require Ben's approval.",
   "questions_or_unknowns": [
-    "Timezone is not explicitly stated",
-    "Physical address is not provided",
-    "Client phone number is not provided"
+    "What is the company’s physical address?",
+    "What is the company’s primary phone number in E.164 format?",
+    "What are the exact business‑hours end time and the applicable timezone?",
+    "Who should receive emergency calls as the primary contact (phone number)?"
   ],
-  "notes": "Client agreed to a starter plan ($249/month, 500 minutes) for a three‑month trial, with a contract to lock in pricing for 12 months if continued.",
+  "notes": "Service call fee is $115 and should be mentioned only if the customer asks. Hourly charge is $98 per hour for residential work, billed in half‑hour increments. Preferred notification email is info@benselectricsolutionsteam.com. SMS notifications will use the same number as the main business line. Currently using a personal number as business line; plans to add a second number for personal use. Clara will forward calls from the main line and can transfer calls to the client. Client wants to test configuration before going live.",
   "account_id": "bens-electric"
 }

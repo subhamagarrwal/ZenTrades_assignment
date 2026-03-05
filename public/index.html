@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clara Automation</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: #111;
+  background: #fff;
+  line-height: 1.5;
+  padding: 2rem 1rem;
+}
+
+.container { max-width: 680px; margin: 0 auto; }
+
+header { margin-bottom: 2rem; border-bottom: 1px solid #ddd; padding-bottom: 1rem; }
+header h1 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; }
+header p { font-size: 0.8rem; color: #666; margin-top: 0.25rem; }
+
+.field { margin-bottom: 1rem; }
+.field label {
+  display: block; font-size: 0.7rem; font-weight: 500;
+  color: #555; text-transform: uppercase; letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+.field input[type="text"],
+.field textarea {
+  width: 100%; padding: 0.45rem 0.55rem;
+  border: 1px solid #ddd; border-radius: 2px;
+  font-size: 0.85rem; font-family: inherit;
+  background: #fff; transition: border-color 0.15s;
+}
+.field input:focus, .field textarea:focus { outline: none; border-color: #111; }
+.field textarea {
+  resize: vertical;
+  font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.78rem;
+}
+
+.row { display: flex; gap: 1rem; }
+.row .field { flex: 1; }
+
+.pipeline {
+  margin-top: 1.5rem; border: 1px solid #ddd;
+  border-radius: 2px; padding: 1.25rem;
+}
+.pipeline.disabled { opacity: 0.35; pointer-events: none; }
+.pipeline h2 {
+  font-size: 0.8rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  color: #333; margin-bottom: 1rem;
+}
+
+.upload-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+.upload-row input[type="file"] { font-size: 0.78rem; }
+.file-name { font-size: 0.78rem; color: #666; }
+
+button.run {
+  display: inline-block; padding: 0.4rem 1.2rem;
+  font-size: 0.78rem; font-weight: 500; font-family: inherit;
+  border: 1px solid #111; border-radius: 2px;
+  background: #fff; color: #111;
+  cursor: pointer; transition: background 0.15s;
+}
+button.run:hover:not(:disabled) { background: #f5f5f5; }
+button.run:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.log-panel {
+  margin-top: 1rem; padding: 0.65rem;
+  background: #f8f8f8; border: 1px solid #eee; border-radius: 2px;
+  font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.72rem; line-height: 1.6;
+  max-height: 320px; overflow-y: auto;
+  white-space: pre-wrap; word-break: break-word;
+  display: none;
+}
+.log-panel.visible { display: block; }
+.log-panel .log-line  { color: #333; }
+.log-panel .log-error { color: #dc2626; }
+.log-panel .log-step  { color: #111; font-weight: 600; }
+
+.status-bar {
+  margin-top: 0.4rem; font-size: 0.72rem; color: #666;
+  display: flex; justify-content: space-between; min-height: 1.2em;
+}
+.status-bar .result.ok   { color: #059669; font-weight: 500; }
+.status-bar .result.fail { color: #dc2626; font-weight: 500; }
+.status-bar .timer {
+  font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+}
+
+/* ── Changelog ── */
+.changelog-section {
+  margin-top: 1.5rem; border: 1px solid #ddd;
+  border-radius: 2px; padding: 1.25rem;
+}
+.changelog-section h2 {
+  font-size: 0.8rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  color: #333; margin-bottom: 1rem;
+}
+.cl-entry {
+  margin-bottom: 1rem; padding: 0.75rem;
+  border: 1px solid #eee; border-radius: 2px;
+  background: #fdfdfd;
+}
+.cl-entry-header {
+  font-size: 0.72rem; color: #666;
+  margin-bottom: 0.5rem; display: flex;
+  justify-content: space-between; align-items: center;
+}
+.cl-entry-header .cl-version {
+  font-weight: 600; color: #111; font-size: 0.78rem;
+}
+.cl-entry-header .cl-source {
+  font-size: 0.68rem; color: #999;
+  text-transform: uppercase; letter-spacing: 0.03em;
+}
+.cl-change {
+  padding: 0.35rem 0; border-bottom: 1px solid #f0f0f0;
+  font-size: 0.75rem; line-height: 1.5;
+}
+.cl-change:last-child { border-bottom: none; }
+.cl-field { font-weight: 600; color: #111; }
+.cl-before { color: #dc2626; }
+.cl-after { color: #059669; }
+.cl-note { color: #888; font-size: 0.68rem; font-style: italic; }
+.cl-val {
+  font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.7rem; background: #f8f8f8;
+  padding: 0.1rem 0.3rem; border-radius: 2px;
+  display: inline-block; max-width: 100%;
+  overflow: hidden; text-overflow: ellipsis;
+  word-break: break-word; white-space: pre-wrap;
+}
+
+/* ── Batch Monitor ── */
+.batch-section {
+  margin-top: 1.5rem; border: 1px solid #ddd;
+  border-radius: 2px; padding: 1.25rem;
+}
+.batch-header {
+  display: flex; justify-content: space-between;
+  align-items: center; margin-bottom: 1rem;
+}
+.batch-header h2 {
+  font-size: 0.8rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.04em; color: #333;
+  margin: 0;
+}
+.batch-status {
+  font-size: 0.68rem; font-weight: 500;
+  padding: 0.15rem 0.5rem; border-radius: 2px;
+}
+.batch-status.active { background: #ecfdf5; color: #059669; }
+.batch-status.idle   { background: #f8f8f8; color: #999; }
+
+.batch-card {
+  border: 1px solid #eee; border-radius: 2px;
+  margin-bottom: 0.75rem; overflow: hidden;
+}
+.batch-card-header {
+  display: flex; justify-content: space-between;
+  align-items: center; padding: 0.6rem 0.75rem;
+  background: #fafafa; cursor: pointer;
+  user-select: none;
+}
+.batch-card-header:hover { background: #f5f5f5; }
+.batch-company { font-size: 0.82rem; font-weight: 600; color: #111; }
+.batch-badges { display: flex; gap: 0.4rem; }
+.batch-badge {
+  font-size: 0.62rem; font-weight: 600;
+  padding: 0.1rem 0.4rem; border-radius: 2px;
+  text-transform: uppercase; letter-spacing: 0.03em;
+}
+.batch-badge.v1   { background: #dbeafe; color: #1d4ed8; }
+.batch-badge.v2   { background: #ecfdf5; color: #059669; }
+.batch-badge.none { background: #f3f4f6; color: #999; }
+
+.batch-card-body {
+  display: none; padding: 0.75rem;
+  border-top: 1px solid #eee;
+}
+.batch-card.open .batch-card-body { display: block; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Clara Automation</h1>
+    <p>AI Voice Agent Configuration Pipeline</p>
+  </header>
+
+  <div class="row">
+    <div class="field">
+      <label for="company">Company Slug</label>
+      <input type="text" id="company" placeholder="e.g. bens-electric">
+    </div>
+    <div class="field">
+      <label for="account-id">Account ID</label>
+      <input type="text" id="account-id" placeholder="defaults to company slug">
+    </div>
+  </div>
+
+  <!-- v1 -->
+  <section id="v1" class="pipeline">
+    <h2>v1 &mdash; Demo Pipeline</h2>
+    <div class="upload-row">
+      <input type="file" id="v1-file"
+             accept=".txt,.mp3,.wav,.m4a,.ogg,.flac,.webm,.aac,.wma,.mp4,.mpeg,.mpga">
+      <span class="file-name" id="v1-fname">No file selected</span>
+    </div>
+    <button class="run" id="v1-run" disabled>Run v1</button>
+    <div class="log-panel" id="v1-logs"></div>
+    <div class="status-bar">
+      <span class="result" id="v1-result"></span>
+      <span class="timer" id="v1-timer"></span>
+    </div>
+  </section>
+
+  <!-- v2 -->
+  <section id="v2" class="pipeline disabled">
+    <h2>v2 &mdash; Onboarding Pipeline</h2>
+    <div class="upload-row">
+      <input type="file" id="v2-file"
+             accept=".txt,.mp3,.wav,.m4a,.ogg,.flac,.webm,.aac,.wma,.mp4,.mpeg,.mpga">
+      <span class="file-name" id="v2-fname">No file selected</span>
+    </div>
+    <div class="field">
+      <label for="v2-form">Form Data <span style="font-weight:400;color:#999">(optional JSON)</span></label>
+      <textarea id="v2-form" rows="3" placeholder='{ "business_hours": { "start": "8:30 AM" } }'></textarea>
+    </div>
+    <button class="run" id="v2-run" disabled>Run v2</button>
+    <div class="log-panel" id="v2-logs"></div>
+    <div class="status-bar">
+      <span class="result" id="v2-result"></span>
+      <span class="timer" id="v2-timer"></span>
+    </div>
+  </section>
+
+  <!-- Changelog (shown after v2 completes) -->
+  <section id="changelog-section" class="changelog-section" style="display:none">
+    <h2>Changelog</h2>
+    <div id="changelog-content"></div>
+  </section>
+
+  <!-- Batch Monitor (auto-appears when batch is running) -->
+  <section id="batch-section" class="batch-section" style="display:none">
+    <div class="batch-header">
+      <h2>Batch Processing</h2>
+      <span class="batch-status" id="batch-status-label"></span>
+    </div>
+    <div id="batch-accounts"></div>
+  </section>
+
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

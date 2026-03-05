@@ -1,0 +1,54 @@
+{
+  "company_name": "Evergreen Landscapes and Design, LLC.",
+  "industry_type": "landscaping",
+  "services_supported": [
+    "annual maintenance contracts",
+    "custom hardscaping",
+    "outdoor kitchen installations",
+    "paver patio installations"
+  ],
+  "business_hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "start": null,
+    "end": null,
+    "timezone": null
+  },
+  "office_address": null,
+  "emergency_definition": [
+    "broken sprinkler head"
+  ],
+  "emergency_routing_rules": {
+    "contacts": [],
+    "fallback": null
+  },
+  "non_emergency_routing_rules": {
+    "action": null,
+    "fallback": null
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": null,
+    "retries": null,
+    "on_fail": null
+  },
+  "integration_constraints": null,
+  "after_hours_flow_summary": null,
+  "office_hours_flow_summary": null,
+  "questions_or_unknowns": [
+    "What are the exact business start and end times?",
+    "What is the timezone for the business hours?",
+    "What is the full office address?",
+    "What is the primary phone number to forward to Clara?",
+    "Who are the emergency contacts (name, phone, priority) for broken sprinkler issues?",
+    "What are the after‑hours handling and voicemail rules?",
+    "Are there any specific call transfer preferences (timeout, retries, fail action)?",
+    "Are there any integration constraints beyond the LMN API?"
+  ],
+  "notes": "Budget of $25,000 for a patio project with target completion by Fourth of July.",
+  "account_id": "evergreen-landscapes"
+}

@@ -1,0 +1,49 @@
+{
+  "company_name": "Flow State Plumbing",
+  "industry_type": "Plumbing",
+  "services_supported": [
+    "plumbing installations",
+    "plumbing repairs",
+    "plumbing maintenance",
+    "annual tank flush",
+    "repipe jobs"
+  ],
+  "business_hours": {
+    "days": [],
+    "start": null,
+    "end": "16:30",
+    "timezone": "America/Denver"
+  },
+  "office_address": null,
+  "emergency_definition": [
+    "active flooding that cannot be isolated or turned off",
+    "raw sewage backing up into the house",
+    "no hot water (only if there is an infant or elderly person in the house)"
+  ],
+  "emergency_routing_rules": {
+    "contacts": [],
+    "fallback": "Send urgent SMS to the Batphone and owner Mike if voicemail is reached"
+  },
+  "non_emergency_routing_rules": {
+    "action": "Clara takes a message and has office manager Jenny call the customer back first thing in the morning",
+    "fallback": null
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": null,
+    "retries": null,
+    "on_fail": null
+  },
+  "integration_constraints": "Integrate directly with Housecall Pro for booking routine services and creating customer profiles",
+  "after_hours_flow_summary": "After-hours calls trigger emergency routing; if non-emergency, Clara takes a message and office manager Jenny will call back in the morning. After-hours emergency fee is $350.",
+  "office_hours_flow_summary": "During office hours, Clara handles calls, transfers to Jenny if the customer demands to speak to a human, otherwise processes routine plumbing requests.",
+  "questions_or_unknowns": [
+    "Timezone not provided",
+    "Office address not provided",
+    "Dedicated Clara phone number not provided",
+    "Email address for notifications not provided",
+    "SMS notification numbers not provided",
+    "Business days not specified"
+  ],
+  "notes": "Standard dispatch fee is $69 (waived if customer approves work). After-hours emergency fee is $350. Annual tank flush costs $149.",
+  "account_id": "davids-hvac"
+}

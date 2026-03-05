@@ -1,0 +1,98 @@
+{
+  "account_id": "crystal-clear-carpet",
+  "history": [
+    {
+      "version_from": "v1",
+      "version_to": "v2",
+      "generated_at": "2026-03-05T01:38:32.465Z",
+      "total_changes": 7,
+      "changes": [
+        {
+          "field": "company_name",
+          "before": "Crystal Clear Carpet and Restoration, LLC.",
+          "after": "Crystal Clear Carpet & Restoration",
+          "note": "Field updated"
+        },
+        {
+          "field": "services_supported",
+          "before": [
+            "inbound call answering",
+            "outbound reactivation calls",
+            "emergency call routing"
+          ],
+          "after": [
+            "routine carpet cleaning",
+            "water damage",
+            "mitigation"
+          ],
+          "note": "Field updated"
+        },
+        {
+          "field": "business_hours",
+          "before": {
+            "days": [],
+            "start": null,
+            "end": null,
+            "timezone": null
+          },
+          "after": {
+            "days": [],
+            "start": "8:00 AM",
+            "end": "5:00 PM",
+            "timezone": null
+          },
+          "note": "Field updated"
+        },
+        {
+          "field": "emergency_definition",
+          "before": [
+            "washing machine hose blowing off and causing standing water"
+          ],
+          "after": [
+            "Category 1, 2, or 3 water loss actively ruining drywall and subflooring",
+            "pipe burst",
+            "toilet overflowed",
+            "sump pump failed",
+            "standing water in basement",
+            "washing machine line blew"
+          ],
+          "note": "Field updated"
+        },
+        {
+          "field": "integration_constraints",
+          "before": "Requires integration with ServiceMonster via token mapping.",
+          "after": "Integrate with ServiceMonster for scheduling appointments, managing customer information, and sending notifications.",
+          "note": "Field updated"
+        },
+        {
+          "field": "after_hours_flow_summary",
+          "before": null,
+          "after": "All inbound calls after business hours are routed 100% directly to Clara until 8:00 AM the next day.",
+          "note": "Field populated for the first time"
+        },
+        {
+          "field": "questions_or_unknowns",
+          "before": [
+            "What are the client’s regular business hours and timezone?",
+            "What is the physical office address of the client?",
+            "What are the phone numbers for Jessica’s desk phone and Dave’s cell phone?",
+            "Are there any additional emergency scenarios besides the washing machine hose example?",
+            "How should after‑hours calls be handled?",
+            "Is there any specific call transfer behavior or timeout preferences?",
+            "Are there any other software integrations besides ServiceMonster needed?"
+          ],
+          "after": [
+            "Timezone is not explicitly provided.",
+            "Office physical address is not provided.",
+            "Dedicated Clara phone number for RingCentral forwarding is not provided.",
+            "On‑call phone number for emergency routing is not provided.",
+            "Dave's personal cell phone number (e164 format) is not provided.",
+            "Lead tech Mike's role in on‑call rotation is mentioned but no contact details are provided."
+          ],
+          "note": "Field updated"
+        }
+      ],
+      "source": "onboarding_call"
+    }
+  ]
+}

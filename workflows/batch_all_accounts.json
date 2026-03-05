@@ -1,90 +1,149 @@
 {
-  "name": "Batch — Run All 5 Accounts (Demo + Onboarding)",
+  "name": "Batch Processor — 5 Sample Accounts",
   "nodes": [
     {
       "parameters": {},
-      "id": "start",
-      "name": "Start",
+      "id": "trigger",
+      "name": "Run Batch",
       "type": "n8n-nodes-base.manualTrigger",
       "position": [100, 300],
       "typeVersion": 1
     },
     {
       "parameters": {
-        "jsCode": "return [\n  { json: { company: 'bens-electric',     account_id: 'demo_001' } },\n  { json: { company: 'acme-plumbing',     account_id: 'demo_002' } },\n  { json: { company: 'fire-protection',   account_id: 'demo_003' } },\n  { json: { company: 'hvac-solutions',    account_id: 'demo_004' } },\n  { json: { company: 'security-systems',  account_id: 'demo_005' } }\n];"
+        "jsCode": "// ─── 5 sample accounts from samples/ directory ───\n// Each has exactly one demo transcript (→ v1) and one onboarding transcript (→ v2).\n// form_data is optional — set to a JSON object to merge into v2 memo.\n//\n// Paths are relative to project root (samples/ is mounted at /app/samples in Docker).\n// runDemo.js and runOnboarding.js both try inputs/ first, then project root fallback.\n\nreturn [\n  {\n    json: {\n      company: 'davids-hvac',\n      account_id: 'davids-hvac',\n      demo_path: 'samples/acc1/demo/transcipt01.txt',\n      onboarding_path: 'samples/acc1/onboarding/transcript011.txt',\n      form_data: null\n    }\n  },\n  {\n    json: {\n      company: 'toms-pest-wildlife',\n      account_id: 'toms-pest-wildlife',\n      demo_path: 'samples/acc2/demo/transcript02.txt',\n      onboarding_path: 'samples/acc2/onboarding/transcript022.txt',\n      form_data: null\n    }\n  },\n  {\n    json: {\n      company: 'blue-oasis-pools',\n      account_id: 'blue-oasis-pools',\n      demo_path: 'samples/acc3/demo/transcript03.txt',\n      onboarding_path: 'samples/acc3/onboarding/transcript033.txt',\n      form_data: { business_hours: { start: '7:00 AM', end: '6:00 PM' }, office_address: '2847 Poolside Dr, Scottsdale, AZ 85251' }\n    }\n  },\n  {\n    json: {\n      company: 'evergreen-landscapes',\n      account_id: 'evergreen-landscapes',\n      demo_path: 'samples/acc4/demo/transcript04.txt',\n      onboarding_path: 'samples/acc4/onboarding/transcript044.txt',\n      form_data: null\n    }\n  },\n  {\n    json: {\n      company: 'crystal-clear-carpet',\n      account_id: 'crystal-clear-carpet',\n      demo_path: 'samples/acc5/demo/transcript05.txt',\n      onboarding_path: 'samples/acc5/onboarding/transcript055.txt',\n      form_data: null\n    }\n  }\n];"
       },
       "id": "accounts",
       "name": "Define Accounts",
       "type": "n8n-nodes-base.code",
-      "position": [300, 300],
+      "position": [320, 300],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "split",
+      "name": "Process One",
+      "type": "n8n-nodes-base.splitInBatches",
+      "position": [560, 300],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://clara:3000/run",
+        "sendBody": true,
+        "bodyContentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ account_id: $('Process One').item.json.account_id, company: $('Process One').item.json.company, transcript_path: $('Process One').item.json.demo_path }) }}",
+        "options": { "timeout": 300000 }
+      },
+      "id": "run-v1",
+      "name": "Run v1 (Demo)",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [820, 200],
+      "typeVersion": 4,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": false, "leftValue": "", "typeValidation": "loose" },
+          "conditions": [
+            {
+              "id": "v1-ok",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "true" }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "v1-check",
+      "name": "v1 OK?",
+      "type": "n8n-nodes-base.if",
+      "position": [1060, 200],
       "typeVersion": 2
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "http://host.docker.internal:3000/run",
+        "url": "http://clara:3000/onboard",
         "sendBody": true,
         "bodyContentType": "json",
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ account_id: $json.account_id, company: $json.company }) }}",
-        "options": {
-          "timeout": 300000
-        }
+        "jsonBody": "={{ JSON.stringify({ account_id: $('Process One').item.json.account_id, company: $('Process One').item.json.company, onboarding_path: $('Process One').item.json.onboarding_path, form_data: $('Process One').item.json.form_data }) }}",
+        "options": { "timeout": 300000 }
       },
-      "id": "demo",
-      "name": "Run Demo → v1",
+      "id": "run-v2",
+      "name": "Run v2 (Onboard)",
       "type": "n8n-nodes-base.httpRequest",
-      "position": [550, 300],
+      "position": [1320, 100],
       "typeVersion": 4,
-      "retryOnFail": true,
-      "maxTries": 2,
-      "waitBetweenTries": 5000
+      "continueOnFail": true
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "http://host.docker.internal:3000/onboard",
-        "sendBody": true,
-        "bodyContentType": "json",
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ account_id: $json.account_id, company: $json.company }) }}",
-        "options": {
-          "timeout": 300000
-        }
+        "jsCode": "const account = $('Process One').item.json;\nconst v1 = $('Run v1 (Demo)').item.json;\nconst v2 = $input.item.json;\n\nreturn [{ json: {\n  company: account.company,\n  v1: v1.ok ? 'ok' : 'FAIL',\n  v2: v2.ok ? 'ok' : 'FAIL',\n  company_name: v2.files?.memo?.company_name || v1.files?.memo?.company_name || account.company,\n  form_applied: !!v2.form_applied,\n  agent_id: (v2.files?.agentDraftSpec || v1.files?.agentDraftSpec || {}).agent_id || null,\n  llm_id: (v2.files?.agentDraftSpec || v1.files?.agentDraftSpec || {}).llm_id || null\n}}];"
       },
-      "id": "onboard",
-      "name": "Run Onboarding → v2",
-      "type": "n8n-nodes-base.httpRequest",
-      "position": [800, 300],
-      "typeVersion": 4,
-      "retryOnFail": true,
-      "maxTries": 2,
-      "waitBetweenTries": 5000
-    },
-    {
-      "parameters": {
-        "jsCode": "const item = $input.item.json;\nconst account = $('Define Accounts').item.json;\nreturn [{\n  json: {\n    account_id: account.account_id,\n    company: account.company,\n    pipeline_a: item.ok ? 'success' : 'failed',\n    version: item.version || 'unknown',\n    memo: item.files?.memo?.company_name || 'unknown'\n  }\n}];"
-      },
-      "id": "summary",
-      "name": "Build Summary",
+      "id": "result-ok",
+      "name": "Log Result",
       "type": "n8n-nodes-base.code",
-      "position": [1050, 300],
+      "position": [1560, 100],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "jsCode": "const account = $('Process One').item.json;\nconst v1 = $input.item.json;\n\nreturn [{ json: {\n  company: account.company,\n  v1: 'FAIL',\n  v2: 'skipped',\n  error: v1.error || 'Pipeline A failed — v2 requires v1 baseline',\n  company_name: account.company,\n  form_applied: false,\n  agent_id: null,\n  llm_id: null\n}}];"
+      },
+      "id": "result-fail",
+      "name": "Log Failure",
+      "type": "n8n-nodes-base.code",
+      "position": [1320, 380],
       "typeVersion": 2
     },
     {
       "parameters": {},
       "id": "done",
-      "name": "Done",
+      "name": "All Done",
       "type": "n8n-nodes-base.noOp",
-      "position": [1250, 300],
+      "position": [560, 530],
       "typeVersion": 1
     }
   ],
   "connections": {
-    "Start":              { "main": [[{ "node": "Define Accounts",    "type": "main", "index": 0 }]] },
-    "Define Accounts":    { "main": [[{ "node": "Run Demo → v1",     "type": "main", "index": 0 }]] },
-    "Run Demo → v1":      { "main": [[{ "node": "Run Onboarding → v2", "type": "main", "index": 0 }]] },
-    "Run Onboarding → v2":{ "main": [[{ "node": "Build Summary",     "type": "main", "index": 0 }]] },
-    "Build Summary":      { "main": [[{ "node": "Done",              "type": "main", "index": 0 }]] }
+    "Run Batch": {
+      "main": [[{ "node": "Define Accounts", "type": "main", "index": 0 }]]
+    },
+    "Define Accounts": {
+      "main": [[{ "node": "Process One", "type": "main", "index": 0 }]]
+    },
+    "Process One": {
+      "main": [
+        [{ "node": "All Done", "type": "main", "index": 0 }],
+        [{ "node": "Run v1 (Demo)", "type": "main", "index": 0 }]
+      ]
+    },
+    "Run v1 (Demo)": {
+      "main": [[{ "node": "v1 OK?", "type": "main", "index": 0 }]]
+    },
+    "v1 OK?": {
+      "main": [
+        [{ "node": "Run v2 (Onboard)", "type": "main", "index": 0 }],
+        [{ "node": "Log Failure", "type": "main", "index": 0 }]
+      ]
+    },
+    "Run v2 (Onboard)": {
+      "main": [[{ "node": "Log Result", "type": "main", "index": 0 }]]
+    },
+    "Log Result": {
+      "main": [[{ "node": "Process One", "type": "main", "index": 0 }]]
+    },
+    "Log Failure": {
+      "main": [[{ "node": "Process One", "type": "main", "index": 0 }]]
+    }
   }
 }

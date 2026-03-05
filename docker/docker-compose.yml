@@ -1,12 +1,35 @@
 version: '3.8'
 
-# Backend runs locally (node server.js) — only n8n is containerised.
-# n8n reaches the local backend via http://host.docker.internal:3000
+# One-click setup: docker-compose up
+# n8n (orchestrator) + clara (backend server) on the same network.
+# n8n calls http://clara:3000 — no host networking needed.
 
 services:
+  clara:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: clara_server
+    ports:
+      - "3000:3000"
+    env_file: ../.env
+    environment:
+      - NODE_ENV=production
+      - MODELS_DIR=/app/models
+    volumes:
+      - ../samples:/app/samples:ro
+      - ../inputs:/app/inputs
+      - ../outputs:/app/outputs
+      - ../changelog:/app/changelog
+      - ../public:/app/public:ro
+      - models:/app/models
+    restart: unless-stopped
+
   n8n:
     image: n8nio/n8n:latest
     container_name: clara_n8n
+    depends_on:
+      - clara
     ports:
       - "5678:5678"
     environment:
@@ -17,9 +40,8 @@ services:
     volumes:
       - n8n_data:/home/node/.n8n
       - ../workflows:/home/node/workflows
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     restart: unless-stopped
 
 volumes:
   n8n_data:
+  models:

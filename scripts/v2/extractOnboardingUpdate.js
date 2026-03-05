@@ -1,4 +1,4 @@
-import { createChatCompletion } from '../clients/groq_client.js';
+import { createChatCompletion } from '../../clients/groq_client.js';
 
 const MAX_WORDS = 2250;
 

@@ -1,32 +1,26 @@
 {
-  "company_name": "Ben's Electric Solutions",
-  "industry_type": "electrical services",
+  "company_name": null,
+  "industry_type": "electrical contracting",
   "services_supported": [
-    "service calls",
-    "small jobs",
-    "odd jobs",
-    "renovations",
-    "troubleshooting",
-    "custom home projects",
-    "tenant improvements",
+    "EV charger installation",
+    "hot tub electrical hookups",
+    "panel changes",
     "outlet replacements",
     "aluminum wiring mitigation",
-    "fixture replacements",
-    "EV charger wiring",
-    "dedicated circuit installation",
-    "GFCI protection",
-    "hot tub electrical work"
+    "LED lighting upgrades",
+    "electrical repairs",
+    "plumbing and gas line connections for hot tubs"
   ],
   "business_hours": {
     "days": [],
-    "start": null,
+    "start": "08:00",
     "end": null,
     "timezone": null
   },
   "office_address": null,
   "emergency_definition": [
-    "Gas pumps need immediate fixing",
-    "Emergency calls during holidays"
+    "Calls from regular property managers and general contractors are considered emergencies",
+    "Emergency calls from other clients are evaluated case‑by‑case by Ben"
   ],
   "emergency_routing_rules": {
     "contacts": [],
@@ -41,13 +35,15 @@
     "retries": null,
     "on_fail": null
   },
-  "integration_constraints": "Uses Jobber for CRM and QuickBooks for accounting; integration may need to connect Clara with these systems.",
-  "after_hours_flow_summary": "Ben is on call after hours and decides whether to take emergency calls or defer them elsewhere.",
-  "office_hours_flow_summary": "Ben handles office work and takes calls during business hours, also goes out in the field for quotes and job assessments.",
+  "integration_constraints": "Requires integration with Jobber CRM (currently used for scheduling and invoicing).",
+  "after_hours_flow_summary": "After‑hours calls are taken directly by Ben; there is no automated voicemail or 24/7 on‑call system.",
+  "office_hours_flow_summary": "During business hours Clara answers calls, books site visits and jobs via Jobber, but appointment confirmations require Ben's approval.",
   "questions_or_unknowns": [
-    "How will the client handle calls about services they do not offer, such as generator maintenance?",
-    "How will the AI receptionist be integrated into the existing workflow?"
+    "What is the company’s physical address?",
+    "What is the company’s primary phone number in E.164 format?",
+    "What are the exact business‑hours end time and the applicable timezone?",
+    "Who should receive emergency calls as the primary contact (phone number)?"
   ],
-  "notes": "Client agreed to a starter plan ($249/month, 500 minutes) for a three‑month trial, with a contract to lock in pricing for 12 months if continued.",
+  "notes": "Client is currently a sole proprietorship planning to incorporate later in the year. Interested in using Clara for collections, dispatcher‑based job assignment, appointment confirmations, review collection, and leveraging a club membership program for priority scheduling and discounts.",
   "account_id": "bens-electric"
 }

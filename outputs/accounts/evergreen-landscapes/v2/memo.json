@@ -1,0 +1,48 @@
+{
+  "company_name": "Evergreen Landscapes and Hardscape Design",
+  "industry_type": "landscaping",
+  "services_supported": [
+    "hardscape design",
+    "hardscape installation",
+    "annual full-property maintenance contracts"
+  ],
+  "business_hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "start": "08:00",
+    "end": "16:30",
+    "timezone": null
+  },
+  "office_address": null,
+  "emergency_definition": [
+    "urgent issues such as a fallen tree treated as VIP and escalated immediately"
+  ],
+  "emergency_routing_rules": {
+    "contacts": [],
+    "fallback": null
+  },
+  "non_emergency_routing_rules": {
+    "action": "route calls to Clara after hours",
+    "fallback": null
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": null,
+    "retries": null,
+    "on_fail": "route to Clara after 5 rings"
+  },
+  "integration_constraints": "must integrate with LMN software via its API",
+  "after_hours_flow_summary": "After-hours calls are routed directly to Clara.",
+  "office_hours_flow_summary": null,
+  "questions_or_unknowns": [
+    "Business days for regular hours not specified",
+    "Timezone not specified",
+    "Exact phone numbers for SMS notifications not provided"
+  ],
+  "notes": "Dedicated Clara number will be used for forwarding; primary phone hosted on Dialpad.",
+  "account_id": "evergreen-landscapes"
+}

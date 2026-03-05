@@ -1,0 +1,152 @@
+{
+  "account_id": "toms-pest-wildlife",
+  "history": [
+    {
+      "version_from": "v1",
+      "version_to": "v2",
+      "generated_at": "2026-03-05T01:36:23.825Z",
+      "total_changes": 12,
+      "changes": [
+        {
+          "field": "company_name",
+          "before": null,
+          "after": "Elevate Garage Doors",
+          "note": "Field populated for the first time"
+        },
+        {
+          "field": "services_supported",
+          "before": [
+            "quarterly sprays",
+            "raccoon exclusions",
+            "termite swarmings",
+            "ant treatments",
+            "mosquito treatments",
+            "mosquito yard treatment",
+            "termite treatment"
+          ],
+          "after": [
+            "Garage door repair",
+            "Garage door installation",
+            "Free estimates for new door installations"
+          ],
+          "note": "Field updated"
+        },
+        {
+          "field": "business_hours",
+          "before": {
+            "days": [],
+            "start": null,
+            "end": null,
+            "timezone": null
+          },
+          "after": {
+            "days": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "start": "8:00 AM",
+            "end": "5:00 PM",
+            "timezone": "Eastern"
+          },
+          "note": "Field updated"
+        },
+        {
+          "field": "emergency_definition",
+          "before": [
+            "bats in living spaces",
+            "skunks in houses",
+            "raccoons in kitchens"
+          ],
+          "after": [
+            "Broken torsion spring with a car trapped",
+            "Security risk with the door off the tracks or jammed halfway open"
+          ],
+          "note": "Field updated"
+        },
+        {
+          "field": "emergency_routing_rules",
+          "before": {
+            "contacts": [],
+            "fallback": null
+          },
+          "after": {
+            "contacts": [],
+            "fallback": "Send critical SMS with 'EMERGENCY' and customer address to Jake's cell, CC Lisa"
+          },
+          "note": "Field updated"
+        },
+        {
+          "field": "non_emergency_routing_rules",
+          "before": {
+            "action": null,
+            "fallback": null
+          },
+          "after": {
+            "action": "Clara handles all inbound calls from 5:00 PM to 8:00 AM",
+            "fallback": null
+          },
+          "note": "Field updated"
+        },
+        {
+          "field": "call_transfer_rules",
+          "before": {
+            "timeout_seconds": null,
+            "retries": null,
+            "on_fail": null
+          },
+          "after": {
+            "timeout_seconds": null,
+            "retries": null,
+            "on_fail": "Forward call to Clara after Lisa does not answer after three rings"
+          },
+          "note": "Field updated"
+        },
+        {
+          "field": "integration_constraints",
+          "before": null,
+          "after": "Integration with Jobber; Clara creates new client records if not existing and books appointments via Jobber calendar",
+          "note": "Field populated for the first time"
+        },
+        {
+          "field": "after_hours_flow_summary",
+          "before": "Clara AI live-transfers emergency calls directly to Tom's cell phone, with a critical SMS alert sent if he does not answer.",
+          "after": "Clara handles 100% of inbound calls after hours (5 PM–8 AM) and routes emergencies to Jake's cell with SMS fallback",
+          "note": "Field updated"
+        },
+        {
+          "field": "office_hours_flow_summary",
+          "before": null,
+          "after": "During business hours, Clara live-transfers emergency calls to Jake's cell phone based on on-call rotation; if unanswered, sends critical SMS to Jake and CC Lisa",
+          "note": "Field populated for the first time"
+        },
+        {
+          "field": "questions_or_unknowns",
+          "before": [
+            "Can Clara AI make outbound calls to reactivate customers who have not signed up for mosquito treatments?",
+            "Is it possible to integrate Clara AI with the client company's existing systems?",
+            "What is the official company name (Tom's Pest & Wildlife or Apex Pest and Wildlife Solutions, LLC)?",
+            "What is the client company's phone number?",
+            "What are the business hours (start/end) and timezone?",
+            "What is the office address?"
+          ],
+          "after": [
+            "Phone numbers for Jake and Lisa not provided",
+            "Physical office address not provided",
+            "Email addresses for notifications not provided"
+          ],
+          "note": "Field updated"
+        },
+        {
+          "field": "notes",
+          "before": "Two different company names were mentioned in the extracted facts (Tom's Pest & Wildlife and Apex Pest and Wildlife Solutions, LLC), creating ambiguity about the official client name.",
+          "after": "Owners Jake and Lisa are on-call; Lisa will receive Clara Dashboard link to monitor calls",
+          "note": "Field updated"
+        }
+      ],
+      "source": "onboarding_call"
+    }
+  ]
+}

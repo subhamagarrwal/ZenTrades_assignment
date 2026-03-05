@@ -1,0 +1,50 @@
+{
+  "company_name": "Mile High Heating and Air, LLC",
+  "industry_type": "heating and air conditioning services",
+  "services_supported": [
+    "HVAC maintenance",
+    "HVAC repair",
+    "Residential HVAC",
+    "Commercial HVAC",
+    "Outbound reactivation"
+  ],
+  "business_hours": {
+    "days": [],
+    "start": null,
+    "end": null,
+    "timezone": "America/Denver"
+  },
+  "office_address": null,
+  "emergency_definition": [
+    "water leaking",
+    "gas smells",
+    "other urgent issues"
+  ],
+  "emergency_routing_rules": {
+    "contacts": [],
+    "fallback": null
+  },
+  "non_emergency_routing_rules": {
+    "action": null,
+    "fallback": null
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": null,
+    "retries": null,
+    "on_fail": null
+  },
+  "integration_constraints": "Uses ServiceTitan for CRM and dispatch.",
+  "after_hours_flow_summary": "Calls unanswered after three rings will be forwarded to Clara as a safety net for after‑hours or unanswered calls.",
+  "office_hours_flow_summary": "During business hours the main line rings to Sarah's phone first; if not answered it rolls to David's cell phone.",
+  "questions_or_unknowns": [
+    "What are the client's exact business hours (days and times)?",
+    "What is the exact office address?",
+    "What is the main line phone number in E.164 format?",
+    "Who should be contacted for emergency call routing (names and phone numbers)?",
+    "What is the desired non‑emergency routing action during business hours?",
+    "What are the desired call transfer timeout and retry settings?",
+    "Which supplier numbers should be whitelisted to avoid diagnostic fees?"
+  ],
+  "notes": "Owner David and his part‑time office help from wife Sarah. The company operates 4 trucks with 3 full‑time technicians besides David. They have a list of past customers for outbound reactivation. Email: david@milehighhvac.com.",
+  "account_id": "davids-hvac"
+}

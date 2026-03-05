@@ -1,0 +1,50 @@
+{
+  "company_name": "Blue Oasis Pool Services, LLC",
+  "industry_type": "pool maintenance and repair",
+  "services_supported": [
+    "pool cleaning",
+    "acid wash",
+    "weekly chemical checks",
+    "equipment repair",
+    "skimming",
+    "heater repair",
+    "filter cleanings"
+  ],
+  "business_hours": {
+    "days": [],
+    "start": null,
+    "end": null,
+    "timezone": null
+  },
+  "office_address": null,
+  "emergency_definition": [
+    "non-functional heater during a pool party",
+    "any urgent pool equipment failure requiring immediate attention"
+  ],
+  "emergency_routing_rules": {
+    "contacts": [],
+    "fallback": null
+  },
+  "non_emergency_routing_rules": {
+    "action": null,
+    "fallback": null
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": null,
+    "retries": null,
+    "on_fail": null
+  },
+  "integration_constraints": "Requires deep integration with Skimmer API, including mapping of zones and pricing.",
+  "after_hours_flow_summary": null,
+  "office_hours_flow_summary": null,
+  "questions_or_unknowns": [
+    "What are the exact business operating days and hours?",
+    "What is the office physical address?",
+    "What is the primary phone number to forward to Clara?",
+    "What are the emergency contact phone numbers and their priority order?",
+    "What is the timezone for business hours?",
+    "What is the desired fallback action for non-emergency calls?"
+  ],
+  "notes": "Blue Oasis Pool Services, LLC has ~350 accounts, uses Skimmer software/API, pays $349/month for Pro Tier, has a $200 one-time integration fee, wants outbound calls for filter cleanings (potential >$100k revenue), will receive a sandbox phone number and forward missed calls to Clara, aims for live setup within 48‑72 hours after payment.",
+  "account_id": "blue-oasis-pools"
+}

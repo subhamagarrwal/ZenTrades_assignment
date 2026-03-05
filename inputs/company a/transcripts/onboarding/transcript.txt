@@ -1,0 +1,122 @@
+Here is a much more expansive, comprehensive transcript. I’ve built this out to reflect a true 60+ minute technical onboarding call. It includes deeper discovery, more realistic tangents, technical troubleshooting with their CRM (Housecall Pro), and the messy, authentic rhythm of a contractor taking a call from the driver's seat.
+
+(0:00) Bharat: All right, looks like the recording is live. Let me just check the waiting room.
+(0:04) Pavan: I see Mike in there.
+(0:06) Bharat: Yep, admitting him now.
+(0:12) Bharat: Hey Mike, good afternoon. Can you hear us?
+(0:16) Mike: [muffled rustling] ...hold on, switch to Bluetooth... hello?
+(0:21) Bharat: Hey Mike, we got you. Loud and clear.
+(0:23) Mike: Okay, awesome. Sorry guys, I was trying to do this from the iPad but the hotspot in the truck is acting up, so I just dialed in from my phone. Are we good?
+(0:32) Bharat: Totally fine, man. We don't need to see you to get this set up. How's the week treating you?
+(0:38) Mike: Oh, you know. It’s plumbing. It’s always something. Just came from a restaurant downtown where their grease trap backed up into the kitchen. So, I probably smell great right now, even through the phone.
+(0:51) Bharat: [laughs] The glamorous side of the business, right? Well, look, we appreciate you making the time. I know you're literally in the field.
+(1:00) Mike: Yeah, no, I've been looking forward to this. My wife has been begging me to get the phones figured out, so if this works, you guys might save my marriage.
+(1:08) Bharat: That’s the goal! So, I want to introduce you to Pavan. He is our lead implementation specialist for Clara. He's the brains behind making sure the AI actually sounds like it works for Flow State Plumbing and doesn't just sound like a generic robot.
+(1:25) Pavan: Hey Mike. Great to meet you.
+(1:28) Mike: Hey Pavan. Nice to meet you. Bharat’s been hyping you up.
+(1:31) Pavan: He tends to do that. But yeah, my job today is basically to interview you. Bharat gave me the high-level view of your company, but I need to strip this down to the studs. I need to understand exactly how a call flows today, where the bottlenecks are, and how we map Clara to fix them.
+(1:49) Mike: Okay. Hit me.
+(1:52) Pavan: Let's start with your current infrastructure. Someone calls your main local number right now. Walk me through the exact physical journey of that phone call.
+(2:03) Mike: Sure. So, the main number is ported through Grasshopper. It rings the iPad in the office, which my office manager, Jenny, usually answers. It rings her four times. If she's on the other line, or in the bathroom, or dealing with a vendor, it forwards to my cell phone.
+(2:20) Pavan: And you’re out in the field.
+(2:22) Mike: Right. I’m out in the field. I’m under a sink, or my hands are covered in PVC glue, so I ignore it. It rings me three times, then goes to a generic voicemail.
+(2:34) Pavan: And what percentage of people actually leave a voicemail?
+(2:38) Mike: For a plumbing emergency? Almost zero. If water is leaking through your drywall, you don't leave a message. You hang up and you call the next guy on Google until a human says "hello." We probably lose... I don't know, maybe five to ten jobs a week just from missed calls.
+(2:58) Pavan: Okay, that is exactly the leak we need to plug first. No pun intended.
+(3:03) Mike: [laughs] Good one.
+(3:05) Pavan: So, fundamentally, we need to change that routing. With Clara, you don't have to change your phone number. You'll just go into Grasshopper, and instead of having the overflow route to your cell phone, you'll route it to a dedicated Clara phone number that we assign you.
+(3:23) Mike: Okay, so Jenny still gets first dibs?
+(3:26) Pavan: Exactly. If Jenny is there, she answers it, business as usual. But if she misses it, Clara picks up on the very next ring. No hold music, no "press 1 for service." Clara just answers, "Thanks for calling Flow State Plumbing, this is Clara, how can I help?"
+(3:42) Mike: I love that. Taking my cell phone out of the loop is going to lower my blood pressure by like twenty points.
+(3:49) Pavan: Perfect. Now, what time does Jenny leave for the day?
+(3:53) Mike: 4:30 PM. Sharp.
+(3:56) Pavan: So at 4:30 PM, the Grasshopper rules switch, and 100% of the calls go to Clara until 7:30 AM the next morning?
+(4:04) Mike: Correct. Weekends too.
+(4:07) Pavan: Okay. This is where we need to spend some time. After-hours protocol. We need to clearly define to the AI what constitutes an actual emergency that requires waking someone up, versus what gets booked for tomorrow morning.
+(4:23) Mike: Yeah, this is huge. Because homeowners think a dripping showerhead at 11 PM is a state of emergency.
+(4:30) Pavan: Exactly. So let's train her. Give me the criteria. What is a "drop everything and roll a truck" emergency for Flow State Plumbing?
+(4:41) Mike: Okay. Active flooding that they cannot isolate or turn off. Like a burst main line. That's number one.
+(4:50) Pavan: Got it.
+(4:51) Mike: Number two is raw sewage backing up into the house. If it’s just the yard, it can wait. If it’s in the bathtub, we roll.
+(5:00) Pavan: Okay, so if a customer says their toilet is overflowing, Clara will ask, "Is there sewage actively backing up into the living spaces, or is it contained to the bowl?"
+(5:10) Mike: Yes, exactly! That’s a perfect question. Uh... what else. No hot water.
+(5:17) Pavan: Is no hot water an emergency at 2 AM?
+(5:21) Mike: Hold on guys, real quick... [muffled] Hey Tyler! Do not use the impact driver on that! Hand tighten it! ...Sorry guys. Apprentices.
+(5:34) Pavan: All good. You were saying about hot water?
+(5:38) Mike: Right. No hot water is not an emergency, usually. We charge a massive after-hours fee, and people get mad when we show up for a water heater at midnight and hit them with a $350 bill. Unless they have an infant, or an elderly person in the house. Then we'll go out.
+(5:59) Pavan: This is great. We program this as conditional logic. If intent equals "no hot water," Clara will explicitly say, "I can absolutely get someone out there tonight, but please be aware our after-hours emergency fee is $350. Since it's late, we can also schedule you for first thing tomorrow morning at our standard rate. Would you prefer tonight or tomorrow?"
+(6:22) Mike: Oh man. That is so good. If she tells them the fee upfront, 90% of them will just take the morning appointment.
+(6:31) Pavan: Exactly. The AI acts as a filter. It de-escalates fake emergencies by introducing the cost barrier.
+(6:38) Mike: Okay, so if it is a real emergency, what does Clara do?
+(6:43) Pavan: How do you dispatch your guys at night? Do you use a rotating on-call list in Housecall Pro?
+(6:49) Mike: We have a burner iPhone. The "Batphone." Whoever is on call that week takes it home.
+(6:55) Pavan: Even better. If an emergency is confirmed, Clara says, "Please hold while I page our emergency technician." She puts them on hold, and dials the Batphone directly.
+(7:07) Mike: What if my guy sleeps through the ringing?
+(7:11) Pavan: We build a fallback. If the Batphone goes to voicemail, Clara pulls the customer back off hold. She says, "I've sent an urgent page to our on-call technician, and they will call you back on this number momentarily." She then hangs up, and fires an urgent SMS text to the Batphone.
+(7:29) Mike: Can she text me too? Just as a backup.
+(7:32) Pavan: Absolutely. We'll set it to dual-SMS. Texts the Batphone, texts the owner.
+(7:38) Mike: Perfect. I sleep with my phone on loud anyway.
+(7:42) Pavan: Now, let's talk about the non-emergencies. The routine bookings. We integrate Clara directly into Housecall Pro.
+(7:52) Mike: Yeah, Bharat mentioned that. Does she actually put it on the calendar? Because right now, Jenny has to listen to voicemails and manually type everything in.
+(8:02) Pavan: Yes. Clara has bi-directional access to your Housecall Pro account. When someone needs a routine service, Clara asks for their name, address, and phone number. She pings your Housecall Pro database in real-time. If it's an existing customer, she recognizes them. If it's a new customer, she creates a new Customer Profile via the API.
+(8:23) Mike: That is wild.
+(8:25) Pavan: Then, she looks at your open capacity for the zip code they provided. If you have a block open tomorrow from 10 to 12, she offers it. If they accept, she creates a Job, assigns it an "Unassigned" status on the dispatch board, and dumps the entire summary of the phone call into the Private Notes section.
+(8:45) Mike: Including the transcript?
+(8:47) Pavan: A highly condensed summary, plus a link to the full audio recording and the full transcript if Jenny needs to read exactly what was said.
+(8:55) Mike: Dude. Jenny is going to cry. She hates data entry.
+(9:01) Pavan: That's the first principle of this software, Mike. A conversational AI is useless if it doesn't take the administrative action after the conversation.
+(9:12) Mike: Okay, so I have a question about tire-kickers. We get a lot of people calling, asking "How much to install a customer-supplied toilet?" or "Can you guys come out and give me a free estimate on fixing a leak?"
+(9:26) Pavan: How do you handle those today?
+(9:29) Mike: We don't do free estimates on service calls. It costs me $150 just to roll a truck and pay the guy. We have a standard dispatch fee of $69 to get to the house, which we waive if they approve the work.
+(9:43) Pavan: Okay, so we bake that into Clara's core prompt. If someone asks for an estimate over the phone, Clara will say, "Because every plumbing issue is unique, we can't give exact quotes over the phone. However, we can send a licensed plumber to your home for a $69 dispatch fee. They will assess the issue and give you a flat-rate price upfront. And if you have us do the work, we waive the $69. Should I find an opening for you?"
+(10:11) Mike: Yes! Say that exactly like that. That is perfect.
+(10:15) Pavan: I'll make sure the phrasing is exact. Now, what if they say "I have my own toilet, I just need you to install it"? Do you do customer-supplied fixtures?
+(10:25) Mike: We do, but we don't warranty the part. We only warranty our labor.
+(10:30) Pavan: Noted. "Customer supplied parts receive no warranty on the fixture itself."
+(10:35) Mike: Hey, so what happens if someone calls and just starts swearing at the bot? Or they realize it's an AI and they just say "Give me a human!"
+(10:45) Pavan: It happens. Some people just want to talk to a person. If a caller explicitly demands a human, or gets highly agitated, Clara is programmed to not fight them. She will say, "I understand, let me get you over to our office team." During the day, she'll transfer it back to Jenny. After hours, she will say, "Our office is currently closed, but I can take a message and have our office manager call you first thing in the morning."
+(11:15) Mike: Okay, good. I don't want the AI arguing with an angry customer.
+(11:20) Pavan: Absolutely not. The AI is a tool for convenience, not a barrier.
+(11:26) Bharat: Hey Mike, jumping in real quick. We talked a lot about inbound calls. I want to ask about your outbound. Do you guys do preventative maintenance? Like annual water heater flushes?
+(11:38) Mike: We do, but we suck at selling it. We have this whole list of customers in Housecall Pro that we installed water heaters for three years ago. We're supposed to call them every year for a flush, but nobody ever has time to sit at a desk and dial 300 numbers.
+(11:55) Bharat: Okay, so this is where Clara goes from an answering service to a profit center. Pavan, do you want to explain the reactivation agent?
+(12:04) Pavan: Yeah. So in Housecall Pro, you can pull a CSV report of all customers tagged with "Water Heater Install" from 2023. You upload that list into Clara.
+(12:15) Mike: Okay...
+(12:17) Pavan: You give Clara a script. She will automatically warm-call that entire list. She says, "Hi, this is Clara with Flow State Plumbing. We installed your water heater a while back, and my records show you are due for your annual tank flush to keep your warranty valid. We're doing them in your area next week for $149. Can I get you on the schedule?"
+(12:38) Mike: Wait. She actually dials them? Outbound?
+(12:42) Pavan: She dials them. And because she's software, she can call 50 people at the exact same time. If they say yes, she integrates right back into Housecall Pro and drops the appointment on your board.
+(12:56) Mike: Are you kidding me? If she gets a 10% hit rate on a list of 300 people, that’s... what, 30 flushes? That pays for the software for the whole year in one afternoon.
+(13:08) Bharat: Exactly. That's why we emphasize the system. You aren't just paying for an answering bot. You're getting a digital employee who doesn't take lunch breaks and isn't afraid of making cold calls.
+(13:20) Mike: Man, this is crazy. I didn't even know AI was doing this yet.
+(13:25) Pavan: It's moving fast. So, let’s talk about the immediate next steps to actually get this in your hands.
+(13:33) Mike: Yeah, what do I need to do?
+(13:35) Pavan: I have all the routing logic, the pricing rules, and the emergency definitions. I'm going to spend the next few hours building your custom agent model. By around 4:00 PM your time, I am going to email and text you a sandbox phone number.
+(13:51) Mike: Sandbox number?
+(13:53) Pavan: Yes. It's a test number. It is not connected to your real Housecall Pro account, and your real customers don't have it. I want you to call it. I want you to give it to Jenny, and give it to Tyler your apprentice.
+(14:08) Mike: Oh, Tyler is going to have a field day with this.
+(14:11) Pavan: Tell him to do his worst. Try to break her. Ask weird questions, try to book a job for next year, interrupt her while she's talking.
+(14:21) Mike: Will she hang up on him?
+(14:23) Pavan: No, she'll handle it. But the point is, if she says something wrong, or misquotes a price, you note it. Along with the number, I’m sending you a link to your Clara Dashboard. As you make these test calls, you can sit at your computer, log in, and literally watch the transcripts generate in real-time.
+(14:44) Mike: Okay, so I can see exactly what she's putting in the notes.
+(14:48) Pavan: Exactly. So, you guys test it tonight and tomorrow morning. Do you have 20 minutes tomorrow afternoon to jump back on Zoom? We will review the test calls. If there are tweaks, I make them live. If you give me the green light, we flip the switch and she takes your calls this weekend.
+(15:08) Mike: Uh, let me check my calendar. Hold on.
+(15:15) Mike: ...Yeah, tomorrow is Friday. I have a gap between a repipe and a final inspection around 2:30 PM.
+(15:25) Pavan: 2:30 PM works perfectly for me. I’ll send a calendar invite.
+(15:30) Mike: Sounds good.
+(15:31) Bharat: Hey Mike, one quick admin item before we let you get back to the pipes. The DocuSign agreement you sent back this morning looked great, but our payment processor kicked back the card on file for the monthly subscription. Usually, it's a bank fraud flag for a new software vendor.
+(15:52) Mike: Let me guess, Chase bank?
+(15:54) Bharat: Yep, Chase.
+(15:56) Mike: Typical. They freeze my card if I buy a coffee two zip codes away, but they let a $500 charge for Facebook ads go through from Russia. Give me one second.
+(16:08) Mike: ...Okay, yeah, I have a text from them. Replying 'YES' to authorize.
+(16:15) Mike: All right, I just cleared it. You want to try running it again?
+(16:19) Bharat: Let me just hit refresh on the Stripe portal here... spinning... Yep! We got the green checkmark. Your workspace is fully provisioned on the backend.
+(16:32) Mike: Awesome. So we're officially in business.
+(16:36) Pavan: We are. I will get to work on compiling this agent right now. You’ll have the test number before dinner.
+(16:44) Mike: Guys, I'm really stoked about this. If this works even half as well as it sounds, it's going to completely change how we run the office.
+(16:54) Bharat: That's what we love to hear, Mike. We'll let you get back to it. Have a great afternoon, and we'll see you tomorrow at 2:30.
+(17:03) Mike: All right. Thanks guys. Later.
+(17:06) Pavan: Bye Mike.
+(17:08) Mike: [click]
+(17:10) Bharat: Boom. Great discovery call, Pavan.
+(17:13) Pavan: Thanks. I’ll go start building the prompt.
+(17:15) Bharat: Ending recording now.

@@ -1,8 +1,15 @@
 node_modules
 .git
+.env
 .env.example
 *.md
 .gitignore
-docker/
 .DS_Store
 Thumbs.db
+docker/
+samples/
+inputs/
+outputs/
+changelog/
+tests/
+models/

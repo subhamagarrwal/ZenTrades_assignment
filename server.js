@@ -2,7 +2,7 @@ import 'dotenv/config';
 import http from 'http';
 import fs from 'fs-extra';
 import path from 'path';
-import { exec } from 'child_process';
+import { exec, spawn } from 'child_process';
 import { promisify } from 'util';
 import { fileURLToPath } from 'url';
 
@@ -361,6 +361,30 @@ async function applyFormData(accountId, company, formData, baseVersion = 'v1', t
 }
 
 // ──────────────────────────────────────────────
+// SSE streaming helper for child processes
+// ──────────────────────────────────────────────
+function spawnWithSSE(cmd, args, res) {
+    return new Promise((resolve, reject) => {
+        const child = spawn(cmd, args, { cwd: __dirname, env: process.env });
+        child.stdout.on('data', (chunk) => {
+            for (const line of chunk.toString().split('\n')) {
+                if (line.trim()) res.write(`data: ${JSON.stringify({ type: 'log', text: line })}\n\n`);
+            }
+        });
+        child.stderr.on('data', (chunk) => {
+            for (const line of chunk.toString().split('\n')) {
+                if (line.trim()) res.write(`data: ${JSON.stringify({ type: 'error', text: line })}\n\n`);
+            }
+        });
+        child.on('error', (err) => reject(err));
+        child.on('close', (code) => {
+            if (code === 0) resolve(code);
+            else reject(Object.assign(new Error(`Process exited with code ${code}`), { code }));
+        });
+    });
+}
+
+// ──────────────────────────────────────────────
 // SERVER
 // ──────────────────────────────────────────────
 
@@ -375,6 +399,20 @@ const server = http.createServer(async (req, res) => {
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ ok: true, service: 'clara-automation', time: new Date().toISOString() }));
             return;
+        }
+
+        // ── Static files (web UI) ──
+        if (req.method === 'GET') {
+            const urlPath = req.url.split('?')[0];
+            const safePath = path.normalize(urlPath).replace(/^(\.\.(\/|\\|$))+/, '');
+            const staticFile = path.join(__dirname, 'public', safePath === '/' || safePath === '\\' ? 'index.html' : safePath);
+            if (await fs.pathExists(staticFile) && (await fs.stat(staticFile)).isFile()) {
+                const ext = path.extname(staticFile).toLowerCase();
+                const mimeMap = { '.html': 'text/html', '.css': 'text/css', '.js': 'application/javascript', '.json': 'application/json', '.png': 'image/png', '.svg': 'image/svg+xml', '.ico': 'image/x-icon' };
+                res.writeHead(200, { 'Content-Type': mimeMap[ext] || 'application/octet-stream' });
+                res.end(await fs.readFile(staticFile));
+                return;
+            }
         }
 
         // ── Pipeline A: Demo → v1 ──
@@ -621,6 +659,236 @@ const server = http.createServer(async (req, res) => {
             return;
         }
 
+        // ── Get changelog for a company ──
+        if (req.method === 'GET' && req.url.startsWith('/api/changelog')) {
+            const url = new URL(req.url, 'http://localhost');
+            const company = url.searchParams.get('company');
+            if (!company) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'company query param required' }));
+                return;
+            }
+
+            const changelogPath = path.join(__dirname, 'changelog', `${company}.json`);
+            if (await fs.pathExists(changelogPath)) {
+                const data = await fs.readJson(changelogPath);
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(data));
+            } else {
+                res.writeHead(404, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: `No changelog for ${company}` }));
+            }
+            return;
+        }
+
+        // ── Batch status: all accounts + changelogs ──
+        if (req.method === 'GET' && req.url.startsWith('/api/batch-status')) {
+            const accountsDir = path.join(__dirname, 'outputs', 'accounts');
+            const changelogDir = path.join(__dirname, 'changelog');
+            const accounts = [];
+
+            if (await fs.pathExists(accountsDir)) {
+                const dirs = (await fs.readdir(accountsDir, { withFileTypes: true }))
+                    .filter(d => d.isDirectory())
+                    .map(d => d.name);
+
+                for (const slug of dirs) {
+                    const acct = { company: slug, v1: false, v2: false, changelog: null };
+                    const v1Memo = path.join(accountsDir, slug, 'v1', 'memo.json');
+                    const v2Memo = path.join(accountsDir, slug, 'v2', 'memo.json');
+                    if (await fs.pathExists(v1Memo)) acct.v1 = true;
+                    if (await fs.pathExists(v2Memo)) acct.v2 = true;
+
+                    const clPath = path.join(changelogDir, `${slug}.json`);
+                    if (await fs.pathExists(clPath)) {
+                        try { acct.changelog = await fs.readJson(clPath); } catch { /* skip */ }
+                    }
+
+                    accounts.push(acct);
+                }
+            }
+
+            // Sort: most recently changed first (v2 > v1 > none)
+            accounts.sort((a, b) => (b.v2 - a.v2) || (b.v1 - a.v1) || a.company.localeCompare(b.company));
+
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ accounts, time: new Date().toISOString() }));
+            return;
+        }
+
+        // ── Streaming API: v1 pipeline (web UI) ──
+        if (route === 'POST /api/v1') {
+            const contentType = req.headers['content-type'] || '';
+            const body = await readBody(req);
+            let company, account_id, file;
+
+            if (contentType.includes('multipart/form-data')) {
+                const boundary = contentType.split('boundary=')[1];
+                const parts = parseMultipart(body, boundary);
+                company = parts.company;
+                account_id = parts.account_id || parts.company;
+                file = parts.file;
+            } else {
+                const json = JSON.parse(body.toString());
+                company = json.company;
+                account_id = json.account_id || json.company;
+            }
+
+            if (!company) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'company is required' }));
+                return;
+            }
+            if (!file) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'file is required' }));
+                return;
+            }
+
+            const ext = path.extname(file.filename).toLowerCase();
+            if (!isTranscriptExt(ext) && !isSupportedAudioExt(ext)) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: `Unsupported file format: ${ext}` }));
+                return;
+            }
+
+            // Save uploaded file
+            const isAudio = isSupportedAudioExt(ext);
+            const subDir = isAudio ? 'audio' : 'transcripts';
+            const saveDir = path.join(__dirname, 'inputs', company, subDir, 'demo');
+            await fs.ensureDir(saveDir);
+            const savedName = isAudio ? file.filename : 'transcript.txt';
+            await fs.writeFile(path.join(saveDir, savedName), file.data);
+            const relPath = `${company}/${subDir}/demo/${savedName}`;
+
+            // Begin SSE stream
+            res.writeHead(200, {
+                'Content-Type': 'text/event-stream',
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive',
+                'X-Accel-Buffering': 'no',
+            });
+
+            const startTime = Date.now();
+            const sse = (type, text) => res.write(`data: ${JSON.stringify({ type, text })}\n\n`);
+            sse('log', `▶ Pipeline A: ${company} (${file.filename})`);
+
+            try {
+                await spawnWithSSE('node', ['scripts/v1/runDemo.js', relPath, account_id], res);
+                const duration = ((Date.now() - startTime) / 1000).toFixed(1);
+                const outputs = await readOutputs(company);
+                res.write(`data: ${JSON.stringify({ type: 'done', code: 0, duration, outputs })}\n\n`);
+            } catch (err) {
+                const duration = ((Date.now() - startTime) / 1000).toFixed(1);
+                res.write(`data: ${JSON.stringify({ type: 'done', code: err.code || 1, duration, error: err.message })}\n\n`);
+            }
+            res.end();
+            return;
+        }
+
+        // ── Streaming API: v2 pipeline (web UI) ──
+        if (route === 'POST /api/v2') {
+            const contentType = req.headers['content-type'] || '';
+            const body = await readBody(req);
+            let company, account_id, file, formDataStr;
+
+            if (contentType.includes('multipart/form-data')) {
+                const boundary = contentType.split('boundary=')[1];
+                const parts = parseMultipart(body, boundary);
+                company = parts.company;
+                account_id = parts.account_id || parts.company;
+                file = parts.file;
+                formDataStr = parts.form_data || null;
+            } else {
+                const json = JSON.parse(body.toString());
+                company = json.company;
+                account_id = json.account_id || json.company;
+                formDataStr = json.form_data ? JSON.stringify(json.form_data) : null;
+            }
+
+            if (!company) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'company is required' }));
+                return;
+            }
+            if (!file && !formDataStr) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'file or form_data required' }));
+                return;
+            }
+
+            // Begin SSE stream
+            res.writeHead(200, {
+                'Content-Type': 'text/event-stream',
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive',
+                'X-Accel-Buffering': 'no',
+            });
+
+            const startTime = Date.now();
+            const sse = (type, text) => res.write(`data: ${JSON.stringify({ type, text })}\n\n`);
+            sse('log', `▶ Pipeline B: ${company}`);
+
+            let pipelineBRan = false;
+
+            try {
+                // Phase 1: File → LLM → v2
+                if (file) {
+                    const ext = path.extname(file.filename).toLowerCase();
+                    if (!isTranscriptExt(ext) && !isSupportedAudioExt(ext)) {
+                        sse('error', `Unsupported file format: ${ext}`);
+                        const duration = ((Date.now() - startTime) / 1000).toFixed(1);
+                        res.write(`data: ${JSON.stringify({ type: 'done', code: 1, duration, error: `Unsupported format: ${ext}` })}\n\n`);
+                        res.end();
+                        return;
+                    }
+
+                    const isAudio = isSupportedAudioExt(ext);
+                    const subDir = isAudio ? 'audio' : 'transcripts';
+                    const saveDir = path.join(__dirname, 'inputs', company, subDir, 'onboarding');
+                    await fs.ensureDir(saveDir);
+                    const savedName = isAudio ? file.filename : 'transcript.txt';
+                    await fs.writeFile(path.join(saveDir, savedName), file.data);
+                    sse('log', `   📄 Saved: inputs/${company}/${subDir}/onboarding/${savedName}`);
+
+                    const transcriptRel = `${company}/transcripts/onboarding/transcript.txt`;
+
+                    if (isAudio) {
+                        sse('log', `   🎵 Transcribing with Whisper...`);
+                        const audioAbs = path.join(__dirname, 'inputs', company, 'audio', 'onboarding', savedName);
+                        await spawnWithSSE('node', ['scripts/transcribeAudio.js', audioAbs], res);
+                        sse('log', `   ✅ Transcription complete`);
+                    }
+
+                    sse('log', `   🟢 Running Pipeline B (LLM)...`);
+                    await spawnWithSSE('node', ['scripts/v2/runOnboarding.js', transcriptRel, account_id, company], res);
+                    sse('log', `   ✅ Pipeline B (LLM) complete`);
+                    pipelineBRan = true;
+                }
+
+                // Phase 2: Form merge
+                if (formDataStr) {
+                    const formObj = JSON.parse(formDataStr);
+                    if (formObj && typeof formObj === 'object' && Object.keys(formObj).length > 0) {
+                        const baseVer = pipelineBRan ? 'v2' : 'v1';
+                        sse('log', `   📋 Applying form data on top of ${baseVer}...`);
+                        await applyFormData(account_id, company, formObj, baseVer, 'v2');
+                        sse('log', `   ✅ Form merge complete`);
+                    }
+                }
+
+                const duration = ((Date.now() - startTime) / 1000).toFixed(1);
+                const outputs = await readOutputs(company, 'v2');
+                res.write(`data: ${JSON.stringify({ type: 'done', code: 0, duration, outputs })}\n\n`);
+            } catch (err) {
+                sse('error', `❌ ${err.message}`);
+                const duration = ((Date.now() - startTime) / 1000).toFixed(1);
+                res.write(`data: ${JSON.stringify({ type: 'done', code: 1, duration, error: err.message })}\n\n`);
+            }
+            res.end();
+            return;
+        }
+
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not found' }));
 
@@ -635,10 +903,15 @@ server.listen(PORT, () => {
     console.log('═══════════════════════════════════════════');
     console.log('✅ Clara Automation Server');
     console.log('═══════════════════════════════════════════');
-    console.log(`POST /run      → Pipeline A (demo → v1)`);
-    console.log(`POST /onboard  → Pipeline B (onboarding call → v2)`);
-    console.log(`POST /form     → Pipeline C (onboarding form → v(n+1))`);
-    console.log(`GET  /outputs  → Read account outputs`);
-    console.log(`GET  /health   → Health check`);
+    console.log(`GET  /          → Web UI`);
+    console.log(`POST /run       → Pipeline A (demo → v1)`);
+    console.log(`POST /onboard   → Pipeline B (onboarding call → v2)`);
+    console.log(`POST /form      → Pipeline C (onboarding form → v(n+1))`);
+    console.log(`POST /api/v1    → Pipeline A with SSE streaming`);
+    console.log(`POST /api/v2    → Pipeline B with SSE streaming`);
+    console.log(`GET  /outputs   → Read account outputs`);
+    console.log(`GET  /api/changelog → Changelog for a company`);
+    console.log(`GET  /api/batch-status → All accounts + changelogs`);
+    console.log(`GET  /health    → Health check`);
     console.log('═══════════════════════════════════════════');
 });

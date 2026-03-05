@@ -1,5 +1,5 @@
 {
-  "company_name": "G&M Pressure Washing",
+  "company_name": "Ben's Electric Solution Team",
   "business_hours": {
     "days": [
       "Monday",
@@ -9,18 +9,8 @@
       "Friday"
     ],
     "start": "08:30",
-    "end": "17:00"
+    "end": "17:00",
+    "timezone": null
   },
-  "emergency_definition": [
-    "calls related to the properties managed by G&M Pressure Washing, such as gas stations"
-  ],
-  "non_emergency_routing_rules": {
-    "action": "Returned the next business day"
-  },
-  "after_hours_flow_summary": "After-hours calls will be patched through to Ben.",
-  "questions_or_unknowns": [
-    "Timezone is not explicitly stated",
-    "Physical address is not provided",
-    "Client phone number is not provided"
-  ]
+  "notes": "Service call fee is $115 and should be mentioned only if the customer asks. Hourly charge is $98 per hour for residential work, billed in half‑hour increments. Preferred notification email is info@benselectricsolutionsteam.com. SMS notifications will use the same number as the main business line. Currently using a personal number as business line; plans to add a second number for personal use. Clara will forward calls from the main line and can transfer calls to the client. Client wants to test configuration before going live."
 }

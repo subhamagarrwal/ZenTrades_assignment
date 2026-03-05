@@ -1,0 +1,52 @@
+{
+  "company_name": "Flow State Plumbing",
+  "industry_type": "Heating and Air",
+  "services_supported": [
+    "Plumbing installations",
+    "Plumbing repairs",
+    "Annual tank flush"
+  ],
+  "business_hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "start": null,
+    "end": null,
+    "timezone": "Mountain Time"
+  },
+  "office_address": null,
+  "emergency_definition": [
+    "Active flooding that cannot be isolated or turned off",
+    "Raw sewage backing up into the house"
+  ],
+  "emergency_routing_rules": {
+    "contacts": [],
+    "fallback": null
+  },
+  "non_emergency_routing_rules": {
+    "action": "Clara takes a message and has office manager Jenny call the customer back in the morning",
+    "fallback": null
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": null,
+    "retries": null,
+    "on_fail": null
+  },
+  "integration_constraints": "Clara has bi-directional access to the Housecall Pro account.",
+  "after_hours_flow_summary": "After-hours starts at 4:30 PM and on weekends. Emergency calls trigger Clara to dial the Batphone; if voicemail is reached, Clara pulls the caller off hold and sends an urgent SMS to both the Batphone and the owner Mike. Non‑emergency after‑hours calls are taken as messages and the office manager Jenny will call the customer back in the morning. After‑hours emergency fee is $350; standard dispatch fee is $69, waived if the customer approves the work.",
+  "office_hours_flow_summary": null,
+  "questions_or_unknowns": [
+    "What are the standard business days and hours (start and end times)?",
+    "What is the timezone for the business?",
+    "What is the office physical address?",
+    "What are the email addresses for notifications?",
+    "What are the phone numbers for the Batphone and for Mike's SMS notifications?",
+    "What is the dedicated Clara phone number that will be assigned?"
+  ],
+  "notes": "Mile High Heating and Air, LLC provides residential and commercial HVAC maintenance and repair. They currently use ServiceTitan for CRM/dispatch and want to add Clara for outbound reactivation and inbound call handling with conditional forwarding after three rings. Emergency definitions include water leaks, gas smells, and sparks. Business hours are standard Mon‑Fri, timezone Mountain Time, but exact times are to be confirmed.",
+  "account_id": "company a"
+}

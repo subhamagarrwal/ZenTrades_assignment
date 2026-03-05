@@ -1,0 +1,57 @@
+{
+  "company_name": "Crystal Clear Carpet and Restoration, LLC.",
+  "industry_type": "carpet cleaning and water damage restoration",
+  "services_supported": [
+    "inbound call answering",
+    "outbound reactivation calls",
+    "emergency call routing"
+  ],
+  "business_hours": {
+    "days": [],
+    "start": null,
+    "end": null,
+    "timezone": null
+  },
+  "office_address": null,
+  "emergency_definition": [
+    "washing machine hose blowing off and causing standing water"
+  ],
+  "emergency_routing_rules": {
+    "contacts": [
+      {
+        "name": "Jessica",
+        "phone": null,
+        "priority": 1
+      },
+      {
+        "name": "Dave",
+        "phone": null,
+        "priority": 2
+      }
+    ],
+    "fallback": null
+  },
+  "non_emergency_routing_rules": {
+    "action": null,
+    "fallback": null
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": null,
+    "retries": null,
+    "on_fail": null
+  },
+  "integration_constraints": "Requires integration with ServiceMonster via token mapping.",
+  "after_hours_flow_summary": null,
+  "office_hours_flow_summary": null,
+  "questions_or_unknowns": [
+    "What are the client’s regular business hours and timezone?",
+    "What is the physical office address of the client?",
+    "What are the phone numbers for Jessica’s desk phone and Dave’s cell phone?",
+    "Are there any additional emergency scenarios besides the washing machine hose example?",
+    "How should after‑hours calls be handled?",
+    "Is there any specific call transfer behavior or timeout preferences?",
+    "Are there any other software integrations besides ServiceMonster needed?"
+  ],
+  "notes": "Client wants Clara AI to handle inbound calls, route emergencies first to Jessica then to Dave, and perform outbound reactivation calls using their customer database. They will pay $349/mo Growth Tier plus a $200 one‑time integration fee. No contract lock‑in.",
+  "account_id": "crystal-clear-carpet"
+}
