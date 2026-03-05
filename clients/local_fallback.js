@@ -152,6 +152,16 @@ export async function localTranscribe(audioChunkPath) {
 // ─── Lazy llama-server management ──────────────────────────
 async function ensureLlamaServer() {
     if (_llamaReady) return;
+
+    // If a previous process (from an earlier script invocation) is already
+    // listening on the port, reuse it — no need to spawn a new one.
+    try {
+        await httpGet(`http://127.0.0.1:${LLAMA_PORT}/health`);
+        _llamaReady = true;
+        console.log('✅ Local LLM server already running — reusing');
+        return;
+    } catch { /* not up yet — fall through to spawn */ }
+
     if (!LLAMA_AVAILABLE) {
         throw new Error('llama-server binary not found. Run inside the Docker container or install llama.cpp.');
     }
@@ -170,6 +180,13 @@ async function ensureLlamaServer() {
         '-ngl', '0',        // no GPU layers
         '-t', String(threads),
     ], { stdio: ['ignore', 'pipe', 'pipe'] });
+
+    // Unref the process and its streams so they don't prevent Node from
+    // exiting once the calling script (runOnboarding.js, etc.) finishes.
+    // The server keeps running; it's just no longer holding the event loop.
+    _llamaProc.unref();
+    if (_llamaProc.stdout) _llamaProc.stdout.unref();
+    if (_llamaProc.stderr) _llamaProc.stderr.unref();
 
     // Log server stderr for debugging
     _llamaProc.stderr.on('data', (d) => {

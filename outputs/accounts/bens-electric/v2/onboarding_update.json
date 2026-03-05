@@ -8,9 +8,19 @@
       "Thursday",
       "Friday"
     ],
-    "start": "08:30",
-    "end": "17:00",
+    "start": "8:30 AM",
+    "end": "5:00 PM",
     "timezone": null
   },
-  "notes": "Service call fee is $115 and should be mentioned only if the customer asks. Hourly charge is $98 per hour for residential work, billed in half‑hour increments. Preferred notification email is info@benselectricsolutionsteam.com. SMS notifications will use the same number as the main business line. Currently using a personal number as business line; plans to add a second number for personal use. Clara will forward calls from the main line and can transfer calls to the client. Client wants to test configuration before going live."
+  "questions_or_unknowns": [
+    "Timezone not provided",
+    "Physical address not provided",
+    "Phone numbers for routing not provided",
+    "Emergency definitions and routing not provided",
+    "Non-emergency after-hours handling not provided",
+    "Call transfer rules not provided",
+    "CRM/software constraints not provided",
+    "Services supported not explicitly listed"
+  ],
+  "notes": "Client wants Clara to mention the $115 service call fee only if the caller asks. Preferred notification email is info@benselectricsolutionsteam.com. Wants both email and SMS notifications for new calls; SMS to be sent to the main business line number. Main line will still receive texts directly; only incoming calls are forwarded to Clara."
 }

@@ -300,7 +300,10 @@ function stopBatchPolling() {
 let checkTimeout;
 async function checkExistingOutputs() {
   const c = getCompany();
-  if (!c) return;
+  if (!c) {
+    changelogSection.style.display = 'none';
+    return;
+  }
   try {
     const r = await fetch(`/outputs?company=${encodeURIComponent(c)}`);
     if (r.ok) {
@@ -314,6 +317,9 @@ async function checkExistingOutputs() {
       }
     }
   } catch { /* ignore */ }
+
+  // Always try to load changelog for this company (persists across page loads)
+  await showChangelog(c);
 }
 
 // ── Event listeners ──

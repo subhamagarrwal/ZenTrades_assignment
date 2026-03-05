@@ -179,6 +179,11 @@
 (9:11) yes
 (9:11) no problem
 (9:12) no problem
+(9:28) no problem
+(9:30) no problem
+(9:32) no problem
+(9:34) no problem
+(9:35) no problem
 (9:35) Sorry, guys.
 (10:00) I just got to pay this guy.
 (10:01) you're back
@@ -444,11 +449,18 @@
 (25:26) And you'll see the post call workflow in that way as well.
 (25:30) Yeah.
 (25:31) So that was all I had from my side.
-(25:34) Thank you so much for your time, Ben.
-(25:36) But yeah, over to you, Bharat.
+(25:34) Thank you so much for your time,
+(25:35) Ben.
+(25:36) But yeah,
+(25:36) over to you,
+(25:37) Bharat.
 (25:38) Yeah.
 (25:39) Awesome.
-(25:41) I'll see you, Ben.
+(25:40) Go.
+(25:41) I'll see you,
+(25:43) Ben.
 (25:43) Just watch out for my email.
-(25:45) Thank you, Bhavad.
-(25:45) Yeah, thanks.
+(25:45) Thank you,
+(25:45) Bhavad.
+(25:46) Yeah,
+(25:46) thanks.

@@ -239,9 +239,9 @@
       51109
     ],
     "temperature": 0,
-    "avg_logprob": -0.22824569,
+    "avg_logprob": -0.22731219,
     "compression_ratio": 1.4036697,
-    "no_speech_prob": 7.7291954e-13
+    "no_speech_prob": 7.9124717e-13
   },
   {
     "id": 12,
@@ -264,9 +264,9 @@
       51249
     ],
     "temperature": 0,
-    "avg_logprob": -0.22824569,
+    "avg_logprob": -0.22731219,
     "compression_ratio": 1.4036697,
-    "no_speech_prob": 7.7291954e-13
+    "no_speech_prob": 7.9124717e-13
   },
   {
     "id": 13,
@@ -282,9 +282,9 @@
       51397
     ],
     "temperature": 0,
-    "avg_logprob": -0.22824569,
+    "avg_logprob": -0.22731219,
     "compression_ratio": 1.4036697,
-    "no_speech_prob": 7.7291954e-13
+    "no_speech_prob": 7.9124717e-13
   },
   {
     "id": 14,
@@ -301,9 +301,9 @@
       51760
     ],
     "temperature": 0,
-    "avg_logprob": -0.22824569,
+    "avg_logprob": -0.22731219,
     "compression_ratio": 1.4036697,
-    "no_speech_prob": 7.7291954e-13
+    "no_speech_prob": 7.9124717e-13
   },
   {
     "id": 15,
@@ -338,9 +338,9 @@
       50918
     ],
     "temperature": 0,
-    "avg_logprob": -0.13461757,
+    "avg_logprob": -0.1348354,
     "compression_ratio": 1.6397516,
-    "no_speech_prob": 1.1071988e-12
+    "no_speech_prob": 1.1289316e-12
   },
   {
     "id": 16,
@@ -370,9 +370,9 @@
       51174
     ],
     "temperature": 0,
-    "avg_logprob": -0.13461757,
+    "avg_logprob": -0.1348354,
     "compression_ratio": 1.6397516,
-    "no_speech_prob": 1.1071988e-12
+    "no_speech_prob": 1.1289316e-12
   },
   {
     "id": 17,
@@ -404,9 +404,9 @@
       51527
     ],
     "temperature": 0,
-    "avg_logprob": -0.13461757,
+    "avg_logprob": -0.1348354,
     "compression_ratio": 1.6397516,
-    "no_speech_prob": 1.1071988e-12
+    "no_speech_prob": 1.1289316e-12
   },
   {
     "id": 18,
@@ -596,9 +596,9 @@
       50723
     ],
     "temperature": 0,
-    "avg_logprob": -0.14040758,
+    "avg_logprob": -0.14062086,
     "compression_ratio": 1.7321428,
-    "no_speech_prob": 1.6882514e-12
+    "no_speech_prob": 1.6621283e-12
   },
   {
     "id": 23,
@@ -634,9 +634,9 @@
       50952
     ],
     "temperature": 0,
-    "avg_logprob": -0.14040758,
+    "avg_logprob": -0.14062086,
     "compression_ratio": 1.7321428,
-    "no_speech_prob": 1.6882514e-12
+    "no_speech_prob": 1.6621283e-12
   },
   {
     "id": 24,
@@ -671,9 +671,9 @@
       51131
     ],
     "temperature": 0,
-    "avg_logprob": -0.14040758,
+    "avg_logprob": -0.14062086,
     "compression_ratio": 1.7321428,
-    "no_speech_prob": 1.6882514e-12
+    "no_speech_prob": 1.6621283e-12
   },
   {
     "id": 25,
@@ -708,9 +708,9 @@
       51393
     ],
     "temperature": 0,
-    "avg_logprob": -0.14040758,
+    "avg_logprob": -0.14062086,
     "compression_ratio": 1.7321428,
-    "no_speech_prob": 1.6882514e-12
+    "no_speech_prob": 1.6621283e-12
   },
   {
     "id": 26,
@@ -745,9 +745,9 @@
       51594
     ],
     "temperature": 0,
-    "avg_logprob": -0.14040758,
+    "avg_logprob": -0.14062086,
     "compression_ratio": 1.7321428,
-    "no_speech_prob": 1.6882514e-12
+    "no_speech_prob": 1.6621283e-12
   },
   {
     "id": 27,
@@ -762,9 +762,9 @@
       50504
     ],
     "temperature": 0,
-    "avg_logprob": -0.1518224,
+    "avg_logprob": -0.1518482,
     "compression_ratio": 1.7276596,
-    "no_speech_prob": 1.7486396e-12
+    "no_speech_prob": 1.6948452e-12
   },
   {
     "id": 28,
@@ -782,9 +782,9 @@
       50680
     ],
     "temperature": 0,
-    "avg_logprob": -0.1518224,
+    "avg_logprob": -0.1518482,
     "compression_ratio": 1.7276596,
-    "no_speech_prob": 1.7486396e-12
+    "no_speech_prob": 1.6948452e-12
   },
   {
     "id": 29,
@@ -802,9 +802,9 @@
       50786
     ],
     "temperature": 0,
-    "avg_logprob": -0.1518224,
+    "avg_logprob": -0.1518482,
     "compression_ratio": 1.7276596,
-    "no_speech_prob": 1.7486396e-12
+    "no_speech_prob": 1.6948452e-12
   },
   {
     "id": 30,
@@ -823,9 +823,9 @@
       50893
     ],
     "temperature": 0,
-    "avg_logprob": -0.1518224,
+    "avg_logprob": -0.1518482,
     "compression_ratio": 1.7276596,
-    "no_speech_prob": 1.7486396e-12
+    "no_speech_prob": 1.6948452e-12
   },
   {
     "id": 31,
@@ -847,9 +847,9 @@
       50994
     ],
     "temperature": 0,
-    "avg_logprob": -0.1518224,
+    "avg_logprob": -0.1518482,
     "compression_ratio": 1.7276596,
-    "no_speech_prob": 1.7486396e-12
+    "no_speech_prob": 1.6948452e-12
   },
   {
     "id": 32,
@@ -872,9 +872,9 @@
       51094
     ],
     "temperature": 0,
-    "avg_logprob": -0.1518224,
+    "avg_logprob": -0.1518482,
     "compression_ratio": 1.7276596,
-    "no_speech_prob": 1.7486396e-12
+    "no_speech_prob": 1.6948452e-12
   },
   {
     "id": 33,
@@ -896,9 +896,9 @@
       51194
     ],
     "temperature": 0,
-    "avg_logprob": -0.1518224,
+    "avg_logprob": -0.1518482,
     "compression_ratio": 1.7276596,
-    "no_speech_prob": 1.7486396e-12
+    "no_speech_prob": 1.6948452e-12
   },
   {
     "id": 34,
@@ -916,9 +916,9 @@
       51296
     ],
     "temperature": 0,
-    "avg_logprob": -0.1518224,
+    "avg_logprob": -0.1518482,
     "compression_ratio": 1.7276596,
-    "no_speech_prob": 1.7486396e-12
+    "no_speech_prob": 1.6948452e-12
   },
   {
     "id": 35,
@@ -934,9 +934,9 @@
       51381
     ],
     "temperature": 0,
-    "avg_logprob": -0.1518224,
+    "avg_logprob": -0.1518482,
     "compression_ratio": 1.7276596,
-    "no_speech_prob": 1.7486396e-12
+    "no_speech_prob": 1.6948452e-12
   },
   {
     "id": 36,
@@ -952,9 +952,9 @@
       51455
     ],
     "temperature": 0,
-    "avg_logprob": -0.1518224,
+    "avg_logprob": -0.1518482,
     "compression_ratio": 1.7276596,
-    "no_speech_prob": 1.7486396e-12
+    "no_speech_prob": 1.6948452e-12
   },
   {
     "id": 37,
@@ -975,9 +975,9 @@
       51587
     ],
     "temperature": 0,
-    "avg_logprob": -0.1518224,
+    "avg_logprob": -0.1518482,
     "compression_ratio": 1.7276596,
-    "no_speech_prob": 1.7486396e-12
+    "no_speech_prob": 1.6948452e-12
   },
   {
     "id": 38,
@@ -999,9 +999,9 @@
       51691
     ],
     "temperature": 0,
-    "avg_logprob": -0.1518224,
+    "avg_logprob": -0.1518482,
     "compression_ratio": 1.7276596,
-    "no_speech_prob": 1.7486396e-12
+    "no_speech_prob": 1.6948452e-12
   },
   {
     "id": 39,
@@ -1023,9 +1023,9 @@
       51776
     ],
     "temperature": 0,
-    "avg_logprob": -0.1518224,
+    "avg_logprob": -0.1518482,
     "compression_ratio": 1.7276596,
-    "no_speech_prob": 1.7486396e-12
+    "no_speech_prob": 1.6948452e-12
   },
   {
     "id": 40,
@@ -1605,9 +1605,9 @@
       50733
     ],
     "temperature": 0,
-    "avg_logprob": -0.14145197,
+    "avg_logprob": -0.14147165,
     "compression_ratio": 1.6408163,
-    "no_speech_prob": 1.1786411e-12
+    "no_speech_prob": 1.1786417e-12
   },
   {
     "id": 63,
@@ -1643,9 +1643,9 @@
       50984
     ],
     "temperature": 0,
-    "avg_logprob": -0.14145197,
+    "avg_logprob": -0.14147165,
     "compression_ratio": 1.6408163,
-    "no_speech_prob": 1.1786411e-12
+    "no_speech_prob": 1.1786417e-12
   },
   {
     "id": 64,
@@ -1675,9 +1675,9 @@
       51269
     ],
     "temperature": 0,
-    "avg_logprob": -0.14145197,
+    "avg_logprob": -0.14147165,
     "compression_ratio": 1.6408163,
-    "no_speech_prob": 1.1786411e-12
+    "no_speech_prob": 1.1786417e-12
   },
   {
     "id": 65,
@@ -1710,9 +1710,9 @@
       51573
     ],
     "temperature": 0,
-    "avg_logprob": -0.14145197,
+    "avg_logprob": -0.14147165,
     "compression_ratio": 1.6408163,
-    "no_speech_prob": 1.1786411e-12
+    "no_speech_prob": 1.1786417e-12
   },
   {
     "id": 66,
@@ -1734,9 +1734,9 @@
       50541
     ],
     "temperature": 0,
-    "avg_logprob": -0.22410932,
+    "avg_logprob": -0.22411145,
     "compression_ratio": 1.5753424,
-    "no_speech_prob": 9.619888e-13
+    "no_speech_prob": 9.964089e-13
   },
   {
     "id": 67,
@@ -1755,9 +1755,9 @@
       50622
     ],
     "temperature": 0,
-    "avg_logprob": -0.22410932,
+    "avg_logprob": -0.22411145,
     "compression_ratio": 1.5753424,
-    "no_speech_prob": 9.619888e-13
+    "no_speech_prob": 9.964089e-13
   },
   {
     "id": 68,
@@ -1778,9 +1778,9 @@
       50706
     ],
     "temperature": 0,
-    "avg_logprob": -0.22410932,
+    "avg_logprob": -0.22411145,
     "compression_ratio": 1.5753424,
-    "no_speech_prob": 9.619888e-13
+    "no_speech_prob": 9.964089e-13
   },
   {
     "id": 69,
@@ -1801,9 +1801,9 @@
       50977
     ],
     "temperature": 0,
-    "avg_logprob": -0.22410932,
+    "avg_logprob": -0.22411145,
     "compression_ratio": 1.5753424,
-    "no_speech_prob": 9.619888e-13
+    "no_speech_prob": 9.964089e-13
   },
   {
     "id": 70,
@@ -1824,9 +1824,9 @@
       51115
     ],
     "temperature": 0,
-    "avg_logprob": -0.22410932,
+    "avg_logprob": -0.22411145,
     "compression_ratio": 1.5753424,
-    "no_speech_prob": 9.619888e-13
+    "no_speech_prob": 9.964089e-13
   },
   {
     "id": 71,
@@ -1841,9 +1841,9 @@
       51148
     ],
     "temperature": 0,
-    "avg_logprob": -0.22410932,
+    "avg_logprob": -0.22411145,
     "compression_ratio": 1.5753424,
-    "no_speech_prob": 9.619888e-13
+    "no_speech_prob": 9.964089e-13
   },
   {
     "id": 72,
@@ -1863,9 +1863,9 @@
       51341
     ],
     "temperature": 0,
-    "avg_logprob": -0.22410932,
+    "avg_logprob": -0.22411145,
     "compression_ratio": 1.5753424,
-    "no_speech_prob": 9.619888e-13
+    "no_speech_prob": 9.964089e-13
   },
   {
     "id": 73,
@@ -1887,9 +1887,9 @@
       51497
     ],
     "temperature": 0,
-    "avg_logprob": -0.22410932,
+    "avg_logprob": -0.22411145,
     "compression_ratio": 1.5753424,
-    "no_speech_prob": 9.619888e-13
+    "no_speech_prob": 9.964089e-13
   },
   {
     "id": 74,
@@ -1910,9 +1910,9 @@
       51669
     ],
     "temperature": 0,
-    "avg_logprob": -0.22410932,
+    "avg_logprob": -0.22411145,
     "compression_ratio": 1.5753424,
-    "no_speech_prob": 9.619888e-13
+    "no_speech_prob": 9.964089e-13
   },
   {
     "id": 75,
@@ -1932,9 +1932,9 @@
       51855
     ],
     "temperature": 0,
-    "avg_logprob": -0.22410932,
+    "avg_logprob": -0.22411145,
     "compression_ratio": 1.5753424,
-    "no_speech_prob": 9.619888e-13
+    "no_speech_prob": 9.964089e-13
   },
   {
     "id": 76,
@@ -1969,9 +1969,9 @@
       50678
     ],
     "temperature": 0,
-    "avg_logprob": -0.10180752,
+    "avg_logprob": -0.101174206,
     "compression_ratio": 1.6689895,
-    "no_speech_prob": 1.8325597e-12
+    "no_speech_prob": 1.9660374e-12
   },
   {
     "id": 77,
@@ -2009,9 +2009,9 @@
       51010
     ],
     "temperature": 0,
-    "avg_logprob": -0.10180752,
+    "avg_logprob": -0.101174206,
     "compression_ratio": 1.6689895,
-    "no_speech_prob": 1.8325597e-12
+    "no_speech_prob": 1.9660374e-12
   },
   {
     "id": 78,
@@ -2042,9 +2042,9 @@
       51294
     ],
     "temperature": 0,
-    "avg_logprob": -0.10180752,
+    "avg_logprob": -0.101174206,
     "compression_ratio": 1.6689895,
-    "no_speech_prob": 1.8325597e-12
+    "no_speech_prob": 1.9660374e-12
   },
   {
     "id": 79,
@@ -2079,9 +2079,9 @@
       51595
     ],
     "temperature": 0,
-    "avg_logprob": -0.10180752,
+    "avg_logprob": -0.101174206,
     "compression_ratio": 1.6689895,
-    "no_speech_prob": 1.8325597e-12
+    "no_speech_prob": 1.9660374e-12
   },
   {
     "id": 80,
@@ -2117,9 +2117,9 @@
       51855
     ],
     "temperature": 0,
-    "avg_logprob": -0.10180752,
+    "avg_logprob": -0.101174206,
     "compression_ratio": 1.6689895,
-    "no_speech_prob": 1.8325597e-12
+    "no_speech_prob": 1.9660374e-12
   },
   {
     "id": 81,
@@ -2643,9 +2643,9 @@
       50443
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 100,
@@ -2666,9 +2666,9 @@
       50562
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 101,
@@ -2689,9 +2689,9 @@
       50629
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 102,
@@ -2706,9 +2706,9 @@
       50703
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 103,
@@ -2723,9 +2723,9 @@
       50751
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 104,
@@ -2743,9 +2743,9 @@
       50834
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 105,
@@ -2765,9 +2765,9 @@
       50948
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 106,
@@ -2789,9 +2789,9 @@
       51041
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 107,
@@ -2809,9 +2809,9 @@
       51088
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 108,
@@ -2832,9 +2832,9 @@
       51155
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 109,
@@ -2851,9 +2851,9 @@
       51189
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 110,
@@ -2873,9 +2873,9 @@
       51277
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 111,
@@ -2895,9 +2895,9 @@
       51337
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 112,
@@ -2919,9 +2919,9 @@
       51493
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 113,
@@ -2939,9 +2939,9 @@
       51569
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 114,
@@ -2958,9 +2958,9 @@
       51612
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 115,
@@ -2979,9 +2979,9 @@
       51662
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 116,
@@ -3004,9 +3004,9 @@
       51781
     ],
     "temperature": 0,
-    "avg_logprob": -0.21880546,
+    "avg_logprob": -0.21895479,
     "compression_ratio": 1.848,
-    "no_speech_prob": 4.178065e-12
+    "no_speech_prob": 4.6428794e-12
   },
   {
     "id": 117,
@@ -3025,9 +3025,9 @@
       50463
     ],
     "temperature": 0,
-    "avg_logprob": -0.19941573,
+    "avg_logprob": -0.19902624,
     "compression_ratio": 1.4700855,
-    "no_speech_prob": 7.373813e-13
+    "no_speech_prob": 7.260602e-13
   },
   {
     "id": 118,
@@ -3852,9 +3852,9 @@
       50380
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 152,
@@ -3869,9 +3869,9 @@
       50396
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 153,
@@ -3886,9 +3886,9 @@
       50430
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 154,
@@ -3903,9 +3903,9 @@
       50449
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 155,
@@ -3920,9 +3920,9 @@
       50510
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 156,
@@ -3958,9 +3958,9 @@
       50810
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 157,
@@ -3983,9 +3983,9 @@
       50902
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 158,
@@ -4011,9 +4011,9 @@
       51021
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 159,
@@ -4028,9 +4028,9 @@
       51084
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 160,
@@ -4046,9 +4046,9 @@
       51120
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 161,
@@ -4063,9 +4063,9 @@
       51141
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 162,
@@ -4080,9 +4080,9 @@
       51215
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 163,
@@ -4097,9 +4097,9 @@
       51241
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 164,
@@ -4126,9 +4126,9 @@
       51532
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 165,
@@ -4145,9 +4145,9 @@
       51569
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 166,
@@ -4162,9 +4162,9 @@
       51579
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 167,
@@ -4184,9 +4184,9 @@
       51617
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 168,
@@ -4219,9 +4219,9 @@
       51802
     ],
     "temperature": 0,
-    "avg_logprob": -0.34878626,
+    "avg_logprob": -0.3492259,
     "compression_ratio": 1.8427948,
-    "no_speech_prob": 2.6339879e-12
+    "no_speech_prob": 2.388948e-12
   },
   {
     "id": 169,
@@ -4255,9 +4255,9 @@
       50720
     ],
     "temperature": 0,
-    "avg_logprob": -0.08453769,
+    "avg_logprob": -0.08408933,
     "compression_ratio": 1.7943925,
-    "no_speech_prob": 1.4841243e-12
+    "no_speech_prob": 1.4899313e-12
   },
   {
     "id": 170,
@@ -4289,9 +4289,9 @@
       51019
     ],
     "temperature": 0,
-    "avg_logprob": -0.08453769,
+    "avg_logprob": -0.08408933,
     "compression_ratio": 1.7943925,
-    "no_speech_prob": 1.4841243e-12
+    "no_speech_prob": 1.4899313e-12
   },
   {
     "id": 171,
@@ -4323,9 +4323,9 @@
       51302
     ],
     "temperature": 0,
-    "avg_logprob": -0.08453769,
+    "avg_logprob": -0.08408933,
     "compression_ratio": 1.7943925,
-    "no_speech_prob": 1.4841243e-12
+    "no_speech_prob": 1.4899313e-12
   },
   {
     "id": 172,
@@ -4361,9 +4361,9 @@
       51649
     ],
     "temperature": 0,
-    "avg_logprob": -0.08453769,
+    "avg_logprob": -0.08408933,
     "compression_ratio": 1.7943925,
-    "no_speech_prob": 1.4841243e-12
+    "no_speech_prob": 1.4899313e-12
   },
   {
     "id": 173,
@@ -4395,9 +4395,9 @@
       50675
     ],
     "temperature": 0,
-    "avg_logprob": -0.08504907,
+    "avg_logprob": -0.08540264,
     "compression_ratio": 1.7336448,
-    "no_speech_prob": 1.6751619e-12
+    "no_speech_prob": 1.6751625e-12
   },
   {
     "id": 174,
@@ -4432,9 +4432,9 @@
       50949
     ],
     "temperature": 0,
-    "avg_logprob": -0.08504907,
+    "avg_logprob": -0.08540264,
     "compression_ratio": 1.7336448,
-    "no_speech_prob": 1.6751619e-12
+    "no_speech_prob": 1.6751625e-12
   },
   {
     "id": 175,
@@ -4468,9 +4468,9 @@
       51358
     ],
     "temperature": 0,
-    "avg_logprob": -0.08504907,
+    "avg_logprob": -0.08540264,
     "compression_ratio": 1.7336448,
-    "no_speech_prob": 1.6751619e-12
+    "no_speech_prob": 1.6751625e-12
   },
   {
     "id": 176,
@@ -4502,9 +4502,9 @@
       51555
     ],
     "temperature": 0,
-    "avg_logprob": -0.08504907,
+    "avg_logprob": -0.08540264,
     "compression_ratio": 1.7336448,
-    "no_speech_prob": 1.6751619e-12
+    "no_speech_prob": 1.6751625e-12
   },
   {
     "id": 177,
@@ -4530,62 +4530,147 @@
       50646
     ],
     "temperature": 0,
-    "avg_logprob": -0.76118124,
-    "compression_ratio": 1.1866666,
-    "no_speech_prob": 5.948178e-13
+    "avg_logprob": -0.8397262,
+    "compression_ratio": 1.8947369,
+    "no_speech_prob": 5.971452e-13
   },
   {
     "id": 178,
     "seek": 16738,
     "start": 551.192,
-    "end": 551.672,
+    "end": 551.652,
     "text": "yes",
     "tokens": [
       50646,
       2086,
-      50670
+      50669
     ],
     "temperature": 0,
-    "avg_logprob": -0.76118124,
-    "compression_ratio": 1.1866666,
-    "no_speech_prob": 5.948178e-13
+    "avg_logprob": -0.8397262,
+    "compression_ratio": 1.8947369,
+    "no_speech_prob": 5.971452e-13
   },
   {
     "id": 179,
     "seek": 16738,
-    "start": 551.672,
+    "start": 551.652,
     "end": 552.272,
     "text": "no problem",
     "tokens": [
-      50670,
+      50669,
       572,
       1154,
       50700
     ],
     "temperature": 0,
-    "avg_logprob": -0.76118124,
-    "compression_ratio": 1.1866666,
-    "no_speech_prob": 5.948178e-13
+    "avg_logprob": -0.8397262,
+    "compression_ratio": 1.8947369,
+    "no_speech_prob": 5.971452e-13
   },
   {
     "id": 180,
     "seek": 16738,
     "start": 552.272,
-    "end": 554.272,
+    "end": 568.192,
     "text": "no problem",
     "tokens": [
       50700,
       572,
       1154,
-      50800
+      51496
     ],
     "temperature": 0,
-    "avg_logprob": -0.76118124,
-    "compression_ratio": 1.1866666,
-    "no_speech_prob": 5.948178e-13
+    "avg_logprob": -0.8397262,
+    "compression_ratio": 1.8947369,
+    "no_speech_prob": 5.971452e-13
   },
   {
     "id": 181,
+    "seek": 16738,
+    "start": 568.192,
+    "end": 570.192,
+    "text": "no problem",
+    "tokens": [
+      51496,
+      572,
+      1154,
+      51596
+    ],
+    "temperature": 0,
+    "avg_logprob": -0.8397262,
+    "compression_ratio": 1.8947369,
+    "no_speech_prob": 5.971452e-13
+  },
+  {
+    "id": 182,
+    "seek": 16738,
+    "start": 570.192,
+    "end": 572.192,
+    "text": "no problem",
+    "tokens": [
+      51596,
+      572,
+      1154,
+      51696
+    ],
+    "temperature": 0,
+    "avg_logprob": -0.8397262,
+    "compression_ratio": 1.8947369,
+    "no_speech_prob": 5.971452e-13
+  },
+  {
+    "id": 183,
+    "seek": 16738,
+    "start": 572.192,
+    "end": 574.192,
+    "text": "no problem",
+    "tokens": [
+      51696,
+      572,
+      1154,
+      51796
+    ],
+    "temperature": 0,
+    "avg_logprob": -0.8397262,
+    "compression_ratio": 1.8947369,
+    "no_speech_prob": 5.971452e-13
+  },
+  {
+    "id": 184,
+    "seek": 16738,
+    "start": 574.192,
+    "end": 575.192,
+    "text": "no problem",
+    "tokens": [
+      51796,
+      572,
+      1154,
+      51846
+    ],
+    "temperature": 0,
+    "avg_logprob": -0.8397262,
+    "compression_ratio": 1.8947369,
+    "no_speech_prob": 5.971452e-13
+  },
+  {
+    "id": 185,
+    "seek": 16738,
+    "start": 575.192,
+    "end": 575.552,
+    "text": "no problem",
+    "tokens": [
+      51846,
+      572,
+      1154,
+      51864
+    ],
+    "temperature": 0,
+    "avg_logprob": -0.8397262,
+    "compression_ratio": 1.8947369,
+    "no_speech_prob": 5.971452e-13
+  },
+  {
+    "id": 186,
     "seek": 19738,
     "start": 575.572,
     "end": 600.372,
@@ -4604,7 +4689,7 @@
     "no_speech_prob": 8.35057e-13
   },
   {
-    "id": 182,
+    "id": 187,
     "seek": 19738,
     "start": 600.372,
     "end": 601.83203,
@@ -4627,7 +4712,7 @@
     "no_speech_prob": 8.35057e-13
   },
   {
-    "id": 183,
+    "id": 188,
     "seek": 22364,
     "start": 601.83203,
     "end": 603.072,
@@ -4645,7 +4730,7 @@
     "no_speech_prob": 7.764082e-11
   },
   {
-    "id": 184,
+    "id": 189,
     "seek": 25364,
     "start": 631.83203,
     "end": 661.812,
@@ -4663,7 +4748,7 @@
     "no_speech_prob": 9.897302e-11
   },
   {
-    "id": 185,
+    "id": 190,
     "seek": 28364,
     "start": 661.83203,
     "end": 691.812,
@@ -4681,7 +4766,7 @@
     "no_speech_prob": 5.903611e-11
   },
   {
-    "id": 186,
+    "id": 191,
     "seek": 31364,
     "start": 691.83203,
     "end": 721.812,
@@ -4699,7 +4784,7 @@
     "no_speech_prob": 1.025323e-10
   },
   {
-    "id": 187,
+    "id": 192,
     "seek": 34364,
     "start": 721.83203,
     "end": 738.912,
@@ -4721,7 +4806,7 @@
     "no_speech_prob": 1.7146024e-12
   },
   {
-    "id": 188,
+    "id": 193,
     "seek": 34364,
     "start": 739.972,
     "end": 740.652,
@@ -4742,7 +4827,7 @@
     "no_speech_prob": 1.7146024e-12
   },
   {
-    "id": 189,
+    "id": 194,
     "seek": 34364,
     "start": 740.652,
     "end": 741.432,
@@ -4760,7 +4845,7 @@
     "no_speech_prob": 1.7146024e-12
   },
   {
-    "id": 190,
+    "id": 195,
     "seek": 34364,
     "start": 743.952,
     "end": 744.472,
@@ -4777,7 +4862,7 @@
     "no_speech_prob": 1.7146024e-12
   },
   {
-    "id": 191,
+    "id": 196,
     "seek": 34364,
     "start": 745.112,
     "end": 745.63196,
@@ -4794,7 +4879,7 @@
     "no_speech_prob": 1.7146024e-12
   },
   {
-    "id": 192,
+    "id": 197,
     "seek": 34364,
     "start": 746.112,
     "end": 746.672,
@@ -4814,7 +4899,7 @@
     "no_speech_prob": 1.7146024e-12
   },
   {
-    "id": 193,
+    "id": 198,
     "seek": 34364,
     "start": 746.792,
     "end": 747.992,
@@ -4836,7 +4921,7 @@
     "no_speech_prob": 1.7146024e-12
   },
   {
-    "id": 194,
+    "id": 199,
     "seek": 34364,
     "start": 748.412,
     "end": 749.092,
@@ -4854,7 +4939,7 @@
     "no_speech_prob": 1.7146024e-12
   },
   {
-    "id": 195,
+    "id": 200,
     "seek": 34364,
     "start": 749.452,
     "end": 750.112,
@@ -4874,7 +4959,7 @@
     "no_speech_prob": 1.7146024e-12
   },
   {
-    "id": 196,
+    "id": 201,
     "seek": 37192,
     "start": 750.112,
     "end": 756.51196,
@@ -4899,12 +4984,12 @@
       50685
     ],
     "temperature": 0,
-    "avg_logprob": -0.20765048,
+    "avg_logprob": -0.20779768,
     "compression_ratio": 1.7228916,
-    "no_speech_prob": 1.9205104e-12
+    "no_speech_prob": 1.943147e-12
   },
   {
-    "id": 197,
+    "id": 202,
     "seek": 37192,
     "start": 756.51196,
     "end": 759.83203,
@@ -4931,12 +5016,12 @@
       50851
     ],
     "temperature": 0,
-    "avg_logprob": -0.20765048,
+    "avg_logprob": -0.20779768,
     "compression_ratio": 1.7228916,
-    "no_speech_prob": 1.9205104e-12
+    "no_speech_prob": 1.943147e-12
   },
   {
-    "id": 198,
+    "id": 203,
     "seek": 37192,
     "start": 759.972,
     "end": 762.852,
@@ -4960,12 +5045,12 @@
       51002
     ],
     "temperature": 0,
-    "avg_logprob": -0.20765048,
+    "avg_logprob": -0.20779768,
     "compression_ratio": 1.7228916,
-    "no_speech_prob": 1.9205104e-12
+    "no_speech_prob": 1.943147e-12
   },
   {
-    "id": 199,
+    "id": 204,
     "seek": 37192,
     "start": 763.532,
     "end": 763.972,
@@ -4977,12 +5062,12 @@
       51058
     ],
     "temperature": 0,
-    "avg_logprob": -0.20765048,
+    "avg_logprob": -0.20779768,
     "compression_ratio": 1.7228916,
-    "no_speech_prob": 1.9205104e-12
+    "no_speech_prob": 1.943147e-12
   },
   {
-    "id": 200,
+    "id": 205,
     "seek": 37192,
     "start": 764.032,
     "end": 768.232,
@@ -5008,12 +5093,12 @@
       51271
     ],
     "temperature": 0,
-    "avg_logprob": -0.20765048,
+    "avg_logprob": -0.20779768,
     "compression_ratio": 1.7228916,
-    "no_speech_prob": 1.9205104e-12
+    "no_speech_prob": 1.943147e-12
   },
   {
-    "id": 201,
+    "id": 206,
     "seek": 37192,
     "start": 768.37195,
     "end": 768.532,
@@ -5025,12 +5110,12 @@
       51286
     ],
     "temperature": 0,
-    "avg_logprob": -0.20765048,
+    "avg_logprob": -0.20779768,
     "compression_ratio": 1.7228916,
-    "no_speech_prob": 1.9205104e-12
+    "no_speech_prob": 1.943147e-12
   },
   {
-    "id": 202,
+    "id": 207,
     "seek": 769,
     "start": 769.51196,
     "end": 794.944,
@@ -5156,7 +5241,7 @@
     "no_speech_prob": 2.8717486e-12
   },
   {
-    "id": 203,
+    "id": 208,
     "seek": 3361,
     "start": 794.944,
     "end": 801.424,
@@ -5192,7 +5277,7 @@
     "no_speech_prob": 1.4839435e-12
   },
   {
-    "id": 204,
+    "id": 209,
     "seek": 3361,
     "start": 801.424,
     "end": 807.044,
@@ -5228,7 +5313,7 @@
     "no_speech_prob": 1.4839435e-12
   },
   {
-    "id": 205,
+    "id": 210,
     "seek": 3361,
     "start": 807.044,
     "end": 815.644,
@@ -5265,7 +5350,7 @@
     "no_speech_prob": 1.4839435e-12
   },
   {
-    "id": 206,
+    "id": 211,
     "seek": 3361,
     "start": 815.644,
     "end": 822.324,
@@ -5303,7 +5388,7 @@
     "no_speech_prob": 1.4839435e-12
   },
   {
-    "id": 207,
+    "id": 212,
     "seek": 6099,
     "start": 822.324,
     "end": 823.56396,
@@ -5326,7 +5411,7 @@
     "no_speech_prob": 2.3524308e-12
   },
   {
-    "id": 208,
+    "id": 213,
     "seek": 6099,
     "start": 824.484,
     "end": 826.364,
@@ -5349,7 +5434,7 @@
     "no_speech_prob": 2.3524308e-12
   },
   {
-    "id": 209,
+    "id": 214,
     "seek": 6099,
     "start": 826.364,
     "end": 828.404,
@@ -5376,7 +5461,7 @@
     "no_speech_prob": 2.3524308e-12
   },
   {
-    "id": 210,
+    "id": 215,
     "seek": 6099,
     "start": 828.404,
     "end": 829.444,
@@ -5398,7 +5483,7 @@
     "no_speech_prob": 2.3524308e-12
   },
   {
-    "id": 211,
+    "id": 216,
     "seek": 6099,
     "start": 830.224,
     "end": 831.444,
@@ -5419,7 +5504,7 @@
     "no_speech_prob": 2.3524308e-12
   },
   {
-    "id": 212,
+    "id": 217,
     "seek": 6099,
     "start": 831.444,
     "end": 831.784,
@@ -5436,7 +5521,7 @@
     "no_speech_prob": 2.3524308e-12
   },
   {
-    "id": 213,
+    "id": 218,
     "seek": 6099,
     "start": 832.824,
     "end": 834.324,
@@ -5459,7 +5544,7 @@
     "no_speech_prob": 2.3524308e-12
   },
   {
-    "id": 214,
+    "id": 219,
     "seek": 6099,
     "start": 835.244,
     "end": 835.644,
@@ -5476,7 +5561,7 @@
     "no_speech_prob": 2.3524308e-12
   },
   {
-    "id": 215,
+    "id": 220,
     "seek": 6099,
     "start": 836.604,
     "end": 837.964,
@@ -5498,7 +5583,7 @@
     "no_speech_prob": 2.3524308e-12
   },
   {
-    "id": 216,
+    "id": 221,
     "seek": 6099,
     "start": 840.144,
     "end": 841.30396,
@@ -5518,7 +5603,7 @@
     "no_speech_prob": 2.3524308e-12
   },
   {
-    "id": 217,
+    "id": 222,
     "seek": 6099,
     "start": 841.30396,
     "end": 843.424,
@@ -5540,7 +5625,7 @@
     "no_speech_prob": 2.3524308e-12
   },
   {
-    "id": 218,
+    "id": 223,
     "seek": 6099,
     "start": 843.424,
     "end": 845.404,
@@ -5565,7 +5650,7 @@
     "no_speech_prob": 2.3524308e-12
   },
   {
-    "id": 219,
+    "id": 224,
     "seek": 6099,
     "start": 845.404,
     "end": 846.62396,
@@ -5588,7 +5673,7 @@
     "no_speech_prob": 2.3524308e-12
   },
   {
-    "id": 220,
+    "id": 225,
     "seek": 6099,
     "start": 849.024,
     "end": 849.584,
@@ -5605,7 +5690,7 @@
     "no_speech_prob": 2.3524308e-12
   },
   {
-    "id": 221,
+    "id": 226,
     "seek": 6099,
     "start": 849.584,
     "end": 851.404,
@@ -5631,7 +5716,7 @@
     "no_speech_prob": 2.3524308e-12
   },
   {
-    "id": 222,
+    "id": 227,
     "seek": 9007,
     "start": 851.404,
     "end": 855.044,
@@ -5662,12 +5747,12 @@
       50547
     ],
     "temperature": 0,
-    "avg_logprob": -0.062698804,
+    "avg_logprob": -0.062746555,
     "compression_ratio": 1.8632812,
-    "no_speech_prob": 2.176282e-12
+    "no_speech_prob": 2.1848e-12
   },
   {
-    "id": 223,
+    "id": 228,
     "seek": 9007,
     "start": 855.044,
     "end": 860.604,
@@ -5697,12 +5782,12 @@
       50825
     ],
     "temperature": 0,
-    "avg_logprob": -0.062698804,
+    "avg_logprob": -0.062746555,
     "compression_ratio": 1.8632812,
-    "no_speech_prob": 2.176282e-12
+    "no_speech_prob": 2.1848e-12
   },
   {
-    "id": 224,
+    "id": 229,
     "seek": 9007,
     "start": 860.604,
     "end": 867.204,
@@ -5733,12 +5818,12 @@
       51155
     ],
     "temperature": 0,
-    "avg_logprob": -0.062698804,
+    "avg_logprob": -0.062746555,
     "compression_ratio": 1.8632812,
-    "no_speech_prob": 2.176282e-12
+    "no_speech_prob": 2.1848e-12
   },
   {
-    "id": 225,
+    "id": 230,
     "seek": 9007,
     "start": 867.204,
     "end": 874.444,
@@ -5768,12 +5853,12 @@
       51517
     ],
     "temperature": 0,
-    "avg_logprob": -0.062698804,
+    "avg_logprob": -0.062746555,
     "compression_ratio": 1.8632812,
-    "no_speech_prob": 2.176282e-12
+    "no_speech_prob": 2.1848e-12
   },
   {
-    "id": 226,
+    "id": 231,
     "seek": 9007,
     "start": 874.444,
     "end": 880.524,
@@ -5803,12 +5888,12 @@
       51821
     ],
     "temperature": 0,
-    "avg_logprob": -0.062698804,
+    "avg_logprob": -0.062746555,
     "compression_ratio": 1.8632812,
-    "no_speech_prob": 2.176282e-12
+    "no_speech_prob": 2.1848e-12
   },
   {
-    "id": 227,
+    "id": 232,
     "seek": 11919,
     "start": 880.524,
     "end": 886.884,
@@ -5835,12 +5920,12 @@
       50683
     ],
     "temperature": 0,
-    "avg_logprob": -0.055870138,
+    "avg_logprob": -0.055596184,
     "compression_ratio": 1.6568047,
-    "no_speech_prob": 1.6299354e-12
+    "no_speech_prob": 1.6363638e-12
   },
   {
-    "id": 228,
+    "id": 233,
     "seek": 11919,
     "start": 886.884,
     "end": 891.644,
@@ -5871,12 +5956,12 @@
       50921
     ],
     "temperature": 0,
-    "avg_logprob": -0.055870138,
+    "avg_logprob": -0.055596184,
     "compression_ratio": 1.6568047,
-    "no_speech_prob": 1.6299354e-12
+    "no_speech_prob": 1.6363638e-12
   },
   {
-    "id": 229,
+    "id": 234,
     "seek": 11919,
     "start": 891.644,
     "end": 901.704,
@@ -5903,12 +5988,12 @@
       51424
     ],
     "temperature": 0,
-    "avg_logprob": -0.055870138,
+    "avg_logprob": -0.055596184,
     "compression_ratio": 1.6568047,
-    "no_speech_prob": 1.6299354e-12
+    "no_speech_prob": 1.6363638e-12
   },
   {
-    "id": 230,
+    "id": 235,
     "seek": 14037,
     "start": 901.704,
     "end": 911.764,
@@ -5945,7 +6030,7 @@
     "no_speech_prob": 1.1694287e-12
   },
   {
-    "id": 231,
+    "id": 236,
     "seek": 14037,
     "start": 911.764,
     "end": 918.484,
@@ -5974,7 +6059,7 @@
     "no_speech_prob": 1.1694287e-12
   },
   {
-    "id": 232,
+    "id": 237,
     "seek": 14037,
     "start": 918.484,
     "end": 924.144,
@@ -6005,7 +6090,7 @@
     "no_speech_prob": 1.1694287e-12
   },
   {
-    "id": 233,
+    "id": 238,
     "seek": 14037,
     "start": 924.144,
     "end": 931.664,
@@ -6038,7 +6123,7 @@
     "no_speech_prob": 1.1694287e-12
   },
   {
-    "id": 234,
+    "id": 239,
     "seek": 17033,
     "start": 931.664,
     "end": 938.224,
@@ -6074,7 +6159,7 @@
     "no_speech_prob": 1.5074415e-12
   },
   {
-    "id": 235,
+    "id": 240,
     "seek": 17033,
     "start": 938.224,
     "end": 944.084,
@@ -6108,7 +6193,7 @@
     "no_speech_prob": 1.5074415e-12
   },
   {
-    "id": 236,
+    "id": 241,
     "seek": 17033,
     "start": 944.364,
     "end": 950.884,
@@ -6145,7 +6230,7 @@
     "no_speech_prob": 1.5074415e-12
   },
   {
-    "id": 237,
+    "id": 242,
     "seek": 17033,
     "start": 950.884,
     "end": 955.644,
@@ -6186,7 +6271,7 @@
     "no_speech_prob": 1.5074415e-12
   },
   {
-    "id": 238,
+    "id": 243,
     "seek": 17033,
     "start": 955.644,
     "end": 960.18396,
@@ -6221,7 +6306,7 @@
     "no_speech_prob": 1.5074415e-12
   },
   {
-    "id": 239,
+    "id": 244,
     "seek": 19885,
     "start": 960.964,
     "end": 967.164,
@@ -6255,7 +6340,7 @@
     "no_speech_prob": 9.924867e-13
   },
   {
-    "id": 240,
+    "id": 245,
     "seek": 19885,
     "start": 967.464,
     "end": 969.484,
@@ -6284,7 +6369,7 @@
     "no_speech_prob": 9.924867e-13
   },
   {
-    "id": 241,
+    "id": 246,
     "seek": 19885,
     "start": 969.644,
     "end": 969.864,
@@ -6301,7 +6386,7 @@
     "no_speech_prob": 9.924867e-13
   },
   {
-    "id": 242,
+    "id": 247,
     "seek": 19885,
     "start": 969.964,
     "end": 970.68396,
@@ -6322,7 +6407,7 @@
     "no_speech_prob": 9.924867e-13
   },
   {
-    "id": 243,
+    "id": 248,
     "seek": 19885,
     "start": 971.06396,
     "end": 971.204,
@@ -6339,7 +6424,7 @@
     "no_speech_prob": 9.924867e-13
   },
   {
-    "id": 244,
+    "id": 249,
     "seek": 19885,
     "start": 971.744,
     "end": 977.244,
@@ -6371,7 +6456,7 @@
     "no_speech_prob": 9.924867e-13
   },
   {
-    "id": 245,
+    "id": 250,
     "seek": 19885,
     "start": 978.164,
     "end": 980.624,
@@ -6398,7 +6483,7 @@
     "no_speech_prob": 9.924867e-13
   },
   {
-    "id": 246,
+    "id": 251,
     "seek": 19885,
     "start": 981.06396,
     "end": 981.264,
@@ -6415,7 +6500,7 @@
     "no_speech_prob": 9.924867e-13
   },
   {
-    "id": 247,
+    "id": 252,
     "seek": 19885,
     "start": 981.264,
     "end": 982.264,
@@ -6433,7 +6518,7 @@
     "no_speech_prob": 9.924867e-13
   },
   {
-    "id": 248,
+    "id": 253,
     "seek": 19885,
     "start": 984.284,
     "end": 985.544,
@@ -6451,7 +6536,7 @@
     "no_speech_prob": 9.924867e-13
   },
   {
-    "id": 249,
+    "id": 254,
     "seek": 22421,
     "start": 985.544,
     "end": 996.644,
@@ -6475,7 +6560,7 @@
     "no_speech_prob": 1.1464964e-12
   },
   {
-    "id": 250,
+    "id": 255,
     "seek": 22421,
     "start": 996.644,
     "end": 1004.024,
@@ -6512,7 +6597,7 @@
     "no_speech_prob": 1.1464964e-12
   },
   {
-    "id": 251,
+    "id": 256,
     "seek": 22421,
     "start": 1004.024,
     "end": 1009.18396,
@@ -6543,7 +6628,7 @@
     "no_speech_prob": 1.1464964e-12
   },
   {
-    "id": 252,
+    "id": 257,
     "seek": 22421,
     "start": 1009.18396,
     "end": 1013.06396,
@@ -6567,7 +6652,7 @@
     "no_speech_prob": 1.1464964e-12
   },
   {
-    "id": 253,
+    "id": 258,
     "seek": 25173,
     "start": 1013.06396,
     "end": 1017.06396,
@@ -6588,7 +6673,7 @@
     "no_speech_prob": 1.8232445e-12
   },
   {
-    "id": 254,
+    "id": 259,
     "seek": 25173,
     "start": 1017.06396,
     "end": 1019.06396,
@@ -6605,7 +6690,7 @@
     "no_speech_prob": 1.8232445e-12
   },
   {
-    "id": 255,
+    "id": 260,
     "seek": 28173,
     "start": 1043.064,
     "end": 1046.544,
@@ -6631,7 +6716,7 @@
     "no_speech_prob": 1.2595152e-12
   },
   {
-    "id": 256,
+    "id": 261,
     "seek": 28173,
     "start": 1048.304,
     "end": 1048.744,
@@ -6648,7 +6733,7 @@
     "no_speech_prob": 1.2595152e-12
   },
   {
-    "id": 257,
+    "id": 262,
     "seek": 28173,
     "start": 1048.904,
     "end": 1052.044,
@@ -6678,7 +6763,7 @@
     "no_speech_prob": 1.2595152e-12
   },
   {
-    "id": 258,
+    "id": 263,
     "seek": 28173,
     "start": 1053.324,
     "end": 1057.224,
@@ -6710,7 +6795,7 @@
     "no_speech_prob": 1.2595152e-12
   },
   {
-    "id": 259,
+    "id": 264,
     "seek": 28173,
     "start": 1057.2639,
     "end": 1060.204,
@@ -6740,7 +6825,7 @@
     "no_speech_prob": 1.2595152e-12
   },
   {
-    "id": 260,
+    "id": 265,
     "seek": 28173,
     "start": 1060.204,
     "end": 1062.544,
@@ -6765,7 +6850,7 @@
     "no_speech_prob": 1.2595152e-12
   },
   {
-    "id": 261,
+    "id": 266,
     "seek": 28173,
     "start": 1062.544,
     "end": 1063.724,
@@ -6782,7 +6867,7 @@
     "no_speech_prob": 1.2595152e-12
   },
   {
-    "id": 262,
+    "id": 267,
     "seek": 28173,
     "start": 1064.004,
     "end": 1065.044,
@@ -6804,7 +6889,7 @@
     "no_speech_prob": 1.2595152e-12
   },
   {
-    "id": 263,
+    "id": 268,
     "seek": 28173,
     "start": 1065.484,
     "end": 1065.744,
@@ -6821,7 +6906,7 @@
     "no_speech_prob": 1.2595152e-12
   },
   {
-    "id": 264,
+    "id": 269,
     "seek": 28173,
     "start": 1068.2639,
     "end": 1069.424,
@@ -6840,7 +6925,7 @@
     "no_speech_prob": 1.2595152e-12
   },
   {
-    "id": 265,
+    "id": 270,
     "seek": 28173,
     "start": 1069.424,
     "end": 1070.7839,
@@ -6861,7 +6946,7 @@
     "no_speech_prob": 1.2595152e-12
   },
   {
-    "id": 266,
+    "id": 271,
     "seek": 30945,
     "start": 1070.7839,
     "end": 1073.2639,
@@ -6880,7 +6965,7 @@
     "no_speech_prob": 7.580101e-13
   },
   {
-    "id": 267,
+    "id": 272,
     "seek": 30945,
     "start": 1073.2639,
     "end": 1077.564,
@@ -6898,7 +6983,7 @@
     "no_speech_prob": 7.580101e-13
   },
   {
-    "id": 268,
+    "id": 273,
     "seek": 30945,
     "start": 1077.564,
     "end": 1079.7639,
@@ -6916,7 +7001,7 @@
     "no_speech_prob": 7.580101e-13
   },
   {
-    "id": 269,
+    "id": 274,
     "seek": 30945,
     "start": 1079.7639,
     "end": 1082.744,
@@ -6936,7 +7021,7 @@
     "no_speech_prob": 7.580101e-13
   },
   {
-    "id": 270,
+    "id": 275,
     "seek": 30945,
     "start": 1082.744,
     "end": 1084.484,
@@ -6956,7 +7041,7 @@
     "no_speech_prob": 7.580101e-13
   },
   {
-    "id": 271,
+    "id": 276,
     "seek": 30945,
     "start": 1084.484,
     "end": 1086.404,
@@ -6974,7 +7059,7 @@
     "no_speech_prob": 7.580101e-13
   },
   {
-    "id": 272,
+    "id": 277,
     "seek": 30945,
     "start": 1086.404,
     "end": 1087.744,
@@ -6991,7 +7076,7 @@
     "no_speech_prob": 7.580101e-13
   },
   {
-    "id": 273,
+    "id": 278,
     "seek": 30945,
     "start": 1087.744,
     "end": 1088.7839,
@@ -7008,7 +7093,7 @@
     "no_speech_prob": 7.580101e-13
   },
   {
-    "id": 274,
+    "id": 279,
     "seek": 30945,
     "start": 1088.7839,
     "end": 1089.844,
@@ -7024,7 +7109,7 @@
     "no_speech_prob": 7.580101e-13
   },
   {
-    "id": 275,
+    "id": 280,
     "seek": 30945,
     "start": 1089.844,
     "end": 1093.104,
@@ -7044,7 +7129,7 @@
     "no_speech_prob": 7.580101e-13
   },
   {
-    "id": 276,
+    "id": 281,
     "seek": 30945,
     "start": 1093.104,
     "end": 1095.364,
@@ -7068,7 +7153,7 @@
     "no_speech_prob": 7.580101e-13
   },
   {
-    "id": 277,
+    "id": 282,
     "seek": 30945,
     "start": 1095.364,
     "end": 1097.204,
@@ -7089,7 +7174,7 @@
     "no_speech_prob": 7.580101e-13
   },
   {
-    "id": 278,
+    "id": 283,
     "seek": 30945,
     "start": 1097.204,
     "end": 1099.7839,
@@ -7111,7 +7196,7 @@
     "no_speech_prob": 7.580101e-13
   },
   {
-    "id": 279,
+    "id": 284,
     "seek": 30945,
     "start": 1099.7839,
     "end": 1100.404,
@@ -7129,7 +7214,7 @@
     "no_speech_prob": 7.580101e-13
   },
   {
-    "id": 280,
+    "id": 285,
     "seek": 33907,
     "start": 1100.404,
     "end": 1103.124,
@@ -7144,12 +7229,12 @@
       50501
     ],
     "temperature": 0,
-    "avg_logprob": -0.35601628,
+    "avg_logprob": -0.3562576,
     "compression_ratio": 1.5612245,
-    "no_speech_prob": 8.8277524e-13
+    "no_speech_prob": 8.522805e-13
   },
   {
-    "id": 281,
+    "id": 286,
     "seek": 33907,
     "start": 1103.644,
     "end": 1104.984,
@@ -7166,12 +7251,12 @@
       50594
     ],
     "temperature": 0,
-    "avg_logprob": -0.35601628,
+    "avg_logprob": -0.3562576,
     "compression_ratio": 1.5612245,
-    "no_speech_prob": 8.8277524e-13
+    "no_speech_prob": 8.522805e-13
   },
   {
-    "id": 282,
+    "id": 287,
     "seek": 33907,
     "start": 1105.1641,
     "end": 1109.704,
@@ -7189,12 +7274,12 @@
       50830
     ],
     "temperature": 0,
-    "avg_logprob": -0.35601628,
+    "avg_logprob": -0.3562576,
     "compression_ratio": 1.5612245,
-    "no_speech_prob": 8.8277524e-13
+    "no_speech_prob": 8.522805e-13
   },
   {
-    "id": 283,
+    "id": 288,
     "seek": 33907,
     "start": 1110.504,
     "end": 1110.7839,
@@ -7206,12 +7291,12 @@
       50884
     ],
     "temperature": 0,
-    "avg_logprob": -0.35601628,
+    "avg_logprob": -0.3562576,
     "compression_ratio": 1.5612245,
-    "no_speech_prob": 8.8277524e-13
+    "no_speech_prob": 8.522805e-13
   },
   {
-    "id": 284,
+    "id": 289,
     "seek": 33907,
     "start": 1110.904,
     "end": 1111.7839,
@@ -7226,12 +7311,12 @@
       50934
     ],
     "temperature": 0,
-    "avg_logprob": -0.35601628,
+    "avg_logprob": -0.3562576,
     "compression_ratio": 1.5612245,
-    "no_speech_prob": 8.8277524e-13
+    "no_speech_prob": 8.522805e-13
   },
   {
-    "id": 285,
+    "id": 290,
     "seek": 33907,
     "start": 1113.084,
     "end": 1116.724,
@@ -7255,12 +7340,12 @@
       51181
     ],
     "temperature": 0,
-    "avg_logprob": -0.35601628,
+    "avg_logprob": -0.3562576,
     "compression_ratio": 1.5612245,
-    "no_speech_prob": 8.8277524e-13
+    "no_speech_prob": 8.522805e-13
   },
   {
-    "id": 286,
+    "id": 291,
     "seek": 33907,
     "start": 1117.684,
     "end": 1118.084,
@@ -7272,12 +7357,12 @@
       51249
     ],
     "temperature": 0,
-    "avg_logprob": -0.35601628,
+    "avg_logprob": -0.3562576,
     "compression_ratio": 1.5612245,
-    "no_speech_prob": 8.8277524e-13
+    "no_speech_prob": 8.522805e-13
   },
   {
-    "id": 287,
+    "id": 292,
     "seek": 33907,
     "start": 1118.324,
     "end": 1118.464,
@@ -7289,12 +7374,12 @@
       51268
     ],
     "temperature": 0,
-    "avg_logprob": -0.35601628,
+    "avg_logprob": -0.3562576,
     "compression_ratio": 1.5612245,
-    "no_speech_prob": 8.8277524e-13
+    "no_speech_prob": 8.522805e-13
   },
   {
-    "id": 288,
+    "id": 293,
     "seek": 33907,
     "start": 1118.604,
     "end": 1119.624,
@@ -7308,12 +7393,12 @@
       51326
     ],
     "temperature": 0,
-    "avg_logprob": -0.35601628,
+    "avg_logprob": -0.3562576,
     "compression_ratio": 1.5612245,
-    "no_speech_prob": 8.8277524e-13
+    "no_speech_prob": 8.522805e-13
   },
   {
-    "id": 289,
+    "id": 294,
     "seek": 33907,
     "start": 1121.744,
     "end": 1124.104,
@@ -7336,12 +7421,12 @@
       51550
     ],
     "temperature": 0,
-    "avg_logprob": -0.35601628,
+    "avg_logprob": -0.3562576,
     "compression_ratio": 1.5612245,
-    "no_speech_prob": 8.8277524e-13
+    "no_speech_prob": 8.522805e-13
   },
   {
-    "id": 290,
+    "id": 295,
     "seek": 33907,
     "start": 1124.104,
     "end": 1126.804,
@@ -7358,12 +7443,12 @@
       51685
     ],
     "temperature": 0,
-    "avg_logprob": -0.35601628,
+    "avg_logprob": -0.3562576,
     "compression_ratio": 1.5612245,
-    "no_speech_prob": 8.8277524e-13
+    "no_speech_prob": 8.522805e-13
   },
   {
-    "id": 291,
+    "id": 296,
     "seek": 33907,
     "start": 1126.804,
     "end": 1127.244,
@@ -7375,12 +7460,12 @@
       51707
     ],
     "temperature": 0,
-    "avg_logprob": -0.35601628,
+    "avg_logprob": -0.3562576,
     "compression_ratio": 1.5612245,
-    "no_speech_prob": 8.8277524e-13
+    "no_speech_prob": 8.522805e-13
   },
   {
-    "id": 292,
+    "id": 297,
     "seek": 33907,
     "start": 1127.684,
     "end": 1128.684,
@@ -7396,12 +7481,12 @@
       51779
     ],
     "temperature": 0,
-    "avg_logprob": -0.35601628,
+    "avg_logprob": -0.3562576,
     "compression_ratio": 1.5612245,
-    "no_speech_prob": 8.8277524e-13
+    "no_speech_prob": 8.522805e-13
   },
   {
-    "id": 293,
+    "id": 298,
     "seek": 36735,
     "start": 1128.684,
     "end": 1131.144,
@@ -7422,12 +7507,12 @@
       50488
     ],
     "temperature": 0,
-    "avg_logprob": -0.23478587,
+    "avg_logprob": -0.23490252,
     "compression_ratio": 1.5984849,
-    "no_speech_prob": 1.1423492e-12
+    "no_speech_prob": 1.0942059e-12
   },
   {
-    "id": 294,
+    "id": 299,
     "seek": 36735,
     "start": 1131.724,
     "end": 1134.224,
@@ -7447,12 +7532,12 @@
       50642
     ],
     "temperature": 0,
-    "avg_logprob": -0.23478587,
+    "avg_logprob": -0.23490252,
     "compression_ratio": 1.5984849,
-    "no_speech_prob": 1.1423492e-12
+    "no_speech_prob": 1.0942059e-12
   },
   {
-    "id": 295,
+    "id": 300,
     "seek": 36735,
     "start": 1134.804,
     "end": 1135.124,
@@ -7464,12 +7549,12 @@
       50687
     ],
     "temperature": 0,
-    "avg_logprob": -0.23478587,
+    "avg_logprob": -0.23490252,
     "compression_ratio": 1.5984849,
-    "no_speech_prob": 1.1423492e-12
+    "no_speech_prob": 1.0942059e-12
   },
   {
-    "id": 296,
+    "id": 301,
     "seek": 36735,
     "start": 1136.384,
     "end": 1138.7839,
@@ -7488,12 +7573,12 @@
       50870
     ],
     "temperature": 0,
-    "avg_logprob": -0.23478587,
+    "avg_logprob": -0.23490252,
     "compression_ratio": 1.5984849,
-    "no_speech_prob": 1.1423492e-12
+    "no_speech_prob": 1.0942059e-12
   },
   {
-    "id": 297,
+    "id": 302,
     "seek": 36735,
     "start": 1138.904,
     "end": 1142.544,
@@ -7519,12 +7604,12 @@
       51058
     ],
     "temperature": 0,
-    "avg_logprob": -0.23478587,
+    "avg_logprob": -0.23490252,
     "compression_ratio": 1.5984849,
-    "no_speech_prob": 1.1423492e-12
+    "no_speech_prob": 1.0942059e-12
   },
   {
-    "id": 298,
+    "id": 303,
     "seek": 36735,
     "start": 1143.2639,
     "end": 1145.304,
@@ -7543,12 +7628,12 @@
       51196
     ],
     "temperature": 0,
-    "avg_logprob": -0.23478587,
+    "avg_logprob": -0.23490252,
     "compression_ratio": 1.5984849,
-    "no_speech_prob": 1.1423492e-12
+    "no_speech_prob": 1.0942059e-12
   },
   {
-    "id": 299,
+    "id": 304,
     "seek": 36735,
     "start": 1146.124,
     "end": 1149.004,
@@ -7573,12 +7658,12 @@
       51381
     ],
     "temperature": 0,
-    "avg_logprob": -0.23478587,
+    "avg_logprob": -0.23490252,
     "compression_ratio": 1.5984849,
-    "no_speech_prob": 1.1423492e-12
+    "no_speech_prob": 1.0942059e-12
   },
   {
-    "id": 300,
+    "id": 305,
     "seek": 36735,
     "start": 1149.144,
     "end": 1155.584,
@@ -7605,12 +7690,12 @@
       51710
     ],
     "temperature": 0,
-    "avg_logprob": -0.23478587,
+    "avg_logprob": -0.23490252,
     "compression_ratio": 1.5984849,
-    "no_speech_prob": 1.1423492e-12
+    "no_speech_prob": 1.0942059e-12
   },
   {
-    "id": 301,
+    "id": 306,
     "seek": 1156,
     "start": 1155.584,
     "end": 1166.956,
@@ -7673,7 +7758,7 @@
     "no_speech_prob": 2.4660044e-12
   },
   {
-    "id": 302,
+    "id": 307,
     "seek": 1156,
     "start": 1166.956,
     "end": 1169.176,
@@ -7698,7 +7783,7 @@
     "no_speech_prob": 2.4660044e-12
   },
   {
-    "id": 303,
+    "id": 308,
     "seek": 1156,
     "start": 1169.516,
     "end": 1173.496,
@@ -7727,7 +7812,7 @@
     "no_speech_prob": 2.4660044e-12
   },
   {
-    "id": 304,
+    "id": 309,
     "seek": 1156,
     "start": 1173.516,
     "end": 1175.656,
@@ -7753,7 +7838,7 @@
     "no_speech_prob": 2.4660044e-12
   },
   {
-    "id": 305,
+    "id": 310,
     "seek": 1156,
     "start": 1176.676,
     "end": 1179.296,
@@ -7778,7 +7863,7 @@
     "no_speech_prob": 2.4660044e-12
   },
   {
-    "id": 306,
+    "id": 311,
     "seek": 1156,
     "start": 1179.476,
     "end": 1181.176,
@@ -7801,7 +7886,7 @@
     "no_speech_prob": 2.4660044e-12
   },
   {
-    "id": 307,
+    "id": 312,
     "seek": 1156,
     "start": 1181.396,
     "end": 1182.5961,
@@ -7824,7 +7909,7 @@
     "no_speech_prob": 2.4660044e-12
   },
   {
-    "id": 308,
+    "id": 313,
     "seek": 1156,
     "start": 1184.136,
     "end": 1185.516,
@@ -7845,7 +7930,7 @@
     "no_speech_prob": 2.4660044e-12
   },
   {
-    "id": 309,
+    "id": 314,
     "seek": 4104,
     "start": 1185.516,
     "end": 1188.0961,
@@ -7873,7 +7958,7 @@
     "no_speech_prob": 2.0206137e-12
   },
   {
-    "id": 310,
+    "id": 315,
     "seek": 4104,
     "start": 1189.076,
     "end": 1192.816,
@@ -7904,7 +7989,7 @@
     "no_speech_prob": 2.0206137e-12
   },
   {
-    "id": 311,
+    "id": 316,
     "seek": 4104,
     "start": 1194.436,
     "end": 1195.896,
@@ -7927,7 +8012,7 @@
     "no_speech_prob": 2.0206137e-12
   },
   {
-    "id": 312,
+    "id": 317,
     "seek": 4104,
     "start": 1196.136,
     "end": 1197.956,
@@ -7953,7 +8038,7 @@
     "no_speech_prob": 2.0206137e-12
   },
   {
-    "id": 313,
+    "id": 318,
     "seek": 4104,
     "start": 1198.056,
     "end": 1200.496,
@@ -7983,7 +8068,7 @@
     "no_speech_prob": 2.0206137e-12
   },
   {
-    "id": 314,
+    "id": 319,
     "seek": 4104,
     "start": 1202.176,
     "end": 1207.576,
@@ -8011,7 +8096,7 @@
     "no_speech_prob": 2.0206137e-12
   },
   {
-    "id": 315,
+    "id": 320,
     "seek": 4104,
     "start": 1207.576,
     "end": 1209.136,
@@ -8033,7 +8118,7 @@
     "no_speech_prob": 2.0206137e-12
   },
   {
-    "id": 316,
+    "id": 321,
     "seek": 4104,
     "start": 1209.576,
     "end": 1213.976,
@@ -8062,7 +8147,7 @@
     "no_speech_prob": 2.0206137e-12
   },
   {
-    "id": 317,
+    "id": 322,
     "seek": 6950,
     "start": 1213.976,
     "end": 1216.616,
@@ -8087,7 +8172,7 @@
     "no_speech_prob": 2.3438415e-12
   },
   {
-    "id": 318,
+    "id": 323,
     "seek": 6950,
     "start": 1216.776,
     "end": 1221.016,
@@ -8114,7 +8199,7 @@
     "no_speech_prob": 2.3438415e-12
   },
   {
-    "id": 319,
+    "id": 324,
     "seek": 6950,
     "start": 1221.016,
     "end": 1221.676,
@@ -8133,7 +8218,7 @@
     "no_speech_prob": 2.3438415e-12
   },
   {
-    "id": 320,
+    "id": 325,
     "seek": 6950,
     "start": 1222.316,
     "end": 1227.456,
@@ -8165,7 +8250,7 @@
     "no_speech_prob": 2.3438415e-12
   },
   {
-    "id": 321,
+    "id": 326,
     "seek": 6950,
     "start": 1227.456,
     "end": 1228.056,
@@ -8184,7 +8269,7 @@
     "no_speech_prob": 2.3438415e-12
   },
   {
-    "id": 322,
+    "id": 327,
     "seek": 6950,
     "start": 1228.936,
     "end": 1233.096,
@@ -8214,7 +8299,7 @@
     "no_speech_prob": 2.3438415e-12
   },
   {
-    "id": 323,
+    "id": 328,
     "seek": 6950,
     "start": 1233.776,
     "end": 1238.616,
@@ -8248,7 +8333,7 @@
     "no_speech_prob": 2.3438415e-12
   },
   {
-    "id": 324,
+    "id": 329,
     "seek": 6950,
     "start": 1238.756,
     "end": 1241.696,
@@ -8277,7 +8362,7 @@
     "no_speech_prob": 2.3438415e-12
   },
   {
-    "id": 325,
+    "id": 330,
     "seek": 9722,
     "start": 1241.696,
     "end": 1246.256,
@@ -8306,7 +8391,7 @@
     "no_speech_prob": 1.085691e-12
   },
   {
-    "id": 326,
+    "id": 331,
     "seek": 9722,
     "start": 1246.436,
     "end": 1248.696,
@@ -8329,7 +8414,7 @@
     "no_speech_prob": 1.085691e-12
   },
   {
-    "id": 327,
+    "id": 332,
     "seek": 9722,
     "start": 1248.696,
     "end": 1250.4761,
@@ -8352,7 +8437,7 @@
     "no_speech_prob": 1.085691e-12
   },
   {
-    "id": 328,
+    "id": 333,
     "seek": 9722,
     "start": 1250.4761,
     "end": 1254.616,
@@ -8379,7 +8464,7 @@
     "no_speech_prob": 1.085691e-12
   },
   {
-    "id": 329,
+    "id": 334,
     "seek": 9722,
     "start": 1255.776,
     "end": 1256.196,
@@ -8397,7 +8482,7 @@
     "no_speech_prob": 1.085691e-12
   },
   {
-    "id": 330,
+    "id": 335,
     "seek": 9722,
     "start": 1257.556,
     "end": 1257.816,
@@ -8414,7 +8499,7 @@
     "no_speech_prob": 1.085691e-12
   },
   {
-    "id": 331,
+    "id": 336,
     "seek": 9722,
     "start": 1258.876,
     "end": 1263.616,
@@ -8443,7 +8528,7 @@
     "no_speech_prob": 1.085691e-12
   },
   {
-    "id": 332,
+    "id": 337,
     "seek": 9722,
     "start": 1263.616,
     "end": 1265.456,
@@ -8464,7 +8549,7 @@
     "no_speech_prob": 1.085691e-12
   },
   {
-    "id": 333,
+    "id": 338,
     "seek": 9722,
     "start": 1266.376,
     "end": 1269.276,
@@ -8487,7 +8572,7 @@
     "no_speech_prob": 1.085691e-12
   },
   {
-    "id": 334,
+    "id": 339,
     "seek": 9722,
     "start": 1269.276,
     "end": 1270.876,
@@ -8512,7 +8597,7 @@
     "no_speech_prob": 1.085691e-12
   },
   {
-    "id": 335,
+    "id": 340,
     "seek": 12640,
     "start": 1270.876,
     "end": 1272.656,
@@ -8527,12 +8612,12 @@
       50454
     ],
     "temperature": 0,
-    "avg_logprob": -0.32225358,
+    "avg_logprob": -0.32316753,
     "compression_ratio": 1.5086207,
-    "no_speech_prob": 9.001472e-13
+    "no_speech_prob": 9.072339e-13
   },
   {
-    "id": 336,
+    "id": 341,
     "seek": 12640,
     "start": 1272.656,
     "end": 1273.856,
@@ -8546,12 +8631,12 @@
       50514
     ],
     "temperature": 0,
-    "avg_logprob": -0.32225358,
+    "avg_logprob": -0.32316753,
     "compression_ratio": 1.5086207,
-    "no_speech_prob": 9.001472e-13
+    "no_speech_prob": 9.072339e-13
   },
   {
-    "id": 337,
+    "id": 342,
     "seek": 12640,
     "start": 1273.856,
     "end": 1274.296,
@@ -8565,12 +8650,12 @@
       50536
     ],
     "temperature": 0,
-    "avg_logprob": -0.32225358,
+    "avg_logprob": -0.32316753,
     "compression_ratio": 1.5086207,
-    "no_speech_prob": 9.001472e-13
+    "no_speech_prob": 9.072339e-13
   },
   {
-    "id": 338,
+    "id": 343,
     "seek": 12640,
     "start": 1274.296,
     "end": 1275.276,
@@ -8585,12 +8670,12 @@
       50585
     ],
     "temperature": 0,
-    "avg_logprob": -0.32225358,
+    "avg_logprob": -0.32316753,
     "compression_ratio": 1.5086207,
-    "no_speech_prob": 9.001472e-13
+    "no_speech_prob": 9.072339e-13
   },
   {
-    "id": 339,
+    "id": 344,
     "seek": 12640,
     "start": 1275.276,
     "end": 1277.456,
@@ -8602,12 +8687,12 @@
       50694
     ],
     "temperature": 0,
-    "avg_logprob": -0.32225358,
+    "avg_logprob": -0.32316753,
     "compression_ratio": 1.5086207,
-    "no_speech_prob": 9.001472e-13
+    "no_speech_prob": 9.072339e-13
   },
   {
-    "id": 340,
+    "id": 345,
     "seek": 12640,
     "start": 1277.456,
     "end": 1280.016,
@@ -8620,12 +8705,12 @@
       50822
     ],
     "temperature": 0,
-    "avg_logprob": -0.32225358,
+    "avg_logprob": -0.32316753,
     "compression_ratio": 1.5086207,
-    "no_speech_prob": 9.001472e-13
+    "no_speech_prob": 9.072339e-13
   },
   {
-    "id": 341,
+    "id": 346,
     "seek": 12640,
     "start": 1280.016,
     "end": 1284.156,
@@ -8638,12 +8723,12 @@
       51029
     ],
     "temperature": 0,
-    "avg_logprob": -0.32225358,
+    "avg_logprob": -0.32316753,
     "compression_ratio": 1.5086207,
-    "no_speech_prob": 9.001472e-13
+    "no_speech_prob": 9.072339e-13
   },
   {
-    "id": 342,
+    "id": 347,
     "seek": 12640,
     "start": 1284.156,
     "end": 1285.176,
@@ -8659,12 +8744,12 @@
       51080
     ],
     "temperature": 0,
-    "avg_logprob": -0.32225358,
+    "avg_logprob": -0.32316753,
     "compression_ratio": 1.5086207,
-    "no_speech_prob": 9.001472e-13
+    "no_speech_prob": 9.072339e-13
   },
   {
-    "id": 343,
+    "id": 348,
     "seek": 12640,
     "start": 1285.176,
     "end": 1285.556,
@@ -8676,12 +8761,12 @@
       51099
     ],
     "temperature": 0,
-    "avg_logprob": -0.32225358,
+    "avg_logprob": -0.32316753,
     "compression_ratio": 1.5086207,
-    "no_speech_prob": 9.001472e-13
+    "no_speech_prob": 9.072339e-13
   },
   {
-    "id": 344,
+    "id": 349,
     "seek": 12640,
     "start": 1285.556,
     "end": 1286.2161,
@@ -8695,12 +8780,12 @@
       51132
     ],
     "temperature": 0,
-    "avg_logprob": -0.32225358,
+    "avg_logprob": -0.32316753,
     "compression_ratio": 1.5086207,
-    "no_speech_prob": 9.001472e-13
+    "no_speech_prob": 9.072339e-13
   },
   {
-    "id": 345,
+    "id": 350,
     "seek": 12640,
     "start": 1286.2161,
     "end": 1290.4761,
@@ -8713,12 +8798,12 @@
       51345
     ],
     "temperature": 0,
-    "avg_logprob": -0.32225358,
+    "avg_logprob": -0.32316753,
     "compression_ratio": 1.5086207,
-    "no_speech_prob": 9.001472e-13
+    "no_speech_prob": 9.072339e-13
   },
   {
-    "id": 346,
+    "id": 351,
     "seek": 14600,
     "start": 1290.4761,
     "end": 1320.456,
@@ -8731,12 +8816,12 @@
       51864
     ],
     "temperature": 0,
-    "avg_logprob": -0.17257677,
+    "avg_logprob": -0.1725861,
     "compression_ratio": 0.5555556,
-    "no_speech_prob": 7.1614034e-11
+    "no_speech_prob": 7.229456e-11
   },
   {
-    "id": 347,
+    "id": 352,
     "seek": 17600,
     "start": 1320.4761,
     "end": 1323.736,
@@ -8761,7 +8846,7 @@
     "no_speech_prob": 1.8325749e-12
   },
   {
-    "id": 348,
+    "id": 353,
     "seek": 17600,
     "start": 1323.836,
     "end": 1325.236,
@@ -8786,7 +8871,7 @@
     "no_speech_prob": 1.8325749e-12
   },
   {
-    "id": 349,
+    "id": 354,
     "seek": 17600,
     "start": 1325.756,
     "end": 1327.876,
@@ -8811,7 +8896,7 @@
     "no_speech_prob": 1.8325749e-12
   },
   {
-    "id": 350,
+    "id": 355,
     "seek": 17600,
     "start": 1328.596,
     "end": 1332.076,
@@ -8835,7 +8920,7 @@
     "no_speech_prob": 1.8325749e-12
   },
   {
-    "id": 351,
+    "id": 356,
     "seek": 17600,
     "start": 1332.076,
     "end": 1333.156,
@@ -8856,7 +8941,7 @@
     "no_speech_prob": 1.8325749e-12
   },
   {
-    "id": 352,
+    "id": 357,
     "seek": 17600,
     "start": 1333.516,
     "end": 1334.096,
@@ -8877,7 +8962,7 @@
     "no_speech_prob": 1.8325749e-12
   },
   {
-    "id": 353,
+    "id": 358,
     "seek": 17600,
     "start": 1334.9761,
     "end": 1335.796,
@@ -8900,7 +8985,7 @@
     "no_speech_prob": 1.8325749e-12
   },
   {
-    "id": 354,
+    "id": 359,
     "seek": 17600,
     "start": 1336.176,
     "end": 1337.576,
@@ -8921,7 +9006,7 @@
     "no_speech_prob": 1.8325749e-12
   },
   {
-    "id": 355,
+    "id": 360,
     "seek": 17600,
     "start": 1337.876,
     "end": 1339.756,
@@ -8944,7 +9029,7 @@
     "no_speech_prob": 1.8325749e-12
   },
   {
-    "id": 356,
+    "id": 361,
     "seek": 17600,
     "start": 1339.756,
     "end": 1342.356,
@@ -8968,7 +9053,7 @@
     "no_speech_prob": 1.8325749e-12
   },
   {
-    "id": 357,
+    "id": 362,
     "seek": 17600,
     "start": 1342.616,
     "end": 1345.136,
@@ -8990,7 +9075,7 @@
     "no_speech_prob": 1.8325749e-12
   },
   {
-    "id": 358,
+    "id": 363,
     "seek": 17600,
     "start": 1345.136,
     "end": 1347.236,
@@ -9015,7 +9100,7 @@
     "no_speech_prob": 1.8325749e-12
   },
   {
-    "id": 359,
+    "id": 364,
     "seek": 17600,
     "start": 1347.336,
     "end": 1348.436,
@@ -9037,7 +9122,7 @@
     "no_speech_prob": 1.8325749e-12
   },
   {
-    "id": 360,
+    "id": 365,
     "seek": 20396,
     "start": 1348.436,
     "end": 1350.516,
@@ -9061,7 +9146,7 @@
     "no_speech_prob": 1.8041453e-12
   },
   {
-    "id": 361,
+    "id": 366,
     "seek": 20396,
     "start": 1351.116,
     "end": 1352.416,
@@ -9082,7 +9167,7 @@
     "no_speech_prob": 1.8041453e-12
   },
   {
-    "id": 362,
+    "id": 367,
     "seek": 20396,
     "start": 1352.7161,
     "end": 1354.7161,
@@ -9105,7 +9190,7 @@
     "no_speech_prob": 1.8041453e-12
   },
   {
-    "id": 363,
+    "id": 368,
     "seek": 20396,
     "start": 1354.7161,
     "end": 1356.456,
@@ -9124,7 +9209,7 @@
     "no_speech_prob": 1.8041453e-12
   },
   {
-    "id": 364,
+    "id": 369,
     "seek": 20396,
     "start": 1356.836,
     "end": 1359.156,
@@ -9149,7 +9234,7 @@
     "no_speech_prob": 1.8041453e-12
   },
   {
-    "id": 365,
+    "id": 370,
     "seek": 20396,
     "start": 1359.156,
     "end": 1361.396,
@@ -9174,7 +9259,7 @@
     "no_speech_prob": 1.8041453e-12
   },
   {
-    "id": 366,
+    "id": 371,
     "seek": 20396,
     "start": 1361.396,
     "end": 1365.576,
@@ -9197,7 +9282,7 @@
     "no_speech_prob": 1.8041453e-12
   },
   {
-    "id": 367,
+    "id": 372,
     "seek": 20396,
     "start": 1367.7161,
     "end": 1368.936,
@@ -9218,7 +9303,7 @@
     "no_speech_prob": 1.8041453e-12
   },
   {
-    "id": 368,
+    "id": 373,
     "seek": 20396,
     "start": 1369.2161,
     "end": 1370.056,
@@ -9241,7 +9326,7 @@
     "no_speech_prob": 1.8041453e-12
   },
   {
-    "id": 369,
+    "id": 374,
     "seek": 20396,
     "start": 1370.276,
     "end": 1371.056,
@@ -9264,7 +9349,7 @@
     "no_speech_prob": 1.8041453e-12
   },
   {
-    "id": 370,
+    "id": 375,
     "seek": 20396,
     "start": 1371.056,
     "end": 1372.836,
@@ -9291,7 +9376,7 @@
     "no_speech_prob": 1.8041453e-12
   },
   {
-    "id": 371,
+    "id": 376,
     "seek": 20396,
     "start": 1374.316,
     "end": 1375.616,
@@ -9312,7 +9397,7 @@
     "no_speech_prob": 1.8041453e-12
   },
   {
-    "id": 372,
+    "id": 377,
     "seek": 23114,
     "start": 1375.616,
     "end": 1378.616,
@@ -9339,7 +9424,7 @@
     "no_speech_prob": 1.981516e-12
   },
   {
-    "id": 373,
+    "id": 378,
     "seek": 23114,
     "start": 1379.4761,
     "end": 1379.656,
@@ -9356,7 +9441,7 @@
     "no_speech_prob": 1.981516e-12
   },
   {
-    "id": 374,
+    "id": 379,
     "seek": 23114,
     "start": 1380.876,
     "end": 1383.396,
@@ -9382,7 +9467,7 @@
     "no_speech_prob": 1.981516e-12
   },
   {
-    "id": 375,
+    "id": 380,
     "seek": 23114,
     "start": 1383.856,
     "end": 1387.4761,
@@ -9408,7 +9493,7 @@
     "no_speech_prob": 1.981516e-12
   },
   {
-    "id": 376,
+    "id": 381,
     "seek": 23114,
     "start": 1388.516,
     "end": 1389.4761,
@@ -9430,7 +9515,7 @@
     "no_speech_prob": 1.981516e-12
   },
   {
-    "id": 377,
+    "id": 382,
     "seek": 23114,
     "start": 1390.136,
     "end": 1392.376,
@@ -9457,7 +9542,7 @@
     "no_speech_prob": 1.981516e-12
   },
   {
-    "id": 378,
+    "id": 383,
     "seek": 23114,
     "start": 1392.4761,
     "end": 1393.776,
@@ -9482,7 +9567,7 @@
     "no_speech_prob": 1.981516e-12
   },
   {
-    "id": 379,
+    "id": 384,
     "seek": 23114,
     "start": 1394.436,
     "end": 1396.996,
@@ -9509,7 +9594,7 @@
     "no_speech_prob": 1.981516e-12
   },
   {
-    "id": 380,
+    "id": 385,
     "seek": 23114,
     "start": 1396.996,
     "end": 1400.956,
@@ -9538,7 +9623,7 @@
     "no_speech_prob": 1.981516e-12
   },
   {
-    "id": 381,
+    "id": 386,
     "seek": 23114,
     "start": 1401.996,
     "end": 1402.936,
@@ -9557,7 +9642,7 @@
     "no_speech_prob": 1.981516e-12
   },
   {
-    "id": 382,
+    "id": 387,
     "seek": 23114,
     "start": 1402.936,
     "end": 1404.096,
@@ -9581,7 +9666,7 @@
     "no_speech_prob": 1.981516e-12
   },
   {
-    "id": 383,
+    "id": 388,
     "seek": 23114,
     "start": 1405.056,
     "end": 1405.496,
@@ -9598,7 +9683,7 @@
     "no_speech_prob": 1.981516e-12
   },
   {
-    "id": 384,
+    "id": 389,
     "seek": 26114,
     "start": 1405.616,
     "end": 1412.376,
@@ -9631,12 +9716,12 @@
       50703
     ],
     "temperature": 0,
-    "avg_logprob": -0.08223793,
+    "avg_logprob": -0.08200758,
     "compression_ratio": 1.821256,
-    "no_speech_prob": 1.4667875e-12
+    "no_speech_prob": 1.5015682e-12
   },
   {
-    "id": 385,
+    "id": 390,
     "seek": 26114,
     "start": 1412.376,
     "end": 1419.036,
@@ -9669,12 +9754,12 @@
       51036
     ],
     "temperature": 0,
-    "avg_logprob": -0.08223793,
+    "avg_logprob": -0.08200758,
     "compression_ratio": 1.821256,
-    "no_speech_prob": 1.4667875e-12
+    "no_speech_prob": 1.5015682e-12
   },
   {
-    "id": 386,
+    "id": 391,
     "seek": 26114,
     "start": 1419.036,
     "end": 1425.816,
@@ -9705,12 +9790,12 @@
       51375
     ],
     "temperature": 0,
-    "avg_logprob": -0.08223793,
+    "avg_logprob": -0.08200758,
     "compression_ratio": 1.821256,
-    "no_speech_prob": 1.4667875e-12
+    "no_speech_prob": 1.5015682e-12
   },
   {
-    "id": 387,
+    "id": 392,
     "seek": 26114,
     "start": 1425.816,
     "end": 1430.616,
@@ -9740,12 +9825,12 @@
       51615
     ],
     "temperature": 0,
-    "avg_logprob": -0.08223793,
+    "avg_logprob": -0.08200758,
     "compression_ratio": 1.821256,
-    "no_speech_prob": 1.4667875e-12
+    "no_speech_prob": 1.5015682e-12
   },
   {
-    "id": 388,
+    "id": 393,
     "seek": 28614,
     "start": 1430.616,
     "end": 1431.916,
@@ -9765,7 +9850,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 389,
+    "id": 394,
     "seek": 28614,
     "start": 1432.396,
     "end": 1433.116,
@@ -9785,7 +9870,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 390,
+    "id": 395,
     "seek": 28614,
     "start": 1433.156,
     "end": 1434.376,
@@ -9807,7 +9892,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 391,
+    "id": 396,
     "seek": 28614,
     "start": 1434.636,
     "end": 1435.656,
@@ -9829,7 +9914,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 392,
+    "id": 397,
     "seek": 28614,
     "start": 1436.176,
     "end": 1436.496,
@@ -9848,7 +9933,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 393,
+    "id": 398,
     "seek": 28614,
     "start": 1436.576,
     "end": 1438.076,
@@ -9869,7 +9954,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 394,
+    "id": 399,
     "seek": 28614,
     "start": 1438.076,
     "end": 1439.2361,
@@ -9890,7 +9975,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 395,
+    "id": 400,
     "seek": 28614,
     "start": 1439.656,
     "end": 1440.076,
@@ -9908,7 +9993,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 396,
+    "id": 401,
     "seek": 28614,
     "start": 1440.096,
     "end": 1441.576,
@@ -9926,7 +10011,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 397,
+    "id": 402,
     "seek": 28614,
     "start": 1441.576,
     "end": 1442.316,
@@ -9946,7 +10031,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 398,
+    "id": 403,
     "seek": 28614,
     "start": 1443.096,
     "end": 1444.096,
@@ -9970,7 +10055,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 399,
+    "id": 404,
     "seek": 28614,
     "start": 1444.176,
     "end": 1444.816,
@@ -9990,7 +10075,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 400,
+    "id": 405,
     "seek": 28614,
     "start": 1445.596,
     "end": 1445.896,
@@ -10007,7 +10092,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 401,
+    "id": 406,
     "seek": 28614,
     "start": 1446.156,
     "end": 1446.296,
@@ -10024,7 +10109,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 402,
+    "id": 407,
     "seek": 28614,
     "start": 1446.536,
     "end": 1447.276,
@@ -10045,7 +10130,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 403,
+    "id": 408,
     "seek": 28614,
     "start": 1447.396,
     "end": 1448.416,
@@ -10063,7 +10148,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 404,
+    "id": 409,
     "seek": 28614,
     "start": 1448.416,
     "end": 1449.436,
@@ -10084,7 +10169,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 405,
+    "id": 410,
     "seek": 28614,
     "start": 1449.436,
     "end": 1451.2361,
@@ -10107,7 +10192,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 406,
+    "id": 411,
     "seek": 28614,
     "start": 1451.7161,
     "end": 1452.356,
@@ -10127,7 +10212,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 407,
+    "id": 412,
     "seek": 28614,
     "start": 1452.356,
     "end": 1453.596,
@@ -10149,7 +10234,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 408,
+    "id": 413,
     "seek": 28614,
     "start": 1453.596,
     "end": 1455.596,
@@ -10169,7 +10254,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 409,
+    "id": 414,
     "seek": 28614,
     "start": 1455.636,
     "end": 1456.296,
@@ -10189,7 +10274,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 410,
+    "id": 415,
     "seek": 28614,
     "start": 1457.2161,
     "end": 1457.416,
@@ -10206,7 +10291,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 411,
+    "id": 416,
     "seek": 28614,
     "start": 1458.356,
     "end": 1459.556,
@@ -10228,7 +10313,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 412,
+    "id": 417,
     "seek": 28614,
     "start": 1459.596,
     "end": 1460.416,
@@ -10248,7 +10333,7 @@
     "no_speech_prob": 1.7350487e-12
   },
   {
-    "id": 413,
+    "id": 418,
     "seek": 31594,
     "start": 1460.416,
     "end": 1467.056,
@@ -10266,12 +10351,12 @@
       50697
     ],
     "temperature": 0,
-    "avg_logprob": -0.17618887,
+    "avg_logprob": -0.17614028,
     "compression_ratio": 1.7129186,
-    "no_speech_prob": 1.2160549e-12
+    "no_speech_prob": 1.3941551e-12
   },
   {
-    "id": 414,
+    "id": 419,
     "seek": 31594,
     "start": 1467.176,
     "end": 1469.356,
@@ -10290,12 +10375,12 @@
       50812
     ],
     "temperature": 0,
-    "avg_logprob": -0.17618887,
+    "avg_logprob": -0.17614028,
     "compression_ratio": 1.7129186,
-    "no_speech_prob": 1.2160549e-12
+    "no_speech_prob": 1.3941551e-12
   },
   {
-    "id": 415,
+    "id": 420,
     "seek": 31594,
     "start": 1469.356,
     "end": 1472.636,
@@ -10313,12 +10398,12 @@
       50976
     ],
     "temperature": 0,
-    "avg_logprob": -0.17618887,
+    "avg_logprob": -0.17614028,
     "compression_ratio": 1.7129186,
-    "no_speech_prob": 1.2160549e-12
+    "no_speech_prob": 1.3941551e-12
   },
   {
-    "id": 416,
+    "id": 421,
     "seek": 31594,
     "start": 1473.176,
     "end": 1476.356,
@@ -10339,12 +10424,12 @@
       51162
     ],
     "temperature": 0,
-    "avg_logprob": -0.17618887,
+    "avg_logprob": -0.17614028,
     "compression_ratio": 1.7129186,
-    "no_speech_prob": 1.2160549e-12
+    "no_speech_prob": 1.3941551e-12
   },
   {
-    "id": 417,
+    "id": 422,
     "seek": 31594,
     "start": 1476.356,
     "end": 1478.4761,
@@ -10361,12 +10446,12 @@
       51268
     ],
     "temperature": 0,
-    "avg_logprob": -0.17618887,
+    "avg_logprob": -0.17614028,
     "compression_ratio": 1.7129186,
-    "no_speech_prob": 1.2160549e-12
+    "no_speech_prob": 1.3941551e-12
   },
   {
-    "id": 418,
+    "id": 423,
     "seek": 31594,
     "start": 1478.4761,
     "end": 1481.616,
@@ -10386,12 +10471,12 @@
       51425
     ],
     "temperature": 0,
-    "avg_logprob": -0.17618887,
+    "avg_logprob": -0.17614028,
     "compression_ratio": 1.7129186,
-    "no_speech_prob": 1.2160549e-12
+    "no_speech_prob": 1.3941551e-12
   },
   {
-    "id": 419,
+    "id": 424,
     "seek": 31594,
     "start": 1481.616,
     "end": 1485.796,
@@ -10412,12 +10497,12 @@
       51634
     ],
     "temperature": 0,
-    "avg_logprob": -0.17618887,
+    "avg_logprob": -0.17614028,
     "compression_ratio": 1.7129186,
-    "no_speech_prob": 1.2160549e-12
+    "no_speech_prob": 1.3941551e-12
   },
   {
-    "id": 420,
+    "id": 425,
     "seek": 31594,
     "start": 1486.356,
     "end": 1490.316,
@@ -10439,12 +10524,12 @@
       51860
     ],
     "temperature": 0,
-    "avg_logprob": -0.17618887,
+    "avg_logprob": -0.17614028,
     "compression_ratio": 1.7129186,
-    "no_speech_prob": 1.2160549e-12
+    "no_speech_prob": 1.3941551e-12
   },
   {
-    "id": 421,
+    "id": 426,
     "seek": 34584,
     "start": 1490.316,
     "end": 1492.256,
@@ -10463,12 +10548,12 @@
       50462
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 422,
+    "id": 427,
     "seek": 34584,
     "start": 1492.276,
     "end": 1495.376,
@@ -10484,12 +10569,12 @@
       50618
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 423,
+    "id": 428,
     "seek": 34584,
     "start": 1495.796,
     "end": 1499.176,
@@ -10512,12 +10597,12 @@
       50808
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 424,
+    "id": 429,
     "seek": 34584,
     "start": 1499.316,
     "end": 1499.516,
@@ -10529,12 +10614,12 @@
       50825
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 425,
+    "id": 430,
     "seek": 34584,
     "start": 1500.7361,
     "end": 1501.496,
@@ -10547,12 +10632,12 @@
       50924
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 426,
+    "id": 431,
     "seek": 34584,
     "start": 1502.2361,
     "end": 1502.376,
@@ -10564,12 +10649,12 @@
       50968
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 427,
+    "id": 432,
     "seek": 34584,
     "start": 1502.496,
     "end": 1504.596,
@@ -10588,12 +10673,12 @@
       51079
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 428,
+    "id": 433,
     "seek": 34584,
     "start": 1504.596,
     "end": 1505.576,
@@ -10608,12 +10693,12 @@
       51128
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 429,
+    "id": 434,
     "seek": 34584,
     "start": 1505.676,
     "end": 1506.616,
@@ -10629,12 +10714,12 @@
       51180
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 430,
+    "id": 435,
     "seek": 34584,
     "start": 1507.296,
     "end": 1509.656,
@@ -10654,12 +10739,12 @@
       51332
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 431,
+    "id": 436,
     "seek": 34584,
     "start": 1510.576,
     "end": 1511.396,
@@ -10674,12 +10759,12 @@
       51419
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 432,
+    "id": 437,
     "seek": 34584,
     "start": 1512.096,
     "end": 1512.516,
@@ -10693,12 +10778,12 @@
       51475
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 433,
+    "id": 438,
     "seek": 34584,
     "start": 1512.596,
     "end": 1512.776,
@@ -10711,12 +10796,12 @@
       51488
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 434,
+    "id": 439,
     "seek": 34584,
     "start": 1513.096,
     "end": 1513.416,
@@ -10729,12 +10814,12 @@
       51520
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 435,
+    "id": 440,
     "seek": 34584,
     "start": 1513.936,
     "end": 1514.116,
@@ -10746,12 +10831,12 @@
       51555
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 436,
+    "id": 441,
     "seek": 34584,
     "start": 1514.156,
     "end": 1516.056,
@@ -10771,12 +10856,12 @@
       51652
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 437,
+    "id": 442,
     "seek": 34584,
     "start": 1516.056,
     "end": 1518.116,
@@ -10796,12 +10881,12 @@
       51755
     ],
     "temperature": 0,
-    "avg_logprob": -0.3275387,
+    "avg_logprob": -0.32793432,
     "compression_ratio": 1.6225681,
-    "no_speech_prob": 1.4217067e-12
+    "no_speech_prob": 1.6491958e-12
   },
   {
-    "id": 438,
+    "id": 443,
     "seek": 37364,
     "start": 1518.116,
     "end": 1521.176,
@@ -10823,12 +10908,12 @@
       50518
     ],
     "temperature": 0,
-    "avg_logprob": -0.31953013,
-    "compression_ratio": 1.6732284,
-    "no_speech_prob": 2.4274692e-12
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
   },
   {
-    "id": 439,
+    "id": 444,
     "seek": 37364,
     "start": 1521.456,
     "end": 1522.096,
@@ -10843,12 +10928,12 @@
       50564
     ],
     "temperature": 0,
-    "avg_logprob": -0.31953013,
-    "compression_ratio": 1.6732284,
-    "no_speech_prob": 2.4274692e-12
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
   },
   {
-    "id": 440,
+    "id": 445,
     "seek": 37364,
     "start": 1522.2361,
     "end": 1523.7161,
@@ -10866,12 +10951,12 @@
       50645
     ],
     "temperature": 0,
-    "avg_logprob": -0.31953013,
-    "compression_ratio": 1.6732284,
-    "no_speech_prob": 2.4274692e-12
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
   },
   {
-    "id": 441,
+    "id": 446,
     "seek": 37364,
     "start": 1524.056,
     "end": 1524.7161,
@@ -10885,12 +10970,12 @@
       50695
     ],
     "temperature": 0,
-    "avg_logprob": -0.31953013,
-    "compression_ratio": 1.6732284,
-    "no_speech_prob": 2.4274692e-12
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
   },
   {
-    "id": 442,
+    "id": 447,
     "seek": 37364,
     "start": 1524.896,
     "end": 1525.816,
@@ -10906,12 +10991,12 @@
       50750
     ],
     "temperature": 0,
-    "avg_logprob": -0.31953013,
-    "compression_ratio": 1.6732284,
-    "no_speech_prob": 2.4274692e-12
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
   },
   {
-    "id": 443,
+    "id": 448,
     "seek": 37364,
     "start": 1526.616,
     "end": 1529.696,
@@ -10935,12 +11020,12 @@
       50944
     ],
     "temperature": 0,
-    "avg_logprob": -0.31953013,
-    "compression_ratio": 1.6732284,
-    "no_speech_prob": 2.4274692e-12
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
   },
   {
-    "id": 444,
+    "id": 449,
     "seek": 37364,
     "start": 1530.796,
     "end": 1530.936,
@@ -10952,12 +11037,12 @@
       51006
     ],
     "temperature": 0,
-    "avg_logprob": -0.31953013,
-    "compression_ratio": 1.6732284,
-    "no_speech_prob": 2.4274692e-12
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
   },
   {
-    "id": 445,
+    "id": 450,
     "seek": 37364,
     "start": 1531.796,
     "end": 1533.676,
@@ -10977,16 +11062,16 @@
       51143
     ],
     "temperature": 0,
-    "avg_logprob": -0.31953013,
-    "compression_ratio": 1.6732284,
-    "no_speech_prob": 2.4274692e-12
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
   },
   {
-    "id": 446,
+    "id": 451,
     "seek": 37364,
     "start": 1534.396,
-    "end": 1535.956,
-    "text": "Thank you so much for your time, Ben.",
+    "end": 1535.596,
+    "text": "Thank you so much for your time,",
     "tokens": [
       51179,
       1044,
@@ -10997,42 +11082,87 @@
       428,
       565,
       11,
+      51239
+    ],
+    "temperature": 0,
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
+  },
+  {
+    "id": 452,
+    "seek": 37364,
+    "start": 1535.776,
+    "end": 1535.956,
+    "text": "Ben.",
+    "tokens": [
+      51248,
       3964,
       13,
       51257
     ],
     "temperature": 0,
-    "avg_logprob": -0.31953013,
-    "compression_ratio": 1.6732284,
-    "no_speech_prob": 2.4274692e-12
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
   },
   {
-    "id": 447,
+    "id": 453,
     "seek": 37364,
     "start": 1536.2161,
-    "end": 1537.4761,
-    "text": "But yeah, over to you, Bharat.",
+    "end": 1536.496,
+    "text": "But yeah,",
     "tokens": [
       51270,
       583,
       1338,
       11,
+      51284
+    ],
+    "temperature": 0,
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
+  },
+  {
+    "id": 454,
+    "seek": 37364,
+    "start": 1536.536,
+    "end": 1537.096,
+    "text": "over to you,",
+    "tokens": [
+      51286,
       670,
       281,
       291,
       11,
+      51314
+    ],
+    "temperature": 0,
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
+  },
+  {
+    "id": 455,
+    "seek": 37364,
+    "start": 1537.176,
+    "end": 1537.4761,
+    "text": "Bharat.",
+    "tokens": [
+      51318,
       49104,
       267,
       13,
       51333
     ],
     "temperature": 0,
-    "avg_logprob": -0.31953013,
-    "compression_ratio": 1.6732284,
-    "no_speech_prob": 2.4274692e-12
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
   },
   {
-    "id": 448,
+    "id": 456,
     "seek": 37364,
     "start": 1538.616,
     "end": 1538.8359,
@@ -11044,12 +11174,12 @@
       51401
     ],
     "temperature": 0,
-    "avg_logprob": -0.31953013,
-    "compression_ratio": 1.6732284,
-    "no_speech_prob": 2.4274692e-12
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
   },
   {
-    "id": 449,
+    "id": 457,
     "seek": 37364,
     "start": 1539.636,
     "end": 1539.996,
@@ -11061,40 +11191,72 @@
       51459
     ],
     "temperature": 0,
-    "avg_logprob": -0.31953013,
-    "compression_ratio": 1.6732284,
-    "no_speech_prob": 2.4274692e-12
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
   },
   {
-    "id": 450,
+    "id": 458,
     "seek": 37364,
-    "start": 1541.676,
-    "end": 1543.156,
-    "text": "I'll see you, Ben.",
+    "start": 1540.356,
+    "end": 1540.516,
+    "text": "Go.",
     "tokens": [
-      51543,
+      51477,
+      1037,
+      13,
+      51485
+    ],
+    "temperature": 0,
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
+  },
+  {
+    "id": 459,
+    "seek": 37364,
+    "start": 1541.636,
+    "end": 1542.916,
+    "text": "I'll see you,",
+    "tokens": [
+      51541,
       286,
       603,
       536,
       291,
       11,
+      51605
+    ],
+    "temperature": 0,
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
+  },
+  {
+    "id": 460,
+    "seek": 37364,
+    "start": 1543.036,
+    "end": 1543.156,
+    "text": "Ben.",
+    "tokens": [
+      51611,
       3964,
       13,
       51617
     ],
     "temperature": 0,
-    "avg_logprob": -0.31953013,
-    "compression_ratio": 1.6732284,
-    "no_speech_prob": 2.4274692e-12
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
   },
   {
-    "id": 451,
+    "id": 461,
     "seek": 37364,
-    "start": 1543.256,
+    "start": 1543.156,
     "end": 1544.796,
     "text": "Just watch out for my email.",
     "tokens": [
-      51622,
+      51617,
       1449,
       1159,
       484,
@@ -11105,21 +11267,36 @@
       51699
     ],
     "temperature": 0,
-    "avg_logprob": -0.31953013,
-    "compression_ratio": 1.6732284,
-    "no_speech_prob": 2.4274692e-12
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
   },
   {
-    "id": 452,
+    "id": 462,
     "seek": 37364,
-    "start": 1545.276,
-    "end": 1545.876,
-    "text": "Thank you, Bhavad.",
+    "start": 1545.296,
+    "end": 1545.7161,
+    "text": "Thank you,",
     "tokens": [
-      51723,
+      51724,
       1044,
       291,
       11,
+      51745
+    ],
+    "temperature": 0,
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
+  },
+  {
+    "id": 463,
+    "seek": 37364,
+    "start": 1545.776,
+    "end": 1545.876,
+    "text": "Bhavad.",
+    "tokens": [
+      51748,
       13550,
       706,
       345,
@@ -11127,27 +11304,42 @@
       51753
     ],
     "temperature": 0,
-    "avg_logprob": -0.31953013,
-    "compression_ratio": 1.6732284,
-    "no_speech_prob": 2.4274692e-12
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
   },
   {
-    "id": 453,
+    "id": 464,
     "seek": 37364,
-    "start": 1545.876,
-    "end": 1546.576,
-    "text": "Yeah, thanks.",
+    "start": 1546.176,
+    "end": 1546.376,
+    "text": "Yeah,",
     "tokens": [
-      51753,
+      51768,
       865,
       11,
+      51778
+    ],
+    "temperature": 0,
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
+  },
+  {
+    "id": 465,
+    "seek": 37364,
+    "start": 1546.376,
+    "end": 1546.576,
+    "text": "thanks.",
+    "tokens": [
+      51778,
       3231,
       13,
       51788
     ],
     "temperature": 0,
-    "avg_logprob": -0.31953013,
-    "compression_ratio": 1.6732284,
-    "no_speech_prob": 2.4274692e-12
+    "avg_logprob": -0.38346806,
+    "compression_ratio": 1.6627907,
+    "no_speech_prob": 2.494981e-12
   }
 ]
